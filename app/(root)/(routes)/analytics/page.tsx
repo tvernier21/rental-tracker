@@ -1,9 +1,9 @@
 import { UserButton } from "@clerk/nextjs"
 
-export default function Home() {
+export default function Analytics() {
   return (
     <div className="flex justify-center items-center pt-5">
-      Welcome Back to Hestia Co Renters Management Service
+      Analytics Page
     </div>
   )
 }

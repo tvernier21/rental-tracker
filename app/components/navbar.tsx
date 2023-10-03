@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from "@nextui-org/react";
 import { UserButton } from "@clerk/nextjs"
+import NextLink from "next/link";
 
 import { AcmeLogo } from "./AcmeLogo"
 
 const NavBar = () => {
-    const [tab, setTab] = useState("homes")
+    const [tab, setTab] = useState("")
 
     return (
         <Navbar
@@ -35,22 +35,43 @@ const NavBar = () => {
             </NavbarBrand>
             <NavbarContent className="hidden sm:flex gap-4" justify="center">
                 <NavbarItem isActive={tab === "homes"}>
-                    <Link color="foreground" href="#">
+                    <Link 
+                        color="foreground" 
+                        href="/homes"
+                        as={NextLink}
+                        onPress={() => setTab("homes")}
+                    >
                         Homes
                     </Link>
                 </NavbarItem>
-                <NavbarItem isActive={tab === "tenants"}>
-                    <Link href="#" aria-current="page">
-                        Tenants
-                    </Link>
-                </NavbarItem>
                 <NavbarItem isActive={tab === "costs"}>
-                    <Link color="foreground" href="#">
+                    <Link 
+                        color="foreground" 
+                        href="costs"
+                        as={NextLink}
+                        onPress={() => setTab("costs")}
+                    >
                         Costs
                     </Link>
                 </NavbarItem>
-                <NavbarItem isActive={tab === "Analytics"}>
-                    <Link color="foreground" href="#">
+                <NavbarItem isActive={tab === "tenants"}>
+                    <Link 
+                            color="foreground" 
+                            href="/tenants"
+                            as={NextLink}
+                            onPress={() => setTab("tenants")}
+                    >
+                        Tenants
+                    </Link>
+                </NavbarItem>
+                <NavbarItem isActive={tab === "analytics"}>
+                    <Link 
+                        color="foreground" 
+                        href="analytics"
+                        as={NextLink}
+                        onPress={() => setTab("analytics")}
+                        isDisabled    
+                    >
                         Analytics
                     </Link>
                 </NavbarItem>
