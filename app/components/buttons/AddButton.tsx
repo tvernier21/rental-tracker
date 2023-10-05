@@ -13,7 +13,11 @@ const AddButton: React.FC<AddButtonProps> = ({
     onPressModal 
 }) => {
     return (
-        <Button color="success" endContent={<Icon />} >
+        <Button 
+            color="success" 
+            endContent={<Icon />}
+            onPress={onPressModal}
+        >
             {text}
         </Button>   
     );
