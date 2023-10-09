@@ -49,13 +49,11 @@ const propertyTypes = [
 
 interface PropertyModalProps {
     isOpen: boolean;
-    onOpen: () => void;
     onOpenChange: () => void;
 }
 
 const PropertyModal: React.FC<PropertyModalProps> = ({
     isOpen,
-    onOpen,
     onOpenChange
 }) => {
     const [street, setStreet] = useState("");
@@ -93,23 +91,27 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
                         value={street}
                         onValueChange={setStreet}
                     />
-                    <div className="flex justify-between space-x-2">
-                        <Input
-                            label="City"
-                            placeholder="City"
-                            variant="bordered"
-                            isRequired
-                            value={city}
-                            onValueChange={setCity}
-                        />
-                        <Input
-                            label="State"
-                            placeholder="State"
-                            variant="bordered"
-                            isRequired
-                            value={state}
-                            onValueChange={setState}
-                        />
+                    <div className="flex flex-row justify-between space-x-2">
+                        <div className="basis-3/5">
+                            <Input
+                                label="City"
+                                placeholder="City"
+                                variant="bordered"
+                                isRequired
+                                value={city}
+                                onValueChange={setCity}
+                            />
+                        </div>
+                        <div className="basis-2/5">
+                            <Input
+                                label="State"
+                                placeholder="State"
+                                variant="bordered"
+                                isRequired
+                                value={state}
+                                onValueChange={setState}
+                            />
+                        </div>
                     </div>
                     <div className="flex justify-between space-x-2">
                         <Input
@@ -223,9 +225,3 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
 };
 
 export default PropertyModal;
-
-// prop_type text null,
-// bedrooms real null,
-// bathrooms real null,
-// backyard boolean null,
-// sqr_feet real null,
