@@ -1,3 +1,5 @@
+
+import { useState, useEffect } from "react";
 import {
     Modal, 
     ModalContent, 
@@ -9,11 +11,12 @@ import {
     Divider,
     Select,
     SelectItem,
-    Switch
+    Switch,
+    Selection
 } from "@nextui-org/react";
 
 
-const bedrooms = [
+const bedroomsTypes = [
     { label: "1", value: "1" },
     { label: "2", value: "2" },
     { label: "3", value: "3" },
@@ -21,7 +24,7 @@ const bedrooms = [
     { label: "5", value: "5" }
 ];
 
-const bathrooms = [
+const bathroomsTypes = [
     { label: "1", value: "1" },
     { label: "1.5", value: "1.5" },
     { label: "2", value: "2" },
@@ -55,9 +58,20 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
     onOpen,
     onOpenChange
 }) => {
+    const [street, setStreet] = useState("");
+    const [city, setCity] = useState("");
+    const [state, setState] = useState("");
+    const [zipcode, setZipcode] = useState("");
+    const [country, setCountry] = useState("");
+    const [propertyType, setPropertyType] = useState<Selection>(new Set([]));
+    const [bedrooms, setBedrooms] = useState<Selection>(new Set([]));
+    const [bathrooms, setBathrooms] = useState<Selection>(new Set([]));
+    const [squarefootage, setSquarefootage] = useState("");
+    const [backyard, setBackyard] = useState(false);
+    const [basement, setBasement] = useState(false);
 
-  return (
-    <>
+    return (
+        <>
         <Modal 
             isOpen={isOpen} 
             onOpenChange={onOpenChange}
@@ -76,6 +90,8 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
                         placeholder="Street"
                         variant="bordered"
                         isRequired
+                        value={street}
+                        onValueChange={setStreet}
                     />
                     <div className="flex justify-between space-x-2">
                         <Input
@@ -83,12 +99,16 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
                             placeholder="City"
                             variant="bordered"
                             isRequired
+                            value={city}
+                            onValueChange={setCity}
                         />
                         <Input
                             label="State"
                             placeholder="State"
                             variant="bordered"
                             isRequired
+                            value={state}
+                            onValueChange={setState}
                         />
                     </div>
                     <div className="flex justify-between space-x-2">
@@ -97,12 +117,16 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
                             placeholder="Zip Code"
                             variant="bordered"
                             isRequired
+                            value={zipcode}
+                            onValueChange={setZipcode}
                         />
                         <Input
                             label="Country"
                             placeholder="Country"
                             variant="bordered"
                             isRequired
+                            value={country}
+                            onValueChange={setCountry}
                         />
                     </div>
                     <Divider className="my-4" />
@@ -112,6 +136,8 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
                         placeholder="Select a property type"
                         variant="bordered"
                         fullWidth
+                        selectedKeys={propertyType}
+                        onSelectionChange={setPropertyType}
                     >
                         {propertyTypes.map((propType) => (
                             <SelectItem key={propType.value} value={propType.value}>
@@ -125,8 +151,10 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
                         placeholder="Select the number of bedrooms"
                         variant="bordered"
                         fullWidth
+                        selectedKeys={bedrooms}
+                        onSelectionChange={setBedrooms}
                     >
-                        {bedrooms.map((numBeds) => (
+                        {bedroomsTypes.map((numBeds) => (
                             <SelectItem key={numBeds.value} value={numBeds.value}>
                                 {numBeds.label}
                             </SelectItem>
@@ -138,8 +166,10 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
                         placeholder="Select the number of bathrooms"
                         variant="bordered"
                         fullWidth
+                        selectedKeys={bathrooms}
+                        onSelectionChange={setBathrooms}
                     >
-                        {bathrooms.map((numBaths) => (
+                        {bathroomsTypes.map((numBaths) => (
                             <SelectItem key={numBaths.value} value={numBaths.value}>
                                 {numBaths.label}
                             </SelectItem>
@@ -151,6 +181,8 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
                         placeholder="0.0"
                         variant="bordered"
                         isRequired
+                        value={squarefootage}
+                        onValueChange={setSquarefootage}
                         startContent={
                             <div className="pointer-events-none flex items-center">
                             <span className="text-default-400 text-small">sqft</span>
@@ -158,10 +190,18 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
                         }
                     />
                     <div className="flex justify-items-start space-x-2">
-                        <Switch color="primary">
+                        <Switch 
+                            color="primary"
+                            isSelected={backyard} 
+                            onValueChange={setBackyard}
+                        >
                             Backyard
                         </Switch>
-                        <Switch color="primary">
+                        <Switch 
+                            color="primary"
+                            isSelected={basement} 
+                            onValueChange={setBasement}
+                        >
                             Basement
                         </Switch>
                     </div>
@@ -178,8 +218,8 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
             )}
             </ModalContent>
         </Modal>
-    </>
-  );
+        </>
+    );
 };
 
 export default PropertyModal;
