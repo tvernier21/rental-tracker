@@ -44,6 +44,8 @@ const PropertyList: React.FC<PropertyListProps> = ({
         loadProperties();
     }, []);
 
+    console.log(properties);
+
     return (
         <div>
             {isLoading ? (
@@ -60,11 +62,11 @@ const PropertyList: React.FC<PropertyListProps> = ({
                     {properties.map((property, i) => (
                         <PropertyCard
                             key={i}
-                            street={property.name}
-                            city={property.address}
-                            state={property.state}
-                            zip={property.zip}
-                            country={property.city}
+                            street={property.street_address}
+                            city={property.city_address}
+                            state={property.state_address}
+                            zip={property.zipcode_address}
+                            country={property.country_address}
                             image={property.image}
                         />
                     ))}
