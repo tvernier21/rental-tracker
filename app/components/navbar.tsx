@@ -39,12 +39,12 @@ const NavBar = () => {
                 <p className="font-bold text-inherit">ACME</p>
             </NavbarBrand>
             <NavbarContent className="hidden sm:flex gap-4" justify="center">
-                <NavbarItem isActive={tab === "homes"}>
+                <NavbarItem isActive={tab === "properties"}>
                     <Link 
                         color="foreground" 
-                        href="/homes"
+                        href="/properties"
                         as={NextLink}
-                        onPress={() => setTab("homes")}
+                        onPress={() => setTab("properties")}
                     >
                         Homes
                     </Link>
