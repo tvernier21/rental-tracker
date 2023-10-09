@@ -32,7 +32,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
                     const { data: properties } = await supabase
                         .from("properties")
                         .select("*")
-                        .eq("user_id", user.id);
+                        .eq("user_id", user?.id);
                     setProperties(properties || []);
                 }
             } catch (e) {
@@ -43,7 +43,6 @@ const PropertyList: React.FC<PropertyListProps> = ({
         };
         loadProperties();
     }, []);
-    console.log(properties);
 
     return (
         <div>

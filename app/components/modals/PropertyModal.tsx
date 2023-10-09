@@ -18,8 +18,6 @@ import {
 } from "@nextui-org/react";
 
 import supabaseClient from "@/app/lib/supabaseClient";
-import { Noto_Sans_Egyptian_Hieroglyphs } from "next/font/google";
-
 
 const bedroomsTypes = [
     { label: "1", value: "1" },
