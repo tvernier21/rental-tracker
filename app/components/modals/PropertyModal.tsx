@@ -1,5 +1,7 @@
 
 import { useState, useEffect } from "react";
+import { useAuth } from "@clerk/clerk-react";
+import { toast } from 'react-hot-toast';
 import {
     Modal, 
     ModalContent, 
@@ -14,6 +16,9 @@ import {
     Switch,
     Selection
 } from "@nextui-org/react";
+
+import supabaseClient from "@/app/lib/supabaseClient";
+import { Noto_Sans_Egyptian_Hieroglyphs } from "next/font/google";
 
 
 const bedroomsTypes = [
@@ -46,16 +51,40 @@ const propertyTypes = [
     { label: "Other", value: "Other" }
 ];
 
+const isSelectionEmpty = (selection: Selection): boolean => {
+    return selection instanceof Set && selection.size === 0;
+};
+
+const extractFloatFromSelection = (selection: Selection): number | null => {
+    if (selection === "all") {
+        // Handle the 'all' scenario. You can decide how to handle this case.
+        // Return a default value or null, for example.
+        return null;
+    }
+    
+    const value = Array.from(selection)[0] as string;  // Extract the first value from the Set.
+    
+    return parseFloat(value);  // Convert the value to float.
+}
+
+
 
 interface PropertyModalProps {
     isOpen: boolean;
     onOpenChange: () => void;
+    onClose: () => void;
+    props: any[];
+    setProps: (props: any[]) => void;
 }
-
+  
 const PropertyModal: React.FC<PropertyModalProps> = ({
     isOpen,
-    onOpenChange
+    onOpenChange,
+    onClose,
+    props,
+    setProps
 }) => {
+    const { getToken, userId } = useAuth();
     const [street, setStreet] = useState("");
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
@@ -67,6 +96,66 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
     const [squarefootage, setSquarefootage] = useState("");
     const [backyard, setBackyard] = useState(false);
     const [basement, setBasement] = useState(false);
+
+
+    const handleSubmit = async () => {
+        if (street === "" ||
+            city === "" ||
+            state === "" ||
+            zipcode === "" ||
+            country === "" ||
+            isSelectionEmpty(propertyType) ||
+            isSelectionEmpty(bedrooms) ||
+            isSelectionEmpty(bathrooms) ||
+            squarefootage === "") {
+            toast.error("Please fill out all required fields.");
+            return;
+        }
+        
+        const supabaseAccessToken = await getToken({
+            template: "supabase",
+        });
+        const supabase = await supabaseClient(supabaseAccessToken);
+        const { data } = await supabase
+            .from("properties")
+            .insert({
+                street_address: street,
+                city_address: city,
+                state_address: state,
+                zipcode_address: zipcode,
+                country_address: country,
+                prop_type: Array.from(propertyType)[0],
+                bedrooms: extractFloatFromSelection(bedrooms),
+                bathrooms: extractFloatFromSelection(bathrooms),
+                sqr_feet: parseFloat(squarefootage),  // Assuming squarefootage is a string, you need to convert it to a float.
+                backyard: backyard,
+                basement: basement,
+                img: null,  // If you have an image to insert, replace null with the image data or URL.
+                user_id: userId
+            })
+            .select();
+
+        if (data) {
+            setProps([...props, data[0]]);
+        } else {
+            // Handle the case where data is null, if needed.
+            console.error("Data from Supabase is null after insert");
+        }
+        // Reset the form
+        setStreet("");
+        setCity("");
+        setState("");
+        setZipcode("");
+        setCountry("");
+        setPropertyType(new Set([]));
+        setBedrooms(new Set([]));
+        setBathrooms(new Set([]));
+        setSquarefootage("");
+        setBackyard(false);
+        setBasement(false);
+        onClose();
+        toast.success("Property added successfully!");
+    };
 
     return (
         <>
@@ -212,7 +301,7 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
                         <Button color="danger" variant="flat" onPress={onClose}>
                             Cancel
                         </Button>
-                        <Button color="primary" onPress={onClose}>
+                        <Button color="primary" onPress={handleSubmit}>
                             Add
                         </Button>
                 </ModalFooter>

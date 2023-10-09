@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from "@nextui-org/react";
+import { useState, useEffect } from "react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link } from "@nextui-org/react";
 import { UserButton } from "@clerk/nextjs"
 import NextLink from "next/link";
 
@@ -9,6 +9,11 @@ import { AcmeLogo } from "./AcmeLogo"
 
 const NavBar = () => {
     const [tab, setTab] = useState("")
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+    setIsClient(true);
+    }, []);
 
     return (
         <Navbar
@@ -26,7 +31,7 @@ const NavBar = () => {
                 "data-[active=true]:after:h-[2px]",
                 "data-[active=true]:after:rounded-[2px]",
                 "data-[active=true]:after:bg-primary",
-                ],
+                ]
           }}
         >
             <NavbarBrand>
@@ -78,7 +83,7 @@ const NavBar = () => {
             </NavbarContent>
             <NavbarContent justify="end">
                 <NavbarItem className="hidden lg:flex">
-                    <UserButton afterSignOutUrl="/" />
+                    {isClient && <UserButton afterSignOutUrl="/" />}
                 </NavbarItem>
             </NavbarContent>
         </Navbar>

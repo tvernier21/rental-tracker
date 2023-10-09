@@ -1,15 +1,9 @@
+import PropertyHome from "../../../components/PropertyHome";
 
-import supabaseClient from "@/app/lib/supabaseClient"
-import { useSession } from "@clerk/nextjs";
-
-import PropertyHeader from "../../../components/PropertyHeader"
-
-export default function Homes() {
-
+export default function Properties() {
   return (
-    <div>
-      <PropertyHeader />
-      {/* <PropertyList /> */}
+    <div className="h-full">
+      <PropertyHome />
     </div>
   )
 }

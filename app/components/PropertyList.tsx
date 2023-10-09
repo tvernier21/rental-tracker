@@ -6,11 +6,18 @@ import { useSession, useUser } from '@clerk/clerk-react';
 import supabaseClient from "@/app/lib/supabaseClient"
 import { PropertyCard, LoadingPropertyCard } from "../components/PropertyCard";
 
-const PropertyList = () => {
+interface PropertyListProps {
+    properties: any[];
+    setProperties: (props: any[]) => void;
+}
+
+const PropertyList: React.FC<PropertyListProps> = ({
+    properties,
+    setProperties
+}) => {
     const [isLoading, setIsLoading] = useState(true);
-    const [props, setProps] = useState<any[]>([]);
     const { session } = useSession();
-    console.log(isLoading)
+    const { user } = useUser();
 
     useEffect(() => {
         const loadProperties = async () => {
@@ -20,10 +27,13 @@ const PropertyList = () => {
                     template: "supabase",
                 }) : null;
 
-                if (supabaseAccessToken) {
+                if (supabaseAccessToken && user) {
                     const supabase = await supabaseClient(supabaseAccessToken);
-                    const { data: properties } = await supabase.from("properties").select("*");
-                    setProps(properties || []);
+                    const { data: properties } = await supabase
+                        .from("properties")
+                        .select("*")
+                        .eq("user_id", user.id);
+                    setProperties(properties || []);
                 }
             } catch (e) {
                 alert(e);
@@ -33,6 +43,7 @@ const PropertyList = () => {
         };
         loadProperties();
     }, []);
+    console.log(properties);
 
     return (
         <div>
@@ -47,7 +58,7 @@ const PropertyList = () => {
                 </div>
             ) : (
                 <div className="grid grid-cols-4 gap-10 content-center">
-                    {props.map((property, i) => (
+                    {properties.map((property, i) => (
                         <PropertyCard
                             key={i}
                             street={property.name}
