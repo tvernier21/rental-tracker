@@ -1,7 +1,15 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY as string
+const supabaseClient = async (supabaseAccessToken: any) => {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL as string,
+      process.env.NEXT_PUBLIC_SUPABASE_KEY as string,
+      {
+        global: { headers: { Authorization: `Bearer ${supabaseAccessToken}` } },
+      }
+    );
+  
+    return supabase;
+};
 
-export const supabase = createClient(supabaseUrl, supabaseKey)
-export default supabase
+export default supabaseClient;
