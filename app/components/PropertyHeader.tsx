@@ -4,7 +4,7 @@ import { useState } from "react";
 import { BsHouseAddFill } from "react-icons/bs";
 import {useDisclosure} from "@nextui-org/react";
 
-import AddButton from "../components/buttons/AddButton";
+import AddButton from "./inputs/AddButton";
 import PropertyModal from "../components/modals/PropertyModal";
 
 interface PropertyHeaderProps {

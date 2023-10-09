@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSession, useUser } from '@clerk/clerk-react';
 
 import supabaseClient from "@/app/lib/supabaseClient"
-import { PropertyCard, LoadingPropertyCard } from "../components/PropertyCard";
+import { PropertyCard, LoadingPropertyCard } from "./cards/PropertyCard";
 
 interface PropertyListProps {
     properties: any[];
@@ -42,9 +42,9 @@ const PropertyList: React.FC<PropertyListProps> = ({
             }
         };
         loadProperties();
-    }, []);
+    }, [session, user]);
 
-    console.log(properties);
+    // console.log(properties);
 
     return (
         <div>

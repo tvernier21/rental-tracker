@@ -46,7 +46,7 @@ const NavBar = () => {
                         as={NextLink}
                         onPress={() => setTab("properties")}
                     >
-                        Homes
+                        Properties
                     </Link>
                 </NavbarItem>
                 <NavbarItem isActive={tab === "costs"}>
