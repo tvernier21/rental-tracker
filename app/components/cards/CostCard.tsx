@@ -4,26 +4,27 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@clerk/clerk-react';
 import { toast } from 'react-hot-toast';
 import dayjs, { Dayjs } from 'dayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import {
     Card,
-    CardHeader,
     CardBody,
     Tabs,
     Tab,
     Select,
     SelectItem,
     Selection,
-    Checkbox
+    Checkbox,
+    Input
 } from "@nextui-org/react";
 import { FaFileInvoiceDollar } from 'react-icons/fa';
 
 import supabaseClient from '@/app/lib/supabaseClient';
 import { isSelectionEmpty } from '../inputs/SelectHelper';
 import AddButton from '../inputs/AddButton';
+
 
 const costTypes = [
     {
@@ -36,7 +37,41 @@ const costTypes = [
         value: "Renovation",
         desc: "Renovation costs are expenses that are necessary to improve the property. These include repairs, replacements, and upgrades."
     }
-]
+];
+
+const color = "#D3D3D3";
+
+const theme = createTheme({
+    components: {
+      MuiIconButton: {
+        styleOverrides: {
+          sizeMedium: {
+            color
+          }
+        }
+      },
+      MuiOutlinedInput: {
+        styleOverrides: {
+          root: {
+            color
+          },
+          notchedOutline: {
+            borderColor: color,
+          }
+        }
+      },
+      MuiInputLabel: {
+        styleOverrides: {
+          root: {
+            color,
+            "&.Mui-focused": {
+              color
+            }
+          }
+        }
+      }
+    }
+});
 
 const CostCard = () => {
     const { getToken, userId } = useAuth();
@@ -66,7 +101,8 @@ const CostCard = () => {
     const [water, setWater] = useState(false);
     const [gas, setGas] = useState(false);
     const [other, setOther] = useState(false);
-    const [eventDate, setEventDate] = useState<Dayjs | null>(dayjs('2022-04-17'));
+    const [eventDate, setEventDate] = useState<Dayjs | null>(dayjs());
+    const [price, setPrice] = useState("");
 
     useEffect(() => {
         const loadProperties = async () => {
@@ -93,9 +129,12 @@ const CostCard = () => {
         loadProperties();
     }, [userId]);
 
+
     const handleSubmit = async () => {
-        if (isSelectionEmpty(property)) {
-            toast.error("Please select a property to add costs to");
+        if (isSelectionEmpty(property) ||
+            !price ||
+            !eventDate) {
+            toast.error("Please select a property, price, and date.");
             return;
         }
         
@@ -127,7 +166,8 @@ const CostCard = () => {
                 water: water,
                 gas: gas,
                 other: other,
-                date: eventDate,
+                date: eventDate?.toDate(),
+                price: price,
                 user_id: userId
             })
             .select();
@@ -154,6 +194,8 @@ const CostCard = () => {
         setWater(false);
         setGas(false);
         setOther(false);
+        setEventDate(dayjs());
+        setPrice("");
         toast.success("Property added successfully!");
     };
 
@@ -196,14 +238,36 @@ const CostCard = () => {
                                 </SelectItem>
                             ))}
                         </Select>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker
-                                label="Controlled picker"
-                                value={eventDate}
-                                onChange={(newValue) => setEventDate(newValue)}
-                            />
-                        </LocalizationProvider>
-                        <div className="grid grid-cols-4 gap-3">
+                        <div className='flex justify-between space-x-2'>
+                            <div className='basis-1/2'>
+                                <Input
+                                    type="number"
+                                    label="Price"
+                                    placeholder="0.00"
+                                    variant="bordered"
+                                    value={price}
+                                    onValueChange={setPrice}
+                                    startContent={
+                                        <div className="pointer-events-none flex items-center">
+                                        <span className="text-default-400 text-small">$</span>
+                                        </div>
+                                    }
+                                />
+                            </div>
+                            <div className='basis-1/2'>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <ThemeProvider theme={theme}>
+                                        <DatePicker
+                                            label="Date"
+                                            value={eventDate}
+                                            onChange={(newValue) => setEventDate(newValue)}
+                                            className='w-full'
+                                        />
+                                    </ThemeProvider>
+                                </LocalizationProvider>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-5 gap-3">
                             <Card className="w-full space-y-2 p-4" radius="sm">
                                 <Checkbox isSelected={washerDryer} onValueChange={setWasherDryer}>
                                     Washer & Dryer
@@ -241,7 +305,7 @@ const CostCard = () => {
                             </Card>
                             <Card className="w-full space-y-2 p-4" radius="sm">
                                 <Checkbox isSelected={hardwoodFloors} onValueChange={setHardwoodFloors}>
-                                    Hardwood Floors
+                                    Hardwood
                                 </Checkbox>
                             </Card>
                             <Card className="w-full space-y-2 p-4" radius="sm">
