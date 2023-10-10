@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession, useUser } from '@clerk/clerk-react';
+import { useAuth } from '@clerk/clerk-react';
 
 import supabaseClient from "@/app/lib/supabaseClient"
 import { PropertyCard, LoadingPropertyCard } from "./cards/PropertyCard";
@@ -16,23 +16,21 @@ const PropertyList: React.FC<PropertyListProps> = ({
     setProperties
 }) => {
     const [isLoading, setIsLoading] = useState(true);
-    const { session } = useSession();
-    const { user } = useUser();
+    const { getToken, userId } = useAuth();
 
     useEffect(() => {
         const loadProperties = async () => {
             try {
                 setIsLoading(true);
-                const supabaseAccessToken = session ? await session.getToken({
+                const supabaseAccessToken = getToken({
                     template: "supabase",
-                }) : null;
-
-                if (supabaseAccessToken && user) {
-                    const supabase = await supabaseClient(supabaseAccessToken);
+                });
+                const supabase = await supabaseClient(supabaseAccessToken);
+                if ( supabase || userId ) {
                     const { data: properties } = await supabase
                         .from("properties")
                         .select("*")
-                        .eq("user_id", user?.id);
+                        .eq("user_id", userId as string);
                     setProperties(properties || []);
                 }
             } catch (e) {
@@ -42,9 +40,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
             }
         };
         loadProperties();
-    }, [session, user]);
-
-    // console.log(properties);
+    }, [userId]);
 
     return (
         <div>
