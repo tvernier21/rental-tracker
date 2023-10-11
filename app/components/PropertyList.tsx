@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useAuth } from '@clerk/clerk-react';
+import axios from "axios";
 
-import supabaseClient from "@/app/lib/supabaseClient"
 import { PropertyCard, LoadingPropertyCard } from "./cards/PropertyCard";
 
 interface PropertyListProps {
@@ -16,31 +15,21 @@ const PropertyList: React.FC<PropertyListProps> = ({
     setProperties
 }) => {
     const [isLoading, setIsLoading] = useState(true);
-    const { getToken, userId } = useAuth();
 
     useEffect(() => {
-        const loadProperties = async () => {
-            try {
-                setIsLoading(true);
-                const supabaseAccessToken = getToken({
-                    template: "supabase",
-                });
-                const supabase = await supabaseClient(supabaseAccessToken);
-                if ( supabase || userId ) {
-                    const { data: properties } = await supabase
-                        .from("properties")
-                        .select("*")
-                        .eq("user_id", userId as string);
-                    setProperties(properties || []);
-                }
-            } catch (e) {
-                alert(e);
-            } finally {
+        if (!isLoading) return;
+        setIsLoading(true);                
+        axios.get('/api/properties/')
+            .then((res) => {
+                setProperties(res.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
                 setIsLoading(false);
-            }
-        };
-        loadProperties();
-    }, [userId]);
+        });
+    }, [isLoading]);
 
     return (
         <div>
