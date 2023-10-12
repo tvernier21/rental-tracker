@@ -1,4 +1,4 @@
-import NavBar from "../components/NavBar"
+import NavBar from "@/app/components/NavBar";
 
 const RootLayout = async ({
   children

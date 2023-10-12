@@ -18,7 +18,6 @@ const PropertyList: React.FC<PropertyListProps> = ({
 
     useEffect(() => {
         if (!isLoading) return;
-        setIsLoading(true);                
         axios.get('/api/properties/')
             .then((res) => {
                 setProperties(res.data);

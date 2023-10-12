@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@clerk/clerk-react';
 import { toast } from 'react-hot-toast';
+import axios from 'axios';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -75,12 +76,17 @@ const theme = createTheme({
 
 const CostCard = () => {
     const { getToken, userId } = useAuth();
-    const [costType, setCostType] = useState("costs");
+    const [isLoading, setIsLoading] = useState(true);
     const [properties, setProperties] = useState<{
         label: string;
         value: string;
     }[]>([{label: '', value: ''}]);
+
+    // Data sent to supabase
+    const [costType, setCostType] = useState("costs");
     const [property, setProperty] = useState<Selection>(new Set([]));
+    const [eventDate, setEventDate] = useState<Dayjs | null>(dayjs());
+    const [price, setPrice] = useState("");
     const [washerDryer, setWasherDryer] = useState(false);
     const [dishwasher, setDishwasher] = useState(false);
     const [AC, setAC] = useState(false);
@@ -101,33 +107,25 @@ const CostCard = () => {
     const [water, setWater] = useState(false);
     const [gas, setGas] = useState(false);
     const [other, setOther] = useState(false);
-    const [eventDate, setEventDate] = useState<Dayjs | null>(dayjs());
-    const [price, setPrice] = useState("");
-
+    
     useEffect(() => {
-        const loadProperties = async () => {
-            try {
-                const supabaseAccessToken = await getToken({
-                    template: "supabase",
-                });
-                const supabase = await supabaseClient(supabaseAccessToken);
-                const { data: properties } = await supabase
-                    .from("properties")
-                    .select("*")
-                    .eq("user_id", userId as string);
-                
-                setProperties(Array.from(properties || []).map((property) => {
+        if (!isLoading) return;
+        axios.get('/api/properties/')
+            .then((res) => {
+                setProperties(Array.from(res.data || []).map((property: any) => {
                     return {
                         label: `${property.street_address}, ${property.city_address}, ${property.state_address} ${property.zipcode_address}, ${property.country_address}`, 
                         value: property.id as string
                     }
                 }));
-            } catch (e) {
-                alert(e);
-            }
-        };
-        loadProperties();
-    }, [userId]);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setIsLoading(false);
+        });
+    }, [isLoading]);
 
 
     const handleSubmit = async () => {
@@ -229,8 +227,10 @@ const CostCard = () => {
                             placeholder={`Select property to add ${costType} to`}
                             variant="bordered"
                             fullWidth
+                            isDisabled={isLoading}
                             selectedKeys={property}
                             onSelectionChange={setProperty}
+
                         >
                             {properties.map((property) => (
                                 <SelectItem key={property.value} value={property.value}>
