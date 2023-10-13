@@ -86,6 +86,7 @@ const CostCard = () => {
     const [costType, setCostType] = useState("costs");
     const [property, setProperty] = useState<Selection>(new Set([]));
     const [eventDate, setEventDate] = useState<Dayjs | null>(dayjs());
+    const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
     const [washerDryer, setWasherDryer] = useState(false);
     const [dishwasher, setDishwasher] = useState(false);
@@ -110,7 +111,7 @@ const CostCard = () => {
     
     useEffect(() => {
         if (!isLoading) return;
-        axios.get('/api/properties/')
+        axios.get('/api/properties')
             .then((res) => {
                 setProperties(Array.from(res.data || []).map((property: any) => {
                     return {
@@ -136,65 +137,67 @@ const CostCard = () => {
             return;
         }
         
-        const supabaseAccessToken = await getToken({
-            template: "supabase",
-        });
-        const supabase = await supabaseClient(supabaseAccessToken);
-        const { data } = await supabase
-            .from("costs")
-            .insert({
-                property_id: Array.from(property)[0] as string,
-                washerdryer: washerDryer,
-                dishwasher: dishwasher,
-                ac: AC,
-                heater: heater,
-                fridge: fridge,
-                oven: oven,
-                microwave: microwave,
-                hardwood: hardwoodFloors,
-                carpet: carpet,
-                tile: tile,
-                kitchen: kitchen,
-                bathroom: bathroom,
-                bedroom: bedroom,
-                paint: paint,
-                windows: windows,
-                cleaning: cleaning,
-                electricity: electricity,
-                water: water,
-                gas: gas,
-                other: other,
-                date: eventDate?.toDate(),
-                price: price,
-                user_id: userId
+        const postData = {
+            cost_type: costType,
+            property_id: Array.from(property)[0],
+            event_date: eventDate.format('YYYY-MM-DD'),
+            price: parseFloat(price),
+            description: description,
+            washer_dryer: washerDryer,
+            dishwasher: dishwasher,
+            ac: AC,
+            heater: heater,
+            fridge: fridge,
+            oven: oven,
+            microwave: microwave,
+            hardwood_floors: hardwoodFloors,
+            carpet: carpet,
+            tile: tile,
+            kitchen: kitchen,
+            bathroom: bathroom,
+            bedroom: bedroom,
+            paint: paint,
+            windows: windows,
+            cleaning: cleaning,
+            electricity: electricity,
+            water: water,
+            gas: gas,
+            other: other
+        };
+        axios.post('/api/costs', postData)
+            .then(() => {
+                toast.success(`${costType} added to property successfully!`);
             })
-            .select();
-
-        // Reset the form
-        setProperty(new Set([]));
-        setWasherDryer(false);
-        setDishwasher(false);
-        setAC(false);
-        setHeater(false);
-        setFridge(false);
-        setOven(false);
-        setMicrowave(false);
-        setHardwoodFloors(false);
-        setCarpet(false);
-        setTile(false);
-        setKitchen(false);
-        setBathroom(false);
-        setBedroom(false);
-        setPaint(false);
-        setWindows(false);
-        setCleaning(false);
-        setElectricity(false);
-        setWater(false);
-        setGas(false);
-        setOther(false);
-        setEventDate(dayjs());
-        setPrice("");
-        toast.success("Property added successfully!");
+            .catch(() => {
+                // Check for the status code in the error response
+                toast.error("Error adding property.");
+            })
+            .finally(() => {
+                setProperty(new Set([]));
+                setEventDate(dayjs());
+                setPrice("");
+                setDescription("");
+                setWasherDryer(false);
+                setDishwasher(false);
+                setAC(false);
+                setHeater(false);
+                setFridge(false);
+                setOven(false);
+                setMicrowave(false);
+                setHardwoodFloors(false);
+                setCarpet(false);
+                setTile(false);
+                setKitchen(false);
+                setBathroom(false);
+                setBedroom(false);
+                setPaint(false);
+                setWindows(false);
+                setCleaning(false);
+                setElectricity(false);
+                setWater(false);
+                setGas(false);
+                setOther(false);
+            });
     };
 
 
@@ -267,6 +270,15 @@ const CostCard = () => {
                                 </LocalizationProvider>
                             </div>
                         </div>
+                        <Input
+                            type="text"
+                            label="Description"
+                            placeholder="Description"
+                            variant="bordered"
+                            fullWidth
+                            value={description}
+                            onValueChange={setDescription}
+                        />
                         <div className="grid grid-cols-5 gap-3">
                             <Card className="w-full space-y-2 p-4" radius="sm">
                                 <Checkbox isSelected={washerDryer} onValueChange={setWasherDryer}>
@@ -372,7 +384,7 @@ const CostCard = () => {
                         <AddButton 
                             text='Add Cost'
                             icon={FaFileInvoiceDollar}
-                            onPressModal={() => {}}
+                            onPressModal={handleSubmit}
                         />
                     </div>
                 </CardBody>

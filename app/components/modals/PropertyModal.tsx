@@ -105,7 +105,6 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
             basement: basement,
             img: null,
         };
-        console.log("Before POST, properties:", properties);
         axios.post('/api/properties', postData)
             .then((res) => {
                 setProperties([...properties, res.data[0]]);
