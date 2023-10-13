@@ -7,19 +7,19 @@ import getSupabaseClient from "@/app/lib/supabaseClient"
 export async function POST(req: NextRequest) { 
     const { getToken, userId } = getAuth(req);
     const { 
-        costType, 
-        property, 
-        eventDate, 
+        cost_type, 
+        property_id, 
+        date, 
         price,
         description, 
-        washerDryer, 
+        washerdryer, 
         dishwasher, 
-        AC, 
+        ac, 
         heater, 
         fridge, 
         oven, 
         microwave, 
-        hardwoodFloors, 
+        hardwood, 
         carpet, 
         tile, 
         kitchen, 
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
         gas, 
         other
     } = await req.json();
-    console.log("costType: ", costType);
+    console.log("date type", typeof date);
 
     if (!userId) {
         throw new Error("Unauthorized (401)");
@@ -43,38 +43,52 @@ export async function POST(req: NextRequest) {
         template: "supabase",
     });
     const supabase = getSupabaseClient(supabaseAccessToken);
+
+    // Check if property_id exists in properties table for the given userId
+    const { data: properties } = await supabase
+        .from("properties")
+        .select("id") // We just need the id field to check for existence
+        .eq("id", property_id)
+        .eq("user_id", userId);
+
+    // throw error if no properties found
+    if (!properties) {
+        throw new Error("Property not found");
+    }
+
     const { error } = await supabase
-            .from("properties")
-            .insert({
-                cost_type: costType,
-                property_id: Array.from(property)[0],
-                event_date: eventDate.format('YYYY-MM-DD'),
-                price: price,
-                description: description,
-                washer_dryer: washerDryer,
-                dishwasher: dishwasher,
-                ac: AC,
-                heater: heater,
-                fridge: fridge,
-                oven: oven,
-                microwave: microwave,
-                hardwood_floors: hardwoodFloors,
-                carpet: carpet,
-                tile: tile,
-                kitchen: kitchen,
-                bathroom: bathroom,
-                bedroom: bedroom,
-                paint: paint,
-                windows: windows,
-                cleaning: cleaning,
-                electricity: electricity,
-                water: water,
-                gas: gas,
-                other: other
-            });
+        .from("costs")
+        .insert({
+            cost_type: cost_type,
+            property_id: property_id,
+            date: date,
+            price: price,
+            description: description,
+            washerdryer: washerdryer,
+            dishwasher: dishwasher,
+            ac: ac,
+            heater: heater,
+            fridge: fridge,
+            oven: oven,
+            microwave: microwave,
+            hardwood: hardwood,
+            carpet: carpet,
+            tile: tile,
+            kitchen: kitchen,
+            bathroom: bathroom,
+            bedroom: bedroom,
+            paint: paint,
+            windows: windows,
+            cleaning: cleaning,
+            electricity: electricity,
+            water: water,
+            gas: gas,
+            other: other,
+            user_id: userId
+        })
 
     if (error) {
-        console.error(error);
+        console.log(error);
         throw new Error("Database Insertion Failed");
     }
     
