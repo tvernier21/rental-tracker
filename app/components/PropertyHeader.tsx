@@ -30,8 +30,8 @@ const PropertyHeader: React.FC<PropertyHeaderProps> = ({
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
                 onClose={onClose}
-                props={props}
-                setProps={setProps}
+                properties={props}
+                setProperties={setProps}
             />
         </div>
     );

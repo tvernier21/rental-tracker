@@ -10,14 +10,14 @@ const PropertyHome = () => {
 
     return (
         <div className="flex-col justify-center items-center space-y-10">
-        <PropertyHeader 
-            props={props}
-            setProps={setProps}
-        />
-        <PropertyList 
-            properties={props}
-            setProperties={setProps}
-        />
+            <PropertyHeader 
+                props={props}
+                setProps={setProps}
+            />
+            <PropertyList 
+                properties={props}
+                setProperties={setProps}
+            />
         </div>
     );
 };

@@ -1,7 +1,7 @@
 
 import { useState } from "react";
-import { useAuth } from "@clerk/clerk-react";
 import { toast } from 'react-hot-toast';
+import axios from "axios";
 import {
     Modal, 
     ModalContent, 
@@ -17,7 +17,6 @@ import {
     Selection
 } from "@nextui-org/react";
 
-import supabaseClient from "@/app/lib/supabaseClient";
 import { isSelectionEmpty, extractFloatFromSelection } from "@/app/components/inputs/SelectHelper";
 
 const bedroomsTypes = [
@@ -54,18 +53,17 @@ interface PropertyModalProps {
     isOpen: boolean;
     onOpenChange: () => void;
     onClose: () => void;
-    props: any[];
-    setProps: (props: any[]) => void;
+    properties: any[];
+    setProperties: (props: any[]) => void;
 }
   
 const PropertyModal: React.FC<PropertyModalProps> = ({
     isOpen,
     onOpenChange,
     onClose,
-    props,
-    setProps
+    properties,
+    setProperties
 }) => {
-    const { getToken, userId } = useAuth();
     const [street, setStreet] = useState("");
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
@@ -92,50 +90,45 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
             toast.error("Please fill out all required fields.");
             return;
         }
-        
-        const supabaseAccessToken = await getToken({
-            template: "supabase",
-        });
-        const supabase = await supabaseClient(supabaseAccessToken);
-        const { data } = await supabase
-            .from("properties")
-            .insert({
-                street_address: street,
-                city_address: city,
-                state_address: state,
-                zipcode_address: zipcode,
-                country_address: country,
-                prop_type: Array.from(propertyType)[0],
-                bedrooms: extractFloatFromSelection(bedrooms),
-                bathrooms: extractFloatFromSelection(bathrooms),
-                sqr_feet: parseFloat(squarefootage),  // Assuming squarefootage is a string, you need to convert it to a float.
-                backyard: backyard,
-                basement: basement,
-                img: null,  // If you have an image to insert, replace null with the image data or URL.
-                user_id: userId
-            })
-            .select();
 
-        if (data) {
-            setProps([...props, data[0]]);
-        } else {
-            // Handle the case where data is null, if needed.
-            console.error("Data from Supabase is null after insert");
-        }
-        // Reset the form
-        setStreet("");
-        setCity("");
-        setState("");
-        setZipcode("");
-        setCountry("");
-        setPropertyType(new Set([]));
-        setBedrooms(new Set([]));
-        setBathrooms(new Set([]));
-        setSquarefootage("");
-        setBackyard(false);
-        setBasement(false);
-        onClose();
-        toast.success("Property added successfully!");
+        const postData = {
+            street: street,
+            city: city,
+            state: state,
+            zipcode: zipcode,
+            country: country,
+            propertyType: Array.from(propertyType)[0],
+            bedrooms: extractFloatFromSelection(bedrooms),
+            bathrooms: extractFloatFromSelection(bathrooms),
+            squarefootage: parseFloat(squarefootage),
+            backyard: backyard,
+            basement: basement,
+            img: null,
+        };
+        console.log("Before POST, properties:", properties);
+        axios.post('/api/properties', postData)
+            .then((res) => {
+                setProperties([...properties, res.data[0]]);
+            })
+            .catch((error) => {
+                // Check for the status code in the error response
+                toast.error("Error adding property.")
+            })
+            .finally(() => {
+                onClose();
+                // Reset the form
+                setStreet("");
+                setCity("");
+                setState("");
+                setZipcode("");
+                setCountry("");
+                setPropertyType(new Set([]));
+                setBedrooms(new Set([]));
+                setBathrooms(new Set([]));
+                setSquarefootage("");
+                setBackyard(false);
+                setBasement(false);
+            });
     };
 
     return (
