@@ -12,7 +12,7 @@ const NavBar = () => {
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
-    setIsClient(true);
+        setIsClient(true);
     }, []);
 
     return (
@@ -65,6 +65,18 @@ const NavBar = () => {
                             href="/tenants"
                             as={NextLink}
                             onPress={() => setTab("tenants")}
+                            isDisabled
+                    >
+                        Tenants
+                    </Link>
+                </NavbarItem>
+                <NavbarItem isActive={tab === "contracts"}>
+                    <Link 
+                            color="foreground" 
+                            href="/contracts"
+                            as={NextLink}
+                            onPress={() => setTab("contracts")}
+                            isDisabled
                     >
                         Tenants
                     </Link>
