@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 import { PropertyCard, LoadingPropertyCard } from "./cards/PropertyCard";
 
@@ -23,7 +24,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
                 setProperties(res.data);
             })
             .catch((error) => {
-                console.log(error);
+                toast.error("Properties could not be loaded.");
             })
             .finally(() => {
                 setIsLoading(false);

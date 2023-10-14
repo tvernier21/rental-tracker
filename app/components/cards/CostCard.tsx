@@ -121,7 +121,7 @@ const CostCard = () => {
                 }));
             })
             .catch((error) => {
-                console.log(error);
+                toast.error("Properties could not be loaded.");
             })
             .finally(() => {
                 setIsLoading(false);

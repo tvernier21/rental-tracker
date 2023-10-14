@@ -33,7 +33,6 @@ export async function POST(req: NextRequest) {
         gas, 
         other
     } = await req.json();
-    console.log("date type", typeof date);
 
     if (!userId) {
         throw new Error("Unauthorized (401)");
