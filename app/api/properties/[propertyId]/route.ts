@@ -21,6 +21,7 @@ export async function GET(
     if (!propertyId) {
         throw new Error("Property ID is required");
     }
+    console.log(propertyId)
     
     const supabaseAccessToken = await getToken({
         template: "supabase",

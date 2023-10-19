@@ -1,20 +1,13 @@
+import PropertyHeader from "@/app/components/PropertyHeader";
 
-const PropertyPage = ({ params }: { params: { slug: string } }) => {
-    const propertyId = params.slug;
-
-    // const propertyInfo = 
-    // const propertyData = [];
-    // const propertyTenants = [];
-    // const propertyContracts = [];
-
+const PropertyPage = ({ params }: { params: { propertyId: string } }) => {
     return (
         <div className="flex-1 space-y-4 p-8 pt-6">
-            <div className="flex items-center justify-between space-y-2">
-                <Property
-                <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
-                <h1>PEEPEE POOPOO</h1>
-                <
-          </div>
+            {/* Header Content */}
+            <PropertyHeader propertyId={params.propertyId} />
+            {/* Property Info */}
+            {/* Property Tenants */}
+            {/* Property Contracts */}
         </div>
     );
 };
