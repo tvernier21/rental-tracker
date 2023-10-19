@@ -18,15 +18,18 @@ interface PropertyHeaderProps {
 const PropertyHeader: React.FC<PropertyHeaderProps> = ({
     propertyId
 }) => {
-    const [propertyInfo, setPropertyInfo] = useState("");
+    const [streetAddress, setStreetAddress] = useState("");
+    const [cityAddress, setCityAddress] = useState("");
+    const [stateAndZip, setStateAndZip] = useState("");
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         if (!isLoading) return;
         axios.get(`/api/properties/${propertyId}`)
             .then((res) => {
-                console.log(res.data);
-                setPropertyInfo(`${res.data[0].street_address}, ${res.data[0].city_address}, ${res.data[0].state_address} ${res.data[0].zipcode_address}`);
+                setStreetAddress(res.data[0].street_address);
+                setCityAddress(res.data[0].city_address);
+                setStateAndZip(`${res.data[0].state_address} ${res.data[0].zipcode_address}`);
             })
             .catch((error) => {
                 toast.error("Property could not be loaded.");
@@ -36,11 +39,14 @@ const PropertyHeader: React.FC<PropertyHeaderProps> = ({
         });
     }, [isLoading]);
 
-
     return (
         <div className="flex items-center justify-between space-y-2">
-            <h1 className="">Dashboard</h1>
-            <h2 className="text-3xl font-bold tracking-tight">{propertyInfo}</h2>
+            <h1 className="text-2xl">Dashboard</h1>
+            <div className="text-3xl font-bold tracking-tight text-center">
+                <div>{streetAddress}</div>
+                <div>{cityAddress}</div>
+                <div>{stateAndZip}</div>
+            </div>
             <Dropdown>
                 <DropdownTrigger>
                     <Button 
