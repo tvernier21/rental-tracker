@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useAuth } from '@clerk/clerk-react';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import dayjs, { Dayjs } from 'dayjs';
@@ -22,7 +21,6 @@ import {
 } from "@nextui-org/react";
 import { FaFileInvoiceDollar } from 'react-icons/fa';
 
-import supabaseClient from '@/app/lib/supabaseClient';
 import { isSelectionEmpty } from '../inputs/SelectHelper';
 import AddButton from '../inputs/AddButton';
 
@@ -75,7 +73,6 @@ const theme = createTheme({
 });
 
 const CostCard = () => {
-    const { getToken, userId } = useAuth();
     const [isLoading, setIsLoading] = useState(true);
     const [properties, setProperties] = useState<{
         label: string;
@@ -233,10 +230,20 @@ const CostCard = () => {
                             isDisabled={isLoading}
                             selectedKeys={property}
                             onSelectionChange={setProperty}
-
+                            style={{
+                                color: '#FFF',  // Default text color (choose a color that contrasts well with the button background)
+                                transition: 'color 0.3s ease'  // Smooth transition for hover effect
+                            }}
                         >
                             {properties.map((property) => (
-                                <SelectItem key={property.value} value={property.value}>
+                                <SelectItem 
+                                    key={property.value} 
+                                    value={property.value}
+                                    style={{
+                                        color: '#FFF',  // Default text color (choose a color that contrasts well with the button background)
+                                        transition: 'color 0.3s ease'  // Smooth transition for hover effect
+                                    }}
+                                >
                                     {property.label}
                                 </SelectItem>
                             ))}

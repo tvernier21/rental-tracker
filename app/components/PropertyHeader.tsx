@@ -50,15 +50,23 @@ const PropertyHeader: React.FC<PropertyHeaderProps> = ({
             <Dropdown>
                 <DropdownTrigger>
                     <Button 
-                    variant="bordered" 
+                        variant="bordered" 
                     >
-                    Options
+                        Options
                     </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions">
-                    <DropdownItem key="edit">Edit file</DropdownItem>
+                    <DropdownItem 
+                        key="edit"
+                        style={{
+                            color: '#FFF',  // Default text color (choose a color that contrasts well with the button background)
+                            transition: 'color 0.3s ease'  // Smooth transition for hover effect
+                        }}
+                    >
+                        Edit file
+                    </DropdownItem>
                     <DropdownItem key="delete" className="text-danger" color="danger">
-                    Delete file
+                        Delete file
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>  
