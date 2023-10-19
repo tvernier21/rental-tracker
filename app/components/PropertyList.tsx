@@ -47,6 +47,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
                     {properties.map((property, i) => (
                         <PropertyCard
                             key={i}
+                            id={property.id}
                             street={property.street_address}
                             city={property.city_address}
                             state={property.state_address}

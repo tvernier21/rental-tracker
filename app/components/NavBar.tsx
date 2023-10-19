@@ -52,11 +52,22 @@ const NavBar = () => {
                 <NavbarItem isActive={tab === "costs"}>
                     <Link 
                         color="foreground" 
-                        href="costs"
+                        href="/costs"
                         as={NextLink}
                         onPress={() => setTab("costs")}
                     >
                         Costs
+                    </Link>
+                </NavbarItem>
+                <NavbarItem isActive={tab === "contracts"}>
+                    <Link 
+                            color="foreground" 
+                            href="/contracts"
+                            as={NextLink}
+                            onPress={() => setTab("contracts")}
+                            isDisabled
+                    >
+                        Contracts
                     </Link>
                 </NavbarItem>
                 <NavbarItem isActive={tab === "tenants"}>
@@ -70,21 +81,10 @@ const NavBar = () => {
                         Tenants
                     </Link>
                 </NavbarItem>
-                <NavbarItem isActive={tab === "contracts"}>
-                    <Link 
-                            color="foreground" 
-                            href="/contracts"
-                            as={NextLink}
-                            onPress={() => setTab("contracts")}
-                            isDisabled
-                    >
-                        Tenants
-                    </Link>
-                </NavbarItem>
                 <NavbarItem isActive={tab === "analytics"}>
                     <Link 
                         color="foreground" 
-                        href="analytics"
+                        href="/analytics"
                         as={NextLink}
                         onPress={() => setTab("analytics")}
                         isDisabled    

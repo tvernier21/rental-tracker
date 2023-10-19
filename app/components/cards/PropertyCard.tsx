@@ -1,8 +1,10 @@
 'use client';
 
+import NextLink from "next/link";
 import { Card } from "@nextui-org/react";
 
 interface PropertyCardProps {
+    id: string;
     street: string;
     city: string;
     state: string;
@@ -12,16 +14,22 @@ interface PropertyCardProps {
 }
 
 const PropertyCard: React.FC<PropertyCardProps> = ({
+    id, 
     street,
     city,
     state,
     zip,
     country,
     image
-}) => {
-    
+}) => {    
     return (
-        <Card className="w-[300px] h-[300px] space-y-5 p-4" radius="lg">
+        <Card 
+            className="w-[300px] h-[300px] space-y-5 p-4" 
+            radius="lg"
+            isPressable
+            href={`/properties/${id}`}
+            as={NextLink}
+        >
             <div className="h-36 rounded-lg bg-default-300"></div>
             <div className="space-y-3">
                 <div className="h-7 w-5/5 rounded-lg bg-default-200 pl-2 pr-2 pt-1 pb-1 overflow-hidden">
