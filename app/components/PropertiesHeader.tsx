@@ -1,18 +1,17 @@
 "use client";
 
-import { useState } from "react";
 import { BsHouseAddFill } from "react-icons/bs";
-import {useDisclosure} from "@nextui-org/react";
+import { useDisclosure } from "@nextui-org/react";
 
 import AddButton from "./inputs/AddButton";
-import PropertyModal from "../components/modals/PropertyModal";
+import PropertyModal from "./modals/PropertyModal";
 
-interface PropertyHeaderProps {
+interface PropertiesHeaderProps {
     props: any[];
     setProps: (props: any[]) => void;
 }
 
-const PropertyHeader: React.FC<PropertyHeaderProps> = ({
+const PropertiesHeader: React.FC<PropertiesHeaderProps> = ({
     props,
     setProps
 }) => {
@@ -37,4 +36,4 @@ const PropertyHeader: React.FC<PropertyHeaderProps> = ({
     );
 };
 
-export default PropertyHeader;
+export default PropertiesHeader;

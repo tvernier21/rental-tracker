@@ -1,9 +1,9 @@
-import PropertyHome from "../../../components/PropertyHome";
+import PropertiesHome from "../../../components/PropertiesHome";
 
 export default function Properties() {
   return (
     <div className="h-full">
-      <PropertyHome />
+      <PropertiesHome />
     </div>
   )
 }

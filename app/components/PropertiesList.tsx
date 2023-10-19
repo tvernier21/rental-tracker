@@ -6,12 +6,12 @@ import toast from "react-hot-toast";
 
 import { PropertyCard, LoadingPropertyCard } from "./cards/PropertyCard";
 
-interface PropertyListProps {
+interface PropertiesListProps {
     properties: any[];
     setProperties: (props: any[]) => void;
 }
 
-const PropertyList: React.FC<PropertyListProps> = ({
+const PropertiesList: React.FC<PropertiesListProps> = ({
     properties,
     setProperties
 }) => {
@@ -63,4 +63,4 @@ const PropertyList: React.FC<PropertyListProps> = ({
     );
 };
 
-export default PropertyList;
+export default PropertiesList;

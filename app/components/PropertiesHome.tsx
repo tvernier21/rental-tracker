@@ -2,19 +2,19 @@
 
 import { useState } from "react";
 
-import PropertyHeader from "../components/PropertyHeader";
-import PropertyList from "../components/PropertyList";
+import PropertiesHeader from "./PropertiesHeader";
+import PropertiesList from "./PropertiesList";
 
-const PropertyHome = () => {
+const PropertiesHome = () => {
     const [props, setProps] = useState<any[]>([]);
 
     return (
         <div className="flex-col justify-center items-center space-y-10">
-            <PropertyHeader 
+            <PropertiesHeader 
                 props={props}
                 setProps={setProps}
             />
-            <PropertyList 
+            <PropertiesList 
                 properties={props}
                 setProperties={setProps}
             />
@@ -22,4 +22,4 @@ const PropertyHome = () => {
     );
 };
 
-export default PropertyHome
+export default PropertiesHome
