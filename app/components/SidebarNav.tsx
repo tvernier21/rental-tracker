@@ -28,7 +28,6 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
     const [selectedKeys, setSelectedKeys] = useState(new Set([items[0].key]));
 
     useEffect(() => {
-        console.log(selectedKeys);
         if (isLoading) {
             const item = items.find(item => item.href === pathname);
             if (item) {

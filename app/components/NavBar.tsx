@@ -4,11 +4,12 @@ import { useState, useEffect } from "react";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link } from "@nextui-org/react";
 import { UserButton } from "@clerk/nextjs"
 import NextLink from "next/link";
+import { usePathname } from "next/navigation";
 
 import { AcmeLogo } from "./AcmeLogo"
 
 const NavBar = () => {
-    const [tab, setTab] = useState("")
+    const tab = usePathname().split("/")[1];
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
@@ -44,7 +45,6 @@ const NavBar = () => {
                         color="foreground" 
                         href="/properties"
                         as={NextLink}
-                        onPress={() => setTab("properties")}
                     >
                         Properties
                     </Link>
@@ -54,7 +54,6 @@ const NavBar = () => {
                         color="foreground" 
                         href="/costs"
                         as={NextLink}
-                        onPress={() => setTab("costs")}
                     >
                         Costs
                     </Link>
@@ -64,7 +63,6 @@ const NavBar = () => {
                             color="foreground" 
                             href="/contracts"
                             as={NextLink}
-                            onPress={() => setTab("contracts")}
                             isDisabled
                     >
                         Contracts
@@ -75,7 +73,6 @@ const NavBar = () => {
                             color="foreground" 
                             href="/tenants"
                             as={NextLink}
-                            onPress={() => setTab("tenants")}
                             isDisabled
                     >
                         Tenants
@@ -86,7 +83,6 @@ const NavBar = () => {
                         color="foreground" 
                         href="/analytics"
                         as={NextLink}
-                        onPress={() => setTab("analytics")}
                         isDisabled    
                     >
                         Analytics
