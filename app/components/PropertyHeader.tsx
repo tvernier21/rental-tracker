@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import {
@@ -8,8 +9,9 @@ import {
     DropdownTrigger, 
     DropdownMenu, 
     DropdownItem, 
-    Button
-} from "@nextui-org/react"
+    Button,
+    Divider
+} from "@nextui-org/react";
 
 interface PropertyHeaderProps {
     propertyId: string;
@@ -40,36 +42,41 @@ const PropertyHeader: React.FC<PropertyHeaderProps> = ({
     }, [isLoading]);
 
     return (
-        <div className="flex items-center justify-between space-y-2">
-            <h1 className="text-2xl">Dashboard</h1>
-            <div className="text-3xl font-bold tracking-tight text-center">
-                <div>{streetAddress}</div>
-                <div>{cityAddress}</div>
-                <div>{stateAndZip}</div>
+        <div className='space-y-6'>
+            <div className="flex items-center justify-between space-y-2">
+                <div className='space-y-0.5'>
+                    <h2 className="text-2xl font-bold tracking-tight">
+                        {streetAddress}, {cityAddress}, {stateAndZip}
+                    </h2>
+                    <p className="text-muted-foreground">
+                        Manage property settings, contracts, and tenants.
+                    </p>
+                </div>
+                <Dropdown>
+                    <DropdownTrigger>
+                        <Button 
+                            variant="bordered" 
+                        >
+                            Options
+                        </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu aria-label="Static Actions">
+                        <DropdownItem 
+                            key="edit"
+                            style={{
+                                color: '#FFF',  // Default text color (choose a color that contrasts well with the button background)
+                                transition: 'color 0.3s ease'  // Smooth transition for hover effect
+                            }}
+                        >
+                            Edit
+                        </DropdownItem>
+                        <DropdownItem key="delete" className="text-danger" color="danger">
+                            Delete
+                        </DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
             </div>
-            <Dropdown>
-                <DropdownTrigger>
-                    <Button 
-                        variant="bordered" 
-                    >
-                        Options
-                    </Button>
-                </DropdownTrigger>
-                <DropdownMenu aria-label="Static Actions">
-                    <DropdownItem 
-                        key="edit"
-                        style={{
-                            color: '#FFF',  // Default text color (choose a color that contrasts well with the button background)
-                            transition: 'color 0.3s ease'  // Smooth transition for hover effect
-                        }}
-                    >
-                        Edit file
-                    </DropdownItem>
-                    <DropdownItem key="delete" className="text-danger" color="danger">
-                        Delete file
-                    </DropdownItem>
-                </DropdownMenu>
-            </Dropdown>  
+            <Divider />
         </div>
     );
 };

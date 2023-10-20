@@ -17,7 +17,7 @@ import {
     Selection
 } from "@nextui-org/react";
 
-import { isSelectionEmpty, extractFloatFromSelection } from "@/app/components/inputs/SelectHelper";
+import { isSelectionEmpty, extractFloatFromSelection } from "@/app/components/UI/SelectHelper";
 
 const bedroomsTypes = [
     { label: "1", value: "1" },

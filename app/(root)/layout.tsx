@@ -6,13 +6,13 @@ const RootLayout = async ({
   children: React.ReactNode;
 }) => {
   return ( 
-    <div className="hidden flex-col md:flex gap-5">
+    <div className="hidden flex-col md:flex">
       <div className="border-b">
         <div className="flex h-16 items-center px-4">
           <NavBar />
         </div>
       </div>
-      <main className="flex justify-center h-full">
+      <main className="h-full">
         {children}
       </main>
     </div>

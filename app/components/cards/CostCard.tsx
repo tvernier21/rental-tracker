@@ -21,8 +21,8 @@ import {
 } from "@nextui-org/react";
 import { FaFileInvoiceDollar } from 'react-icons/fa';
 
-import { isSelectionEmpty } from '../inputs/SelectHelper';
-import AddButton from '../inputs/AddButton';
+import { isSelectionEmpty } from '../UI/SelectHelper';
+import AddButton from '../UI/AddButton';
 
 
 const costTypes = [

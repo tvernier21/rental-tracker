@@ -3,7 +3,7 @@
 import { BsHouseAddFill } from "react-icons/bs";
 import { useDisclosure } from "@nextui-org/react";
 
-import AddButton from "./inputs/AddButton";
+import AddButton from "./UI/AddButton";
 import PropertyModal from "./modals/PropertyModal";
 
 interface PropertiesHeaderProps {
