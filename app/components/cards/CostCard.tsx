@@ -270,7 +270,7 @@ const CostCard = () => {
                                         <DatePicker
                                             label="Date"
                                             value={eventDate}
-                                            onChange={(newValue) => setEventDate(newValue)}
+                                            onChange={(newDate) => setEventDate(newDate)}
                                             className='w-full'
                                         />
                                     </ThemeProvider>
