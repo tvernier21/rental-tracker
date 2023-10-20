@@ -1,7 +1,8 @@
-"use client"
+"use client";
 
-import NextLink from "next/link";
-import { usePathname } from "next/navigation"
+import "@/app/(root)/(routes)/properties/[propertyId]/box.css";
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import {
     Listbox,
     ListboxItem,
@@ -11,7 +12,7 @@ import {
 interface SidebarNavProps {
     items: {
         key: string
-        label: string
+        title: string
         href: string
         section: string
     }[]
@@ -20,37 +21,53 @@ interface SidebarNavProps {
 const SidebarNav: React.FC<SidebarNavProps> = ({ 
     items 
 }) => {
-    const pathname = usePathname()
+    const router = useRouter();
+    const [selectedKeys, setSelectedKeys] = useState(new Set([items[0].key]));
+    console.log(selectedKeys)
 
     return (
         <nav className="flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1">
-            <Listbox
-                aria-label="Dynamic Actions"
-                variant="flat"
-            >
-                <ListboxSection title="General" showDivider>
-                    {items.filter(item => item.section === "general").map(item => (
-                        <ListboxItem
-                            key={item.key}
-                            color={item.key === "delete" ? "danger" : "default"}
-                            className={item.key === "delete" ? "text-danger" : ""}
-                        >
-                            {item.label}
-                        </ListboxItem>
-                    ))}
-                </ListboxSection>
-                <ListboxSection title="Contracts" showDivider>  
-                    {items.filter(item => item.section === "contracts").map(item => (
-                        <ListboxItem
-                            key={item.key}
-                            color={item.key === "delete" ? "danger" : "default"}
-                            className={item.key === "delete" ? "text-danger" : ""}
-                        >
-                            {item.label}
-                        </ListboxItem>
-                    ))}
-                </ListboxSection>
-            </Listbox>
+            <div className="w-full max-w-[360px] border-small px-1 py-2 rounded-small border-default-200 dark:border-default-100">
+                <Listbox
+                    aria-label="Dynamic Actions"
+                    variant="solid"
+                    disallowEmptySelection={true}
+                    selectionMode="single"
+                    selectedKeys={selectedKeys}
+                    onSelectionChange={(keys) => {
+                        if (keys instanceof Set) {
+                            setSelectedKeys(keys as Set<string>);
+                        } else {
+                            setSelectedKeys(new Set([keys]));
+                        }
+                    }}
+                    autoFocus={true}
+                    itemClasses={{
+                        selectedIcon: "hide-icon"
+                    }}
+                >
+                    <ListboxSection title="General" showDivider>
+                        {items.filter(item => item.section === "general").map(item => (
+                            <ListboxItem
+                                key={item.key}
+                                onPress={() => router.push(item.href)}
+                            >
+                                {item.title}
+                            </ListboxItem>
+                        ))}
+                    </ListboxSection>
+                    <ListboxSection title="Contracts">
+                        {items.filter(item => item.section === "contracts").map(item => (
+                            <ListboxItem
+                                key={item.key}
+                                onPress={() => router.push(item.href)}
+                            >
+                                {item.title}
+                            </ListboxItem>
+                        ))}
+                    </ListboxSection>
+                </Listbox>
+            </div>
         </nav>
     );
 };

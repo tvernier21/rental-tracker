@@ -1,8 +1,8 @@
 
-const PropertyOverviewPage = ({ params }: { params: { propertyId: string } }) => {
+const PropertyContractsPage = ({ params }: { params: { propertyId: string } }) => {
     return (
         <div>
-            Overview
+            Contracts
         </div>
         // <div className="flex-1 space-y-6 p-8 pt-1">
         //     {/* Header Content */}
@@ -15,4 +15,4 @@ const PropertyOverviewPage = ({ params }: { params: { propertyId: string } }) =>
     );
 };
 
-export default PropertyOverviewPage;
+export default PropertyContractsPage;

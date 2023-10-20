@@ -1,0 +1,5 @@
+li[aria-selected="true"] {
+    /* styles for highlighting the selected item */
+    background-color: #3F3F46;
+}
+  

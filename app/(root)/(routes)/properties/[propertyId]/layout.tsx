@@ -14,31 +14,31 @@ const PropertyLayout = ({
     const sidebarNavItems = [
       {
         key: "overview",
-        label: "Overview",
+        title: "Overview",
         href: `/properties/${params.propertyId}`,
         section: 'general'
       },
       {
         key: "tenants",
-        label: "Tenants",
+        title: "Tenants",
         href: `/properties/${params.propertyId}/tenants`,
         section: 'general'
       },
       {
         key: "lease",
-        label: "Lease",
+        title: "Lease",
         href: `/properties/${params.propertyId}/contracts`,
         section: 'contracts'
       },
       {
         key: "mortgage",
-        label: "Mortgage",
+        title: "Mortgage",
         href: `/properties/${params.propertyId}/contracts`,
         section: 'contracts'
       },
       {
         key: "gas",
-        label: "Gas",
+        title: "Gas",
         href: `/properties/${params.propertyId}/contracts`,
         section: 'contracts'
       },
@@ -51,7 +51,7 @@ const PropertyLayout = ({
             <PropertyHeader propertyId={params.propertyId} />
           </div>
           <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-            <aside className="lg:w-1/5">
+            <aside className="lg:w-1/6">
               <SidebarNav items={sidebarNavItems} />
             </aside>
             <div className="flex-1 lg:max-w-2xl">
