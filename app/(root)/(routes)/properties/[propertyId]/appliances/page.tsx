@@ -5,9 +5,11 @@ const PropertyAppliancesPage = ({ params }: { params: { propertyId: string } }) 
     return (
         <div className="space-y-6">
             <div>
-                <h2 className="text-xl font-medium">Appliances</h2>
+                <h2 className="text-xl font-medium">
+                    Appliances
+                </h2>
                 <p className="text-sm text-muted-foreground">
-                Manage and update appliances for this property.
+                    Manage and update appliances for this property.
                 </p>
             </div>
             <HorizontalSeparator />
