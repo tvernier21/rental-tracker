@@ -2,60 +2,19 @@
 
 import { useState } from "react";
 import {
-    Radio,
-    RadioGroup,
-    Checkbox,
-    CheckboxGroup,
     Accordion, 
     AccordionItem,
-    Input,
-    Divider
 } from "@nextui-org/react"
 import dayjs, { Dayjs } from 'dayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { GrDocumentUpdate } from "react-icons/gr";
+import axios from "axios";
 
 // Components
 import HeatingCoolingSection from "./appliances/HeatingCoolingSection";
 import WasherDryerSection from "./appliances/washerDryerSection";
 import KitchenSection from "./appliances/KitchenSection";
 import OtherKitchenSection from "./appliances/OtherKitchenSection";
-
-// Calendar Date Picker Theme
-const color = "#D3D3D3";
-const theme = createTheme({
-    components: {
-      MuiIconButton: {
-        styleOverrides: {
-          sizeMedium: {
-            color
-          }
-        }
-      },
-      MuiOutlinedInput: {
-        styleOverrides: {
-          root: {
-            color
-          },
-          notchedOutline: {
-            borderColor: color,
-          }
-        }
-      },
-      MuiInputLabel: {
-        styleOverrides: {
-          root: {
-            color,
-            "&.Mui-focused": {
-              color
-            }
-          }
-        }
-      }
-    }
-});
+import AddButton from "../UI/AddButton";
 
 interface AppliancesFormProps {
     propertyId: string
@@ -166,42 +125,45 @@ const AppliancesForm: React.FC<AppliancesFormProps> = ({
 
     return (
         <div className="space-y-8">
-            <div className="space-y-5">
-                <Accordion selectionMode="multiple">
-                    <AccordionItem
-                        key="1" 
-                        aria-label="Heating & Cooling" 
-                        title="Heating & Cooling"
-                        subtitle="Heater, Cooling, Hot Water Tank"
-                    >
-                        <HeatingCoolingSection {...heatingCooling} />
-                    </AccordionItem>
-                    <AccordionItem
-                        key="2" 
-                        aria-label="Washer & Dryer" 
-                        title="Washer & Dryer"
-                        subtitle="Washer, Dryer"
-                    >
-                        <WasherDryerSection {...washerDyer} />
-                    </AccordionItem>
-                    <AccordionItem
-                        key="3" 
-                        aria-label="Kitchen Appliances" 
-                        title="Kitchen Appliances"
-                        subtitle="Fridge, Dishwasher, Stove, Microwave"
-                    >
-                        <KitchenSection {...kitchenAppliances} />
-                    </AccordionItem>
-                    <AccordionItem
-                        key="4" 
-                        aria-label="Other Kitchen Appliances" 
-                        title="Other Kitchen Appliances"
-                        subtitle="Counter, Cabinet, Sink, Garbage"
-                    >
-                        <OtherKitchenSection {...otherKitchenAppliances} />
-                    </AccordionItem>
-                </Accordion>
-            </div>
+            <Accordion selectionMode="multiple">
+                <AccordionItem
+                    key="1" 
+                    aria-label="Heating & Cooling" 
+                    title="Heating & Cooling"
+                    subtitle="Heater, Cooling, Hot Water Tank"
+                >
+                    <HeatingCoolingSection {...heatingCooling} />
+                </AccordionItem>
+                <AccordionItem
+                    key="2" 
+                    aria-label="Washer & Dryer" 
+                    title="Washer & Dryer"
+                    subtitle="Washer, Dryer"
+                >
+                    <WasherDryerSection {...washerDyer} />
+                </AccordionItem>
+                <AccordionItem
+                    key="3" 
+                    aria-label="Kitchen Appliances" 
+                    title="Kitchen Appliances"
+                    subtitle="Fridge, Dishwasher, Stove, Microwave"
+                >
+                    <KitchenSection {...kitchenAppliances} />
+                </AccordionItem>
+                <AccordionItem
+                    key="4" 
+                    aria-label="Other Kitchen Appliances" 
+                    title="Other Kitchen Appliances"
+                    subtitle="Counter, Cabinet, Sink, Garbage"
+                >
+                    <OtherKitchenSection {...otherKitchenAppliances} />
+                </AccordionItem>
+            </Accordion>
+            <AddButton
+                text="Update Appliances"
+                icon={GrDocumentUpdate}
+                onPressModal={() => {}}
+            />
         </div>
     );
 };
