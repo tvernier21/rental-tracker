@@ -50,8 +50,12 @@ const theme = createTheme({
 interface HeatingCoolingSectionProps {
     heaterType: string;
     setHeaterType: (heaterType: string) => void;
-    heaterFilterSize: string;
-    setHeaterFilterSize: (heaterFilterSize: string) => void;
+    heaterFilterWSize: string;
+    setHeaterFilterWSize: (heaterFilterWSize: string) => void;
+    heaterFilterLSize: string;
+    setHeaterFilterLSize: (heaterFilterLSize: string) => void;
+    heaterFilterDSize: string;
+    setHeaterFilterDSize: (heaterFilterDSize: string) => void;
     heaterDate: Dayjs | null;
     setHeaterDate: (heaterDate: Dayjs | null) => void;
     heaterCondition: string;
@@ -76,7 +80,9 @@ interface HeatingCoolingSectionProps {
 
 const HeatingCoolingSection: React.FC<HeatingCoolingSectionProps> = ({
     heaterType, setHeaterType,
-    heaterFilterSize, setHeaterFilterSize,
+    heaterFilterWSize, setHeaterFilterWSize,
+    heaterFilterLSize, setHeaterFilterLSize,
+    heaterFilterDSize, setHeaterFilterDSize,
     heaterDate, setHeaterDate,
     heaterCondition, setHeaterCondition,
     coolingType, setCoolingType,
@@ -104,16 +110,41 @@ const HeatingCoolingSection: React.FC<HeatingCoolingSectionProps> = ({
                         <Radio value="other">Other</Radio>
                     </RadioGroup>
                     {heaterType === 'hvac' && (
-                        <RadioGroup
-                            label="Filter Size"
-                            value={heaterFilterSize}
-                            onValueChange={setHeaterFilterSize}
-                            orientation="horizontal"
-                        >
-                            <Radio value="hvac">HVAC</Radio>
-                            <Radio value="boiler">Boiler</Radio>
-                            <Radio value="other">Other</Radio>
-                        </RadioGroup>
+                        <div>
+                            <p className="font-small text-md text-gray-400">Filter Size</p>
+                            <div className="flex flex-row gap-2 pt-2">
+                                <Input
+                                    type="number"
+                                    label="W"
+                                    labelPlacement="outside-left"
+                                    placeholder="16"
+                                    variant="bordered"
+                                    radius="sm"
+                                    value={heaterFilterWSize}
+                                    onValueChange={setHeaterFilterWSize}
+                                    />
+                                <Input
+                                    type="number"
+                                    label="L"
+                                    labelPlacement="outside-left"
+                                    placeholder="16"
+                                    variant="bordered"
+                                    radius="sm"
+                                    value={heaterFilterLSize}
+                                    onValueChange={setHeaterFilterLSize}
+                                />
+                                <Input
+                                    type="number"
+                                    label="D"
+                                    labelPlacement="outside-left"
+                                    placeholder="1"
+                                    variant="bordered"
+                                    radius="sm"
+                                    value={heaterFilterDSize}
+                                    onValueChange={setHeaterFilterDSize}
+                                />
+                            </div>
+                        </div>
                     )}
                 </div>
                 <RadioGroup

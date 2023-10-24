@@ -19,6 +19,12 @@ const PropertyLayout = ({
         section: 'general'
       },
       {
+        key: "costs",
+        title: "Costs",
+        href: `/properties/${params.propertyId}/appliances`,
+        section: 'general'
+      },
+      {
         key: "appliances",
         title: "Appliances",
         href: `/properties/${params.propertyId}/appliances`,

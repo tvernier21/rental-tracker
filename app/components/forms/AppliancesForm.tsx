@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     Accordion, 
     AccordionItem,
@@ -25,7 +25,9 @@ const AppliancesForm: React.FC<AppliancesFormProps> = ({
 }) => {
     // Heater and Cooling
     const [heaterType, setHeaterType] = useState<string>('');
-    const [heaterFilterSize, setHeaterFilterSize] = useState<string>('');
+    const [heaterFilterWSize, setHeaterFilterWSize] = useState<string>('');
+    const [heaterFilterLSize, setHeaterFilterLSize] = useState<string>('');
+    const [heaterFilterDSize, setHeaterFilterDSize] = useState<string>('');
     const [heaterDate, setHeaterDate] = useState<Dayjs | null>(dayjs());
     const [heaterCondition, setHeaterCondition] = useState<string>('');
     const [coolingType, setCoolingType] = useState([] as string[]);
@@ -38,7 +40,9 @@ const AppliancesForm: React.FC<AppliancesFormProps> = ({
     const [hotWaterTankDate, setHotWaterTankDate] = useState<Dayjs | null>(dayjs());
     const heatingCooling = {
         heaterType, setHeaterType,
-        heaterFilterSize, setHeaterFilterSize,
+        heaterFilterWSize, setHeaterFilterWSize,
+        heaterFilterLSize, setHeaterFilterLSize,
+        heaterFilterDSize, setHeaterFilterDSize,
         heaterDate, setHeaterDate,
         heaterCondition, setHeaterCondition,
         coolingType, setCoolingType,
@@ -121,7 +125,29 @@ const AppliancesForm: React.FC<AppliancesFormProps> = ({
         garbageDate, setGarbageDate
     };
 
+    // const [isDataLoading, setIsDataLoading] = useState<boolean>(true);
 
+    //TODO: Get appliances from database
+    // useEffect(() => {
+    //     // get data
+    //     if (isDataLoading) {
+    //         axios.get(`/api/appliances/${propertyId}`)
+    //             .then((response) => {
+    //                 const data = response.data;
+    //                 console.log(data);
+    //                 // set data to each variable ...
+    //             })
+    //             .catch((error) => {
+    //                 console.log(error);
+    //             })
+    //             .finally(() => {
+    //                 setIsDataLoading(false);
+    //             });
+    //     }
+
+    // }, [setIsDataLoading]);
+    
+    //TODO: Submit Handler
 
     return (
         <div className="space-y-8">

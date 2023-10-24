@@ -97,8 +97,8 @@ const WasherDryerSection: React.FC<WasherDryerSectionProps> = ({
                     </RadioGroup>
                     <RadioGroup
                         label="Dryer Condition"
-                        value={dryerCondition}
-                        onValueChange={setDryerCondition}
+                        value={combined ? washerCondition : dryerCondition}
+                        onValueChange={combined ? setWasherCondition : setDryerCondition}
                         orientation="horizontal"
                         isReadOnly={combined}
                     >
@@ -113,14 +113,13 @@ const WasherDryerSection: React.FC<WasherDryerSectionProps> = ({
                         variant="bordered"
                         value={washerBrand}
                         onValueChange={setWasherBrand}
-                        disabled={combined}
                     />
                     <Input
                         label="Dryer Brand"
                         placeholder="Brand"
                         variant="bordered"
-                        value={dryerBrand}
-                        onValueChange={setDryerBrand}
+                        value={combined ? washerBrand : dryerBrand}
+                        onValueChange={combined ? setWasherBrand : setDryerBrand}
                         disabled={combined}
                     />
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -137,8 +136,11 @@ const WasherDryerSection: React.FC<WasherDryerSectionProps> = ({
                         <ThemeProvider theme={theme}>
                             <DatePicker
                                 label="Dryer Date"
-                                value={dryerDate}
-                                onChange={(newDate) => setDryerDate(newDate)}
+                                value={combined ? washerDate : dryerDate}
+                                onChange={combined ?
+                                  (newDate) => setWasherDate(newDate) :
+                                  (newDate) => setDryerDate(newDate)
+                                }
                                 readOnly={combined}
                                 // className='w-full'
                                 />
