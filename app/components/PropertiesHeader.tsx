@@ -21,7 +21,7 @@ const PropertiesHeader: React.FC<PropertiesHeaderProps> = ({
         <div className="flex justify-center items-center">
             {/* <PropertyFilter /> */}
             <AddButton
-                text="New Property"
+                text="Add Property"
                 icon={BsHouseAddFill}
                 onPressModal={onOpen}
             />

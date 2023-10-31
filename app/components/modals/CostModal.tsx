@@ -1,4 +1,3 @@
-'use client';
 
 import { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
@@ -9,8 +8,13 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import {
+    Modal, 
+    ModalContent, 
+    ModalHeader, 
+    ModalBody, 
+    ModalFooter, 
+    Button, 
     Card,
-    CardBody,
     Tabs,
     Tab,
     Select,
@@ -21,9 +25,8 @@ import {
 } from "@nextui-org/react";
 import { FaFileInvoiceDollar } from 'react-icons/fa';
 
-import { isSelectionEmpty } from '../UI/SelectHelper';
+import { isSelectionEmpty } from "@/app/components/UI/SelectHelper";
 import AddButton from '../UI/AddButton';
-
 
 const costTypes = [
     {
@@ -72,7 +75,18 @@ const theme = createTheme({
     }
 });
 
-const CostCard = () => {
+
+interface CostModalProps {
+    isOpen: boolean;
+    onOpenChange: () => void;
+    onClose: () => void;
+}
+  
+const CostModal: React.FC<CostModalProps> = ({
+    isOpen,
+    onOpenChange,
+    onClose,
+}) => {
     const [isLoading, setIsLoading] = useState(true);
     const [properties, setProperties] = useState<{
         label: string;
@@ -228,17 +242,23 @@ const CostCard = () => {
                 setOther(false);
             });
     };
-
-
+   
     return (
-        <div className="w-[1000px]">
-            <Card
-                isBlurred
-                className="border-none bg-background/60 dark:bg-default-100/50"
-                shadow="sm"
-                fullWidth
-            >
-                <CardBody>
+        <>
+        <Modal 
+            isOpen={isOpen} 
+            onOpenChange={onOpenChange}
+            placement="center"
+            backdrop='blur'
+            size='5xl'
+        >
+            <ModalContent>
+            {(onClose) => (
+                <>
+                <ModalHeader className="flex flex-col gap-1">
+                    New Property
+                </ModalHeader>
+                <ModalBody>
                     <div className="flex flex-col justify-center space-y-5">
                         <Tabs 
                             aria-label="tabs" 
@@ -248,6 +268,7 @@ const CostCard = () => {
                             fullWidth={true}    
                             selectedKey={costType}
                             onSelectionChange={(item) => setCostType(item as string)}
+                            disableAnimation={true}
                         >
                             {(item) => (
                                 <Tab key={item.id} title={item.value}/>
@@ -420,16 +441,24 @@ const CostCard = () => {
                                 </Checkbox>
                             </Card>
                         </div>
+                    </div>
+                </ModalBody>
+                <ModalFooter>
+                        <Button color="danger" variant="flat" onPress={onClose}>
+                            Cancel
+                        </Button>
                         <AddButton 
-                            text='Add Cost'
-                            icon={FaFileInvoiceDollar}
+                            text="Add" 
+                            icon={FaFileInvoiceDollar} 
                             onPressModal={handleSubmit}
                         />
-                    </div>
-                </CardBody>
-            </Card>
-        </div>
+                </ModalFooter>
+                </>
+            )}
+            </ModalContent>
+        </Modal>
+        </>
     );
 };
 
-export default CostCard
+export default CostModal;
