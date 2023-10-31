@@ -94,6 +94,7 @@ const HeatingCoolingSection: React.FC<HeatingCoolingSectionProps> = ({
     hotWaterTankCondition, setHotWaterTankCondition,
     hotWaterTankDate, setHotWaterTankDate
 }) => {
+
     return (
         <div className="space-y-5 pb-5">
             <p className="font-small">Heating</p>
@@ -165,7 +166,7 @@ const HeatingCoolingSection: React.FC<HeatingCoolingSectionProps> = ({
                             value={heaterDate}
                             onChange={(newDate) => setHeaterDate(newDate)}
                             // className='w-full'
-                            />
+                        />
                     </ThemeProvider>
                 </LocalizationProvider>
             </div>

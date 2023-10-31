@@ -118,7 +118,15 @@ const CostCard = () => {
                 }));
             })
             .catch((error) => {
-                toast.error("Properties could not be loaded.");
+                toast.error("Properties could not be loaded.",
+                    {
+                        style: {
+                            borderRadius: '10px',
+                            background: '#333',
+                            color: '#fff',
+                        },
+                    }
+                );
             })
             .finally(() => {
                 setIsLoading(false);
@@ -130,7 +138,15 @@ const CostCard = () => {
         if (isSelectionEmpty(property) ||
             !price ||
             !eventDate) {
-            toast.error("Please select a property, price, and date.");
+            toast.error("Please select a property, price, and date.",
+                {
+                    style: {
+                        borderRadius: '10px',
+                        background: '#333',
+                        color: '#fff',
+                    },
+                }
+            );
             return;
         }
         
@@ -163,11 +179,27 @@ const CostCard = () => {
         };
         axios.post('/api/costs', postData)
             .then(() => {
-                toast.success(`${costType} added to property successfully!`);
+                toast.success(`${costType} added to property successfully!`,
+                    {
+                        style: {
+                            borderRadius: '10px',
+                            background: '#333',
+                            color: '#fff',
+                        },
+                    }
+                );
             })
             .catch(() => {
                 // Check for the status code in the error response
-                toast.error("Error adding property.");
+                toast.error("Error adding property.",
+                    {
+                        style: {
+                            borderRadius: '10px',
+                            background: '#333',
+                            color: '#fff',
+                        },
+                    }
+                );
             })
             .finally(() => {
                 setProperty(new Set([]));

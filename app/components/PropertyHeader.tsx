@@ -34,7 +34,15 @@ const PropertyHeader: React.FC<PropertyHeaderProps> = ({
                 setStateAndZip(`${res.data[0].state_address} ${res.data[0].zipcode_address}`);
             })
             .catch((error) => {
-                toast.error("Property could not be loaded.");
+                toast.error("Property could not be loaded.",
+                    {
+                        style: {
+                            borderRadius: '10px',
+                            background: '#333',
+                            color: '#fff',
+                        },
+                    }
+                );
             })
             .finally(() => {
                 setIsLoading(false);

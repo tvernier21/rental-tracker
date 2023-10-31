@@ -87,7 +87,15 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
             isSelectionEmpty(bedrooms) ||
             isSelectionEmpty(bathrooms) ||
             squarefootage === "") {
-            toast.error("Please fill out all required fields.");
+            toast.error("Please fill out all required fields.",
+                {
+                    style: {
+                        borderRadius: '10px',
+                        background: '#333',
+                        color: '#fff',
+                    },
+                }
+            );
             return;
         }
 
@@ -111,7 +119,15 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
             })
             .catch((error) => {
                 // Check for the status code in the error response
-                toast.error("Error adding property.")
+                toast.error("Error adding property.",
+                    {
+                        style: {
+                            borderRadius: '10px',
+                            background: '#333',
+                            color: '#fff',
+                        },
+                    }
+                );
             })
             .finally(() => {
                 onClose();

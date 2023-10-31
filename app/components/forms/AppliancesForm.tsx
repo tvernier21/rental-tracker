@@ -8,6 +8,7 @@ import {
 import dayjs, { Dayjs } from 'dayjs';
 import { GrDocumentUpdate } from "react-icons/gr";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 // Components
 import HeatingCoolingSection from "./appliances/HeatingCoolingSection";
@@ -125,29 +126,148 @@ const AppliancesForm: React.FC<AppliancesFormProps> = ({
         garbageDate, setGarbageDate
     };
 
-    // const [isDataLoading, setIsDataLoading] = useState<boolean>(true);
+    const [isDataLoading, setIsDataLoading] = useState<boolean>(true);
+    useEffect(() => {
+        if (isDataLoading) {
+            axios.get(`/api/appliances/${propertyId}`)
+                .then((response) => {
+                    const data = response.data[0];
+                    setHeaterType(data.heat_type);
+                    setHeaterFilterWSize(data.heat_w_filter);
+                    setHeaterFilterLSize(data.heat_l_filter);
+                    setHeaterFilterDSize(data.heat_d_filter);
+                    setHeaterCondition(data.heat_condition);
+                    setHeaterDate(data.heat_date ? dayjs(data.heat_date) : null);
+                    const tmpCoolingType = [];
+                    if (data.cool_hvac_type) tmpCoolingType.push('HVAC');
+                    if (data.cool_window_type) tmpCoolingType.push('Window');
+                    setCoolingType(tmpCoolingType);
+                    setCoolingHVACCondition(data.cool_hvac_condition);
+                    setCoolingWindowCondition(data.cool_wind_condition);
+                    setCoolingWindowAmount(data.cool_wind_num);
+                    setCoolingHVACDate(data.cool_hvac_date ? dayjs(data.cool_hvac_date) : null);
+                    setCoolingWindowDate(data.cool_wind_date ? dayjs(data.cool_wind_date) : null);
+                    setHotWaterTankCondition(data.watertank_condition);
+                    setHotWaterTankDate(data.watertank_date ? dayjs(data.watertank_date) : null);
+                    setCombined(data.wd_combined);
+                    setWasherCondition(data.washer_condition);
+                    setDryerCondition(data.dryer_condition);
+                    setWasherBrand(data.washer_brand);
+                    setDryerBrand(data.dryer_brand);
+                    setWasherDate(data.washer_date ? dayjs(data.washer_date) : null);
+                    setDryerDate(data.dryer_date ? dayjs(data.dryer_date) : null);
+                    setFridgeCondition(data.fridge_condition);
+                    setFridgeBrand(data.fridge_brand);
+                    setFridgeDate(data.fridge_date ? dayjs(data.fridge_date) : null);
+                    setStoveCondition(data.stove_condition);
+                    setStoveBrand(data.stove_brand);
+                    setStoveType(data.stove_type);
+                    setStoveDate(data.stove_date ? dayjs(data.stove_date) : null);
+                    setDishwasherCondition(data.dish_condition);
+                    setDishwasherBrand(data.dish_brand);
+                    setDishwasherDate(data.dish_date ? dayjs(data.dish_date) : null);
+                    setMicrowaveCondition(data.mw_condition);
+                    setMicrowaveBrand(data.mw_brand);
+                    setMicrowaveType(data.mw_type);
+                    setMicrowaveDate(data.mw_date ? dayjs(data.mw_date) : null);
+                    setCounterCondition(data.counter_condition);
+                    setCounterDate(data.counter_date ? dayjs(data.counter_date) : null);
+                    setCabinetCondition(data.cabinet_condition);
+                    setCabinetDate(data.cabinet_date ? dayjs(data.cabinet_date) : null);
+                    setSinkCondition(data.sink_condition);
+                    setSinkDate(data.sink_date ? dayjs(data.sink_date) : null);
+                    setGarbageCondition(data.garbage_condition);
+                    setGarbageDate(data.garbage_date ? dayjs(data.garbage_date) : null);
+                })
+                .catch((error) => {
+                    toast.error(error.message,
+                        {
+                            style: {
+                                borderRadius: '10px',
+                                background: '#333',
+                                color: '#fff',
+                            },
+                        }
+                    );
+                })
+                .finally(() => {
+                    setIsDataLoading(false);
+                });
+        };
+    }, [setIsDataLoading]);
 
-    //TODO: Get appliances from database
-    // useEffect(() => {
-    //     // get data
-    //     if (isDataLoading) {
-    //         axios.get(`/api/appliances/${propertyId}`)
-    //             .then((response) => {
-    //                 const data = response.data;
-    //                 console.log(data);
-    //                 // set data to each variable ...
-    //             })
-    //             .catch((error) => {
-    //                 console.log(error);
-    //             })
-    //             .finally(() => {
-    //                 setIsDataLoading(false);
-    //             });
-    //     }
-
-    // }, [setIsDataLoading]);
-    
     //TODO: Submit Handler
+    const handleSubmit = async () => {
+        const data = {
+            heat_type: heaterType,
+            heat_w_filter: heaterFilterWSize,
+            heat_l_filter: heaterFilterLSize,
+            heat_d_filter: heaterFilterDSize,
+            heat_condition: heaterCondition,
+            heat_date: heaterDate ? heaterDate.toISOString().split('T')[0] : null,
+            cool_hvac_type: coolingType.includes('HVAC') ? 'HVAC' : null,
+            cool_hvac_condition: coolingHVACCondition,
+            cool_hvac_date: coolingHVACDate ? coolingHVACDate.toISOString().split('T')[0]: null,
+            cool_window_type: coolingType.includes('Window') ? 'Window' : null,
+            cool_wind_condition: coolingWindowCondition,
+            cool_wind_date: coolingWindowDate ? coolingWindowDate.toISOString().split('T')[0] : null,
+            cool_wind_num: coolingWindowAmount,
+            watertank_condition: hotWaterTankCondition,
+            watertank_date: hotWaterTankDate ? hotWaterTankDate.toISOString().split('T')[0] : null,
+            wd_combined: combined,
+            washer_condition: washerCondition,
+            dryer_condition: dryerCondition,
+            washer_brand: washerBrand,
+            dryer_brand: dryerBrand,
+            washer_date: washerDate ? washerDate.toISOString().split('T')[0] : null,
+            dryer_date: dryerDate ? dryerDate.toISOString().split('T')[0] : null,
+            fridge_condition: fridgeCondition,
+            fridge_brand: fridgeBrand,
+            fridge_date: fridgeDate ? fridgeDate.toISOString().split('T')[0] : null,
+            stove_condition: stoveCondition,
+            stove_brand: stoveBrand,
+            stove_type: stoveType,
+            stove_date: stoveDate ? stoveDate.toISOString().split('T')[0] : null,
+            dish_condition: dishwasherCondition,
+            dish_brand: dishwasherBrand,
+            dish_date: dishwasherDate ? dishwasherDate.toISOString().split('T')[0] : null,
+            mw_condition: microwaveCondition,
+            mw_brand: microwaveBrand,
+            mw_type: microwaveType,
+            mw_date: microwaveDate ? microwaveDate.toISOString().split('T')[0] : null,
+            counter_condition: counterCondition,
+            counter_date: counterDate ? counterDate.toISOString().split('T')[0] : null,
+            cabinet_condition: cabinetCondition,
+            cabinet_date: cabinetDate ? cabinetDate.toISOString().split('T')[0] : null,
+            sink_condition: sinkCondition,
+            sink_date: sinkDate ? sinkDate.toISOString().split('T')[0] : null,
+            garbage_condition: garbageCondition,
+            garbage_date: garbageDate ? garbageDate.toISOString().split('T')[0] : null
+        };
+        axios.post(`/api/appliances/${propertyId}`, data)
+            .then((response) => {
+                toast.success("Appliances Updated!",
+                    {
+                        style: {
+                            borderRadius: '10px',
+                            background: '#333',
+                            color: '#fff',
+                        },
+                    }
+                );
+            })
+            .catch((error) => {
+                toast.error(error.message,
+                    {
+                        style: {
+                            borderRadius: '10px',
+                            background: '#333',
+                            color: '#fff',
+                        },
+                    }
+                );
+            });
+    };
 
     return (
         <div className="space-y-8">
@@ -157,6 +277,7 @@ const AppliancesForm: React.FC<AppliancesFormProps> = ({
                     aria-label="Heating & Cooling" 
                     title="Heating & Cooling"
                     subtitle="Heater, Cooling, Hot Water Tank"
+                    isDisabled={isDataLoading}
                 >
                     <HeatingCoolingSection {...heatingCooling} />
                 </AccordionItem>
@@ -165,6 +286,7 @@ const AppliancesForm: React.FC<AppliancesFormProps> = ({
                     aria-label="Washer & Dryer" 
                     title="Washer & Dryer"
                     subtitle="Washer, Dryer"
+                    isDisabled={isDataLoading}
                 >
                     <WasherDryerSection {...washerDyer} />
                 </AccordionItem>
@@ -173,6 +295,7 @@ const AppliancesForm: React.FC<AppliancesFormProps> = ({
                     aria-label="Kitchen Appliances" 
                     title="Kitchen Appliances"
                     subtitle="Fridge, Dishwasher, Stove, Microwave"
+                    isDisabled={isDataLoading}
                 >
                     <KitchenSection {...kitchenAppliances} />
                 </AccordionItem>
@@ -181,6 +304,7 @@ const AppliancesForm: React.FC<AppliancesFormProps> = ({
                     aria-label="Other Kitchen Appliances" 
                     title="Other Kitchen Appliances"
                     subtitle="Counter, Cabinet, Sink, Garbage"
+                    isDisabled={isDataLoading}
                 >
                     <OtherKitchenSection {...otherKitchenAppliances} />
                 </AccordionItem>
@@ -188,7 +312,7 @@ const AppliancesForm: React.FC<AppliancesFormProps> = ({
             <AddButton
                 text="Update Appliances"
                 icon={GrDocumentUpdate}
-                onPressModal={() => {}}
+                onPressModal={handleSubmit}
             />
         </div>
     );

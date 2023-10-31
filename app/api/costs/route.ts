@@ -87,7 +87,6 @@ export async function POST(req: NextRequest) {
         })
 
     if (error) {
-        console.log(error);
         throw new Error("Database Insertion Failed");
     }
     

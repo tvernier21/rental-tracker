@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
         template: "supabase",
     });
     const supabase = getSupabaseClient(supabaseAccessToken);
-    const { error, data } = await supabase
+    const { error: propertyError, data } = await supabase
             .from("properties")
             .insert({
                 street_address: street,
@@ -66,9 +66,21 @@ export async function POST(req: NextRequest) {
             })
             .select();
 
-    if (error) {
-        console.error(error);
-        throw new Error("Database Insertion Failed");
+    if (propertyError) {
+        console.error(propertyError);
+        throw new Error("Property Insertion Failed");
+    }
+
+    const { error: appliancesError } = await supabase
+        .from("appliances")
+        .insert({
+            user_id: userId,
+            property_id: data[0].id
+        });
+
+    if (appliancesError) {
+        console.error(appliancesError);
+        throw new Error("Appliance Insertion Failed");
     }
     
     return NextResponse.json(data || []);

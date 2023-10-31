@@ -24,7 +24,15 @@ const PropertiesList: React.FC<PropertiesListProps> = ({
                 setProperties(res.data);
             })
             .catch((error) => {
-                toast.error("Properties could not be loaded.");
+                toast.error("Properties could not be loaded.",
+                    {
+                        style: {
+                            borderRadius: '10px',
+                            background: '#333',
+                            color: '#fff',
+                        },
+                    }
+                );
             })
             .finally(() => {
                 setIsLoading(false);
