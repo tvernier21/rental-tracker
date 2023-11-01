@@ -135,6 +135,7 @@ const HookButton: React.FC<HookButtonProps> = ({
                 isOpen={cost_isOpen}
                 onOpenChange={cost_onOpenChange}
                 onClose={cost_onClose}
+                propertyId={propertyId}
             />
             <Button
                 color="success"

@@ -80,12 +80,14 @@ interface CostModalProps {
     isOpen: boolean;
     onOpenChange: () => void;
     onClose: () => void;
+    propertyId?: string;
 }
   
 const CostModal: React.FC<CostModalProps> = ({
     isOpen,
     onOpenChange,
     onClose,
+    propertyId
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [properties, setProperties] = useState<{
@@ -119,10 +121,11 @@ const CostModal: React.FC<CostModalProps> = ({
     const [water, setWater] = useState(false);
     const [gas, setGas] = useState(false);
     const [other, setOther] = useState(false);
-    
+
     useEffect(() => {
         if (!isLoading) return;
-        axios.get('/api/properties')
+        const endpoint = propertyId ? `/api/properties/${propertyId}` : '/api/properties';
+        axios.get(endpoint)
             .then((res) => {
                 setProperties(Array.from(res.data || []).map((property: any) => {
                     return {
@@ -145,7 +148,11 @@ const CostModal: React.FC<CostModalProps> = ({
             .finally(() => {
                 setIsLoading(false);
         });
-    }, [isLoading]);
+    }, [propertyId, isLoading]);
+
+    useEffect(() => {
+        if (propertyId) setProperty(new Set([properties[0].value]));
+    }, [properties]);
 
 
     const handleSubmit = async () => {
@@ -280,7 +287,7 @@ const CostModal: React.FC<CostModalProps> = ({
                             placeholder={`Select property to add ${costType} to`}
                             variant="bordered"
                             fullWidth
-                            isDisabled={isLoading}
+                            isDisabled={isLoading || propertyId ? true : false}
                             selectedKeys={property}
                             onSelectionChange={setProperty}
                             style={{
