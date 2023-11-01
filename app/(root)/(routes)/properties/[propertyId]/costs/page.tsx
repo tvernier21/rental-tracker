@@ -14,7 +14,10 @@ const PropertyCostsPage = ({ params }: { params: { propertyId: string } }) => {
                     </p>
                 </div>
                 <div className="pt-1">
-                    <HookButton type="costs" />
+                    <HookButton 
+                        type="costs"
+                        propertyId={params.propertyId}
+                    />
                 </div>
             </div>
             <HorizontalSeparator />

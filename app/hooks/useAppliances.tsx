@@ -2,6 +2,8 @@ import { create } from 'zustand';
 import { Dayjs } from 'dayjs';
 
 interface AppliancesState {
+    isLoading: boolean;
+    setIsLoading: (isLoading: boolean) => void;
     heaterType: string;
     setHeaterType: (heaterType: string) => void;
     heaterFilterWSize: string;
@@ -91,6 +93,8 @@ interface AppliancesState {
 }
 
 const useAppliances = create<AppliancesState>((set) => ({
+    isLoading: true,
+    setIsLoading: (isLoading: boolean) => set(() => ({ isLoading })),
     heaterType: '',
     setHeaterType: (heaterType: string) => set(() => ({ heaterType })),
     heaterFilterWSize: '',

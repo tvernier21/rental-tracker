@@ -43,12 +43,11 @@ export async function POST(
     const { getToken, userId } = getAuth(req);
     if (!userId) {
         throw new Error("Unauthorized (401)");
-    }
+    };
     
     const { 
         heat_type, heat_w_filter, heat_l_filter, heat_d_filter, heat_condition, heat_date,
-        cool_hvac_type, 
-        cool_hvac_condition, cool_hvac_date,
+        cool_hvac_type, cool_hvac_condition, cool_hvac_date,
         cool_window_type, cool_wind_condition, cool_wind_date, cool_wind_num,
         watertank_condition, watertank_date,
         wd_combined,

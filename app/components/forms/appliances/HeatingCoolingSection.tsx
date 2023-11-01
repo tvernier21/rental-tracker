@@ -7,7 +7,6 @@ import {
     CheckboxGroup,
     Input
 } from "@nextui-org/react";
-import { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -49,13 +48,10 @@ const theme = createTheme({
     }
 });
 
-interface HeatingCoolingSectionProps {
-    appliances: any;
-};
 
-const HeatingCoolingSection: React.FC<HeatingCoolingSectionProps> = ({
-    appliances
-}) => {
+const HeatingCoolingSection = () => {
+    const appliances = useAppliances();
+    
     return (
         <div className="space-y-5 pb-5">
             <p className="font-small">Heating</p>

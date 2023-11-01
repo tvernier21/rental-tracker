@@ -4,14 +4,14 @@ import {
     Radio,
     RadioGroup,
     Checkbox,
-    CheckboxGroup,
     Input
 } from "@nextui-org/react";
-import { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+import useAppliances from "@/app/hooks/useAppliances";
 
 // Calendar Date Picker Theme
 const color = "#D3D3D3";
@@ -47,13 +47,8 @@ const theme = createTheme({
     }
 });
 
-interface WasherDryerSectionProps {
-    appliances: any;
-}
-
-const WasherDryerSection: React.FC<WasherDryerSectionProps> = ({
-    appliances
-}) => {
+const WasherDryerSection = () => {
+    const appliances = useAppliances();
     return(
         <div className="space-y-5 pb-5">
             <p className="font-small">Washer & Dryer</p>

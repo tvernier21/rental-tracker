@@ -67,7 +67,6 @@ export async function POST(req: NextRequest) {
             .select();
 
     if (propertyError) {
-        console.error(propertyError);
         throw new Error("Property Insertion Failed");
     }
 
@@ -79,7 +78,6 @@ export async function POST(req: NextRequest) {
         });
 
     if (appliancesError) {
-        console.error(appliancesError);
         throw new Error("Appliance Insertion Failed");
     }
     

@@ -16,7 +16,6 @@ const AddButton: React.FC<AddButtonProps> = ({
     onPress,
     disabled
 }) => {
-    console.log("onPress INSIDE", onPress)
     return (
         <Button 
             color="success" 
