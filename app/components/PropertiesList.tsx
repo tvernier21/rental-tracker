@@ -66,7 +66,6 @@ const PropertiesList: React.FC<PropertiesListProps> = ({
                     ))}
                 </div>
             )}
-
         </div>
     );
 };
