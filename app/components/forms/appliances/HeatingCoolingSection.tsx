@@ -13,6 +13,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
+import useAppliances from "@/app/hooks/useAppliances";
+
 // Calendar Date Picker Theme
 const color = "#D3D3D3";
 const theme = createTheme({
@@ -48,53 +50,12 @@ const theme = createTheme({
 });
 
 interface HeatingCoolingSectionProps {
-    heaterType: string;
-    setHeaterType: (heaterType: string) => void;
-    heaterFilterWSize: string;
-    setHeaterFilterWSize: (heaterFilterWSize: string) => void;
-    heaterFilterLSize: string;
-    setHeaterFilterLSize: (heaterFilterLSize: string) => void;
-    heaterFilterDSize: string;
-    setHeaterFilterDSize: (heaterFilterDSize: string) => void;
-    heaterDate: Dayjs | null;
-    setHeaterDate: (heaterDate: Dayjs | null) => void;
-    heaterCondition: string;
-    setHeaterCondition: (heaterCondition: string) => void;
-    coolingType: string[];
-    setCoolingType: (coolingType: string[]) => void;
-    coolingHVACCondition: string;
-    setCoolingHVACCondition: (coolingHVACCondition: string) => void;
-    coolingWindowCondition: string;
-    setCoolingWindowCondition: (coolingWindowCondition: string) => void;
-    coolingHVACDate: Dayjs | null;
-    setCoolingHVACDate: (coolingHVACDate: Dayjs | null) => void;
-    coolingWindowDate: Dayjs | null;
-    setCoolingWindowDate: (coolingWindowDate: Dayjs | null) => void;
-    coolingWindowAmount: string;
-    setCoolingWindowAmount: (coolingWindowAmount: string) => void;
-    hotWaterTankCondition: string;
-    setHotWaterTankCondition: (hotWaterTankCondition: string) => void;
-    hotWaterTankDate: Dayjs | null;
-    setHotWaterTankDate: (hotWaterTankDate: Dayjs | null) => void;
+    appliances: any;
 };
 
 const HeatingCoolingSection: React.FC<HeatingCoolingSectionProps> = ({
-    heaterType, setHeaterType,
-    heaterFilterWSize, setHeaterFilterWSize,
-    heaterFilterLSize, setHeaterFilterLSize,
-    heaterFilterDSize, setHeaterFilterDSize,
-    heaterDate, setHeaterDate,
-    heaterCondition, setHeaterCondition,
-    coolingType, setCoolingType,
-    coolingHVACCondition, setCoolingHVACCondition,
-    coolingWindowCondition, setCoolingWindowCondition,
-    coolingHVACDate, setCoolingHVACDate,
-    coolingWindowDate, setCoolingWindowDate,
-    coolingWindowAmount, setCoolingWindowAmount,
-    hotWaterTankCondition, setHotWaterTankCondition,
-    hotWaterTankDate, setHotWaterTankDate
+    appliances
 }) => {
-
     return (
         <div className="space-y-5 pb-5">
             <p className="font-small">Heating</p>
@@ -102,15 +63,15 @@ const HeatingCoolingSection: React.FC<HeatingCoolingSectionProps> = ({
                 <div className="grid grid-cols-2">
                     <RadioGroup
                         label="Type"
-                        value={heaterType}
-                        onValueChange={setHeaterType}
+                        value={appliances.heaterType}
+                        onValueChange={appliances.setHeaterType}
                         orientation="horizontal"
                     >
                         <Radio value="boiler">Boiler</Radio>
                         <Radio value="hvac">HVAC</Radio>
                         <Radio value="other">Other</Radio>
                     </RadioGroup>
-                    {heaterType === 'hvac' && (
+                    {appliances.heaterType === 'hvac' && (
                         <div>
                             <p className="font-small text-md text-gray-400">Filter Size</p>
                             <div className="flex flex-row gap-2 pt-2">
@@ -121,8 +82,8 @@ const HeatingCoolingSection: React.FC<HeatingCoolingSectionProps> = ({
                                     placeholder="16"
                                     variant="bordered"
                                     radius="sm"
-                                    value={heaterFilterWSize}
-                                    onValueChange={setHeaterFilterWSize}
+                                    value={appliances.heaterFilterWSize}
+                                    onValueChange={appliances.setHeaterFilterWSize}
                                     />
                                 <Input
                                     type="number"
@@ -131,8 +92,8 @@ const HeatingCoolingSection: React.FC<HeatingCoolingSectionProps> = ({
                                     placeholder="16"
                                     variant="bordered"
                                     radius="sm"
-                                    value={heaterFilterLSize}
-                                    onValueChange={setHeaterFilterLSize}
+                                    value={appliances.heaterFilterLSize}
+                                    onValueChange={appliances.setHeaterFilterLSize}
                                 />
                                 <Input
                                     type="number"
@@ -141,8 +102,8 @@ const HeatingCoolingSection: React.FC<HeatingCoolingSectionProps> = ({
                                     placeholder="1"
                                     variant="bordered"
                                     radius="sm"
-                                    value={heaterFilterDSize}
-                                    onValueChange={setHeaterFilterDSize}
+                                    value={appliances.heaterFilterDSize}
+                                    onValueChange={appliances.setHeaterFilterDSize}
                                 />
                             </div>
                         </div>
@@ -150,8 +111,8 @@ const HeatingCoolingSection: React.FC<HeatingCoolingSectionProps> = ({
                 </div>
                 <RadioGroup
                     label="Condition"
-                    value={heaterCondition}
-                    onValueChange={setHeaterCondition}
+                    value={appliances.heaterCondition}
+                    onValueChange={appliances.setHeaterCondition}
                     orientation="horizontal"
                 >
                     <Radio value="normal">Normal</Radio>
@@ -163,8 +124,8 @@ const HeatingCoolingSection: React.FC<HeatingCoolingSectionProps> = ({
                     <ThemeProvider theme={theme}>
                         <DatePicker
                             label="Date"
-                            value={heaterDate}
-                            onChange={(newDate) => setHeaterDate(newDate)}
+                            value={appliances.heaterDate}
+                            onChange={(newDate) => appliances.setHeaterDate(newDate)}
                             // className='w-full'
                         />
                     </ThemeProvider>
@@ -174,21 +135,21 @@ const HeatingCoolingSection: React.FC<HeatingCoolingSectionProps> = ({
             <div className="ml-6 space-y-5">
                 <CheckboxGroup
                     label="Types"
-                    value={coolingType}
-                    onValueChange={setCoolingType}
+                    value={appliances.coolingType}
+                    onValueChange={appliances.setCoolingType}
                     orientation="horizontal"
                 >
                     <Checkbox value="window">Window</Checkbox>
                     <Checkbox value="hvac">HVAC</Checkbox>
                 </CheckboxGroup>
-                { coolingType.length !== 0 && (   
+                {appliances. coolingType.length !== 0 && (   
                     <div className="grid grid-rows-3 grid-flow-col gap-5">
-                        {coolingType.includes('window') && (
+                        {appliances.coolingType.includes('window') && (
                             <>
                                 <RadioGroup
                                     label="Window Condition"
-                                    value={coolingWindowCondition}
-                                    onValueChange={setCoolingWindowCondition}
+                                    value={appliances.coolingWindowCondition}
+                                    onValueChange={appliances.setCoolingWindowCondition}
                                     orientation="horizontal"
                                     >
                                     <Radio value="normal">Normal</Radio>
@@ -200,8 +161,8 @@ const HeatingCoolingSection: React.FC<HeatingCoolingSectionProps> = ({
                                     <ThemeProvider theme={theme}>
                                         <DatePicker
                                             label="Window Date"
-                                            value={coolingWindowDate}
-                                            onChange={(newDate) => setCoolingWindowDate(newDate)}
+                                            value={appliances.coolingWindowDate}
+                                            onChange={(newDate) => appliances.setCoolingWindowDate(newDate)}
                                             // className='w-full'
                                             />
                                     </ThemeProvider>
@@ -213,8 +174,8 @@ const HeatingCoolingSection: React.FC<HeatingCoolingSectionProps> = ({
                                         placeholder="0"
                                         variant="bordered"
                                         radius="sm"
-                                        value={coolingWindowAmount}
-                                        onValueChange={setCoolingWindowAmount}
+                                        value={appliances.coolingWindowAmount}
+                                        onValueChange={appliances.setCoolingWindowAmount}
                                         startContent={
                                             <div className="">
                                                 <span className="text-default-400 text-small">#</span>
@@ -224,12 +185,12 @@ const HeatingCoolingSection: React.FC<HeatingCoolingSectionProps> = ({
                                 </div>
                             </>      
                         )}
-                        {coolingType.includes('hvac') && (
+                        {appliances.coolingType.includes('hvac') && (
                             <>
                                 <RadioGroup
                                     label="HVAC Condition"
-                                    value={coolingHVACCondition}
-                                    onValueChange={setCoolingHVACCondition}
+                                    value={appliances.coolingHVACCondition}
+                                    onValueChange={appliances.setCoolingHVACCondition}
                                     orientation="horizontal"
                                     >
                                     <Radio value="normal">Normal</Radio>
@@ -241,8 +202,8 @@ const HeatingCoolingSection: React.FC<HeatingCoolingSectionProps> = ({
                                     <ThemeProvider theme={theme}>
                                         <DatePicker
                                             label="HVAC Date"
-                                            value={coolingHVACDate}
-                                            onChange={(newDate) => setCoolingHVACDate(newDate)}
+                                            value={appliances.coolingHVACDate}
+                                            onChange={(newDate) => appliances.setCoolingHVACDate(newDate)}
                                             // className='w-full'
                                             />
                                     </ThemeProvider>
@@ -256,8 +217,8 @@ const HeatingCoolingSection: React.FC<HeatingCoolingSectionProps> = ({
             <div className="ml-6 space-y-5">
                 <RadioGroup
                     label="Condition"
-                    value={hotWaterTankCondition}
-                    onValueChange={setHotWaterTankCondition}
+                    value={appliances.hotWaterTankCondition}
+                    onValueChange={appliances.setHotWaterTankCondition}
                     orientation="horizontal"
                     >
                     <Radio value="normal">Normal</Radio>
@@ -269,8 +230,8 @@ const HeatingCoolingSection: React.FC<HeatingCoolingSectionProps> = ({
                     <ThemeProvider theme={theme}>
                         <DatePicker
                             label="Date"
-                            value={hotWaterTankDate}
-                            onChange={(newDate) => setHotWaterTankDate(newDate)}
+                            value={appliances.hotWaterTankDate}
+                            onChange={(newDate) => appliances.setHotWaterTankDate(newDate)}
                             // className='w-full'
                             />
                     </ThemeProvider>

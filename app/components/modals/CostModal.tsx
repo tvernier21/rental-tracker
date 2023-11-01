@@ -450,7 +450,7 @@ const CostModal: React.FC<CostModalProps> = ({
                         <AddButton 
                             text="Add" 
                             icon={FaFileInvoiceDollar} 
-                            onPressModal={handleSubmit}
+                            onPress={handleSubmit}
                         />
                 </ModalFooter>
                 </>

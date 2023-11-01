@@ -47,54 +47,12 @@ const theme = createTheme({
     }
 });
 
-// // Other Kitchen Appliances
-// const [counterCondition, setCounterCondition] = useState<string>('');
-// const [counterDate, setCounterDate] = useState<Dayjs | null>(dayjs());
-// const [cabinetCondition, setCabinetCondition] = useState<string>('');
-// const [cabinetDate, setCabinetDate] = useState<Dayjs | null>(dayjs());
-// const [sinkCondition, setSinkCondition] = useState<string>('');
-// const [sinkDate, setSinkDate] =  useState<Dayjs | null>(dayjs());
-// const [garbageCondition, setGarbageCondition] = useState<string>('');
-// const [garbageDate, setGarbageDate] = useState<Dayjs | null>(dayjs());
-// const otherKitchenAppliances = {
-//     counterCondition, setCounterCondition,
-//     counterDate, setCounterDate,
-//     cabinetCondition, setCabinetCondition,
-//     cabinetDate, setCabinetDate,
-//     sinkCondition, setSinkCondition,
-//     sinkDate, setSinkDate,
-//     garbageCondition, setGarbageCondition,
-//     garbageDate, setGarbageDate
-// };
-
 interface OtherKitchenSectionProps {
-    counterCondition: string;
-    setCounterCondition: (counterCondition: string) => void;
-    counterDate: Dayjs | null;
-    setCounterDate: (counterDate: Dayjs | null) => void;
-    cabinetCondition: string;
-    setCabinetCondition: (cabinetCondition: string) => void;
-    cabinetDate: Dayjs | null;
-    setCabinetDate: (cabinetDate: Dayjs | null) => void;
-    sinkCondition: string;
-    setSinkCondition: (sinkCondition: string) => void;
-    sinkDate: Dayjs | null;
-    setSinkDate: (sinkDate: Dayjs | null) => void;
-    garbageCondition: string;
-    setGarbageCondition: (garbageCondition: string) => void;
-    garbageDate: Dayjs | null;
-    setGarbageDate: (garbageDate: Dayjs | null) => void;
+    appliances: any;
 };
 
 const OtherKitchenSection: React.FC<OtherKitchenSectionProps> = ({
-    counterCondition, setCounterCondition,
-    counterDate, setCounterDate,
-    cabinetCondition, setCabinetCondition,
-    cabinetDate, setCabinetDate,
-    sinkCondition, setSinkCondition,
-    sinkDate, setSinkDate,
-    garbageCondition, setGarbageCondition,
-    garbageDate, setGarbageDate
+    appliances
 }) => {
     return(
         <div className="space-y-5 pb-5">
@@ -102,8 +60,8 @@ const OtherKitchenSection: React.FC<OtherKitchenSectionProps> = ({
             <div className="ml-6 space-y-5">
                 <RadioGroup
                     label="Condition"
-                    value={counterCondition}
-                    onValueChange={setCounterCondition}
+                    value={appliances.counterCondition}
+                    onValueChange={appliances.setCounterCondition}
                     orientation="horizontal"
                 >
                     <Radio value="normal">Normal</Radio>
@@ -115,8 +73,8 @@ const OtherKitchenSection: React.FC<OtherKitchenSectionProps> = ({
                     <ThemeProvider theme={theme}>
                         <DatePicker
                             label="Date"
-                            value={counterDate}
-                            onChange={(newDate) => setCounterDate(newDate)}
+                            value={appliances.counterDate}
+                            onChange={(newDate) => appliances.setCounterDate(newDate)}
                             // className='w-full'
                             />
                     </ThemeProvider>
@@ -126,8 +84,8 @@ const OtherKitchenSection: React.FC<OtherKitchenSectionProps> = ({
             <div className="ml-6 space-y-5">
                 <RadioGroup
                     label="Condition"
-                    value={cabinetCondition}
-                    onValueChange={setCabinetCondition}
+                    value={appliances.cabinetCondition}
+                    onValueChange={appliances.setCabinetCondition}
                     orientation="horizontal"
                 >
                     <Radio value="normal">Normal</Radio>
@@ -139,8 +97,8 @@ const OtherKitchenSection: React.FC<OtherKitchenSectionProps> = ({
                     <ThemeProvider theme={theme}>
                         <DatePicker
                             label="Date"
-                            value={cabinetDate}
-                            onChange={(newDate) => setCabinetDate(newDate)}
+                            value={appliances.cabinetDate}
+                            onChange={(newDate) => appliances.setCabinetDate(newDate)}
                             // className='w-full'
                             />
                     </ThemeProvider>
@@ -150,8 +108,8 @@ const OtherKitchenSection: React.FC<OtherKitchenSectionProps> = ({
             <div className="ml-6 space-y-5">
                 <RadioGroup
                     label="Condition"
-                    value={sinkCondition}
-                    onValueChange={setSinkCondition}
+                    value={appliances.sinkCondition}
+                    onValueChange={appliances.setSinkCondition}
                     orientation="horizontal"
                 >
                     <Radio value="normal">Normal</Radio>
@@ -163,8 +121,8 @@ const OtherKitchenSection: React.FC<OtherKitchenSectionProps> = ({
                     <ThemeProvider theme={theme}>
                         <DatePicker
                             label="Date"
-                            value={sinkDate}
-                            onChange={(newDate) => setSinkDate(newDate)}
+                            value={appliances.sinkDate}
+                            onChange={(newDate) => appliances.setSinkDate(newDate)}
                             // className='w-full'
                             />
                     </ThemeProvider>
@@ -174,8 +132,8 @@ const OtherKitchenSection: React.FC<OtherKitchenSectionProps> = ({
             <div className="ml-6 space-y-5">
                 <RadioGroup
                     label="Condition"
-                    value={garbageCondition}
-                    onValueChange={setGarbageCondition}
+                    value={appliances.garbageCondition}
+                    onValueChange={appliances.setGarbageCondition}
                     orientation="horizontal"
                 >
                     <Radio value="normal">Normal</Radio>
@@ -187,8 +145,8 @@ const OtherKitchenSection: React.FC<OtherKitchenSectionProps> = ({
                     <ThemeProvider theme={theme}>
                         <DatePicker
                             label="Date"
-                            value={garbageDate}
-                            onChange={(newDate) => setGarbageDate(newDate)}
+                            value={appliances.garbageDate}
+                            onChange={(newDate) => appliances.setGarbageDate(newDate)}
                             // className='w-full'
                             />
                     </ThemeProvider>

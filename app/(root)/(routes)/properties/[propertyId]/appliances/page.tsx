@@ -1,5 +1,6 @@
 import { HorizontalSeparator } from "@/app/components/UI/Separator";
 import AppliancesForm from "@/app/components/forms/AppliancesForm";
+import useAppliances from "@/app/hooks/useAppliances";
 
 const PropertyAppliancesPage = ({ params }: { params: { propertyId: string } }) => {
     return (

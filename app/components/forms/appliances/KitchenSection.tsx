@@ -48,51 +48,11 @@ const theme = createTheme({
 });
 
 interface KitchenSectionProps {
-    fridgeCondition: string;
-    setFridgeCondition: (fridgeCondition: string) => void;
-    fridgeBrand: string;
-    setFridgeBrand: (fridgeBrand: string) => void;
-    fridgeDate: Dayjs | null;
-    setFridgeDate: (fridgeDate: Dayjs | null) => void;
-    stoveCondition: string;
-    setStoveCondition: (stoveCondition: string) => void;
-    stoveBrand: string;
-    setStoveBrand: (stoveBrand: string) => void;
-    stoveDate: Dayjs | null;
-    setStoveDate: (stoveDate: Dayjs | null) => void;
-    stoveType: string;
-    setStoveType: (stoveType: string) => void;
-    dishwasherCondition: string;
-    setDishwasherCondition: (dishwasherCondition: string) => void;
-    dishwasherBrand: string;
-    setDishwasherBrand: (dishwasherBrand: string) => void;
-    dishwasherDate: Dayjs | null;
-    setDishwasherDate: (dishwasherDate: Dayjs | null) => void;
-    microwaveCondition: string;
-    setMicrowaveCondition: (microwaveCondition: string) => void;
-    microwaveBrand: string;
-    setMicrowaveBrand: (microwaveBrand: string) => void;
-    microwaveDate: Dayjs | null;
-    setMicrowaveDate: (microwaveDate: Dayjs | null) => void;
-    microwaveType: string;
-    setMicrowaveType: (microwaveType: string) => void;
+    appliances: any;
 };
 
 const KitchenSection: React.FC<KitchenSectionProps> = ({
-    fridgeCondition, setFridgeCondition,
-    fridgeBrand, setFridgeBrand,
-    fridgeDate, setFridgeDate,
-    stoveCondition, setStoveCondition,
-    stoveBrand, setStoveBrand,
-    stoveDate, setStoveDate,
-    stoveType, setStoveType,
-    dishwasherCondition, setDishwasherCondition,
-    dishwasherBrand, setDishwasherBrand,
-    dishwasherDate, setDishwasherDate,
-    microwaveCondition, setMicrowaveCondition,
-    microwaveBrand, setMicrowaveBrand,
-    microwaveDate, setMicrowaveDate,
-    microwaveType, setMicrowaveType
+    appliances
 }) => {
     return(
         <div className="space-y-5 pb-5">
@@ -104,15 +64,15 @@ const KitchenSection: React.FC<KitchenSectionProps> = ({
                             label="Brand"
                             placeholder="Brand"
                             variant="bordered"
-                            value={fridgeBrand}
-                            onValueChange={setFridgeBrand}
+                            value={appliances.fridgeBrand}
+                            onValueChange={appliances.setFridgeBrand}
                         />
                     </div>
                 </div>
                 <RadioGroup
                     label="Condition"
-                    value={fridgeCondition}
-                    onValueChange={setFridgeCondition}
+                    value={appliances.fridgeCondition}
+                    onValueChange={appliances.setFridgeCondition}
                     orientation="horizontal"
                 >
                     <Radio value="normal">Normal</Radio>
@@ -124,8 +84,8 @@ const KitchenSection: React.FC<KitchenSectionProps> = ({
                     <ThemeProvider theme={theme}>
                         <DatePicker
                             label="Date"
-                            value={fridgeDate}
-                            onChange={(newDate) => setFridgeDate(newDate)}
+                            value={appliances.fridgeDate}
+                            onChange={(newDate) => appliances.setFridgeDate(newDate)}
                             // className='w-full'
                             />
                     </ThemeProvider>
@@ -139,15 +99,15 @@ const KitchenSection: React.FC<KitchenSectionProps> = ({
                             label="Brand"
                             placeholder="Brand"
                             variant="bordered"
-                            value={dishwasherBrand}
-                            onValueChange={setDishwasherBrand}
+                            value={appliances.dishwasherBrand}
+                            onValueChange={appliances.setDishwasherBrand}
                         />
                     </div>
                 </div>
                 <RadioGroup
                     label="Condition"
-                    value={dishwasherCondition}
-                    onValueChange={setDishwasherCondition}
+                    value={appliances.dishwasherCondition}
+                    onValueChange={appliances.setDishwasherCondition}
                     orientation="horizontal"
                 >
                     <Radio value="normal">Normal</Radio>
@@ -159,8 +119,8 @@ const KitchenSection: React.FC<KitchenSectionProps> = ({
                     <ThemeProvider theme={theme}>
                         <DatePicker
                             label="Date"
-                            value={dishwasherDate}
-                            onChange={(newDate) => setDishwasherDate(newDate)}
+                            value={appliances.dishwasherDate}
+                            onChange={(newDate) => appliances.setDishwasherDate(newDate)}
                             // className='w-full'
                             />
                     </ThemeProvider>
@@ -174,16 +134,16 @@ const KitchenSection: React.FC<KitchenSectionProps> = ({
                             label="Stove Brand"
                             placeholder="Brand"
                             variant="bordered"
-                            value={stoveBrand}
-                            onValueChange={setStoveBrand}
+                            value={appliances.stoveBrand}
+                            onValueChange={appliances.setStoveBrand}
                         />
                     </div>
                     <div className="col-span-1">
                     </div>
                     <RadioGroup
                         label="Stove Condition"
-                        value={stoveCondition}
-                        onValueChange={setStoveCondition}
+                        value={appliances.stoveCondition}
+                        onValueChange={appliances.setStoveCondition}
                         orientation="horizontal"
                     >
                         <Radio value="normal">Normal</Radio>
@@ -193,8 +153,8 @@ const KitchenSection: React.FC<KitchenSectionProps> = ({
                     </RadioGroup>
                     <RadioGroup
                         label="Stove Type"
-                        value={stoveType}
-                        onValueChange={setStoveType}
+                        value={appliances.stoveType}
+                        onValueChange={appliances.setStoveType}
                         orientation="horizontal"
                     >
                         <Radio value="gas">Gas</Radio>
@@ -205,8 +165,8 @@ const KitchenSection: React.FC<KitchenSectionProps> = ({
                     <ThemeProvider theme={theme}>
                         <DatePicker
                             label="Stove Date"
-                            value={stoveDate}
-                            onChange={(newDate) => setStoveDate(newDate)}
+                            value={appliances.stoveDate}
+                            onChange={(newDate) => appliances.setStoveDate(newDate)}
                             // className='w-full'
                             />
                     </ThemeProvider>
@@ -220,16 +180,16 @@ const KitchenSection: React.FC<KitchenSectionProps> = ({
                             label="Microwave Brand"
                             placeholder="Brand"
                             variant="bordered"
-                            value={microwaveBrand}
-                            onValueChange={setMicrowaveBrand}
+                            value={appliances.microwaveBrand}
+                            onValueChange={appliances.setMicrowaveBrand}
                         />
                     </div>
                     <div className="col-span-1">
                     </div>
                     <RadioGroup
                         label="Microwave Condition"
-                        value={microwaveCondition}
-                        onValueChange={setMicrowaveCondition}
+                        value={appliances.microwaveCondition}
+                        onValueChange={appliances.setMicrowaveCondition}
                         orientation="horizontal"
                     >
                         <Radio value="normal">Normal</Radio>
@@ -239,8 +199,8 @@ const KitchenSection: React.FC<KitchenSectionProps> = ({
                     </RadioGroup>
                     <RadioGroup
                         label="Microwave Type"
-                        value={microwaveType}
-                        onValueChange={setMicrowaveType}
+                        value={appliances.microwaveType}
+                        onValueChange={appliances.setMicrowaveType}
                         orientation="horizontal"
                     >
                         <Radio value="over">Over</Radio>
@@ -251,8 +211,8 @@ const KitchenSection: React.FC<KitchenSectionProps> = ({
                     <ThemeProvider theme={theme}>
                         <DatePicker
                             label="Microwave Date"
-                            value={microwaveDate}
-                            onChange={(newDate) => setMicrowaveDate(newDate)}
+                            value={appliances.microwaveDate}
+                            onChange={(newDate) => appliances.setMicrowaveDate(newDate)}
                             // className='w-full'
                             />
                     </ThemeProvider>

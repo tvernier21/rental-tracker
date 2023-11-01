@@ -48,46 +48,27 @@ const theme = createTheme({
 });
 
 interface WasherDryerSectionProps {
-    combined: boolean;
-    setCombined: (combined: boolean) => void;
-    washerCondition: string;
-    setWasherCondition: (washerCondition: string) => void;
-    dryerCondition: string;
-    setDryerCondition: (dryerCondition: string) => void;
-    washerDate: Dayjs | null;
-    setWasherDate: (washerDate: Dayjs | null) => void;
-    dryerDate: Dayjs | null;
-    setDryerDate: (dryerDate: Dayjs | null) => void;
-    washerBrand: string;
-    setWasherBrand: (washerBrand: string) => void;
-    dryerBrand: string;
-    setDryerBrand: (dryerBrand: string) => void;
+    appliances: any;
 }
 
 const WasherDryerSection: React.FC<WasherDryerSectionProps> = ({
-    combined, setCombined,
-    washerCondition, setWasherCondition,
-    dryerCondition, setDryerCondition,
-    washerDate, setWasherDate,
-    dryerDate, setDryerDate,
-    washerBrand, setWasherBrand,
-    dryerBrand, setDryerBrand
+    appliances
 }) => {
     return(
         <div className="space-y-5 pb-5">
             <p className="font-small">Washer & Dryer</p>
             <div className="ml-6 space-y-5">
                 <Checkbox
-                    isSelected={combined}
-                    onValueChange={setCombined}
+                    isSelected={appliances.combined}
+                    onValueChange={appliances.setCombined}
                 >
                     Combined
                 </Checkbox>
                 <div className="grid grid-cols-2 gap-5">
                     <RadioGroup
                         label="Washer Condition"
-                        value={washerCondition}
-                        onValueChange={setWasherCondition}
+                        value={appliances.washerCondition}
+                        onValueChange={appliances.setWasherCondition}
                         orientation="horizontal"
                     >
                         <Radio value="normal">Normal</Radio>
@@ -95,10 +76,10 @@ const WasherDryerSection: React.FC<WasherDryerSectionProps> = ({
                         <Radio value="repair">Repair</Radio>
                         <Radio value="other">Other</Radio>
                     </RadioGroup>
-                    { combined ? (
+                    {appliances.combined ? (
                         <RadioGroup
                             label="Dryer Condition"
-                            value={washerCondition}
+                            value={appliances.washerCondition}
                             orientation="horizontal"
                             isReadOnly
                         >
@@ -110,8 +91,8 @@ const WasherDryerSection: React.FC<WasherDryerSectionProps> = ({
                      ) : (
                         <RadioGroup
                             label="Dryer Condition"
-                            value={dryerCondition}
-                            onValueChange={setDryerCondition}
+                            value={appliances.dryerCondition}
+                            onValueChange={appliances.setDryerCondition}
                             orientation="horizontal"
                         >
                             <Radio value="normal">Normal</Radio>
@@ -124,15 +105,15 @@ const WasherDryerSection: React.FC<WasherDryerSectionProps> = ({
                         label="Washer Brand"
                         placeholder="Brand"
                         variant="bordered"
-                        value={washerBrand}
-                        onValueChange={setWasherBrand}
+                        value={appliances.washerBrand}
+                        onValueChange={appliances.setWasherBrand}
                     />
-                    { combined ? (
+                    {appliances.combined ? (
                         <Input
                             label="Dryer Brand"
                             placeholder="Brand"
                             variant="bordered"
-                            value={washerBrand}
+                            value={appliances.washerBrand}
                             isReadOnly
                         />
                     ) : (
@@ -140,26 +121,26 @@ const WasherDryerSection: React.FC<WasherDryerSectionProps> = ({
                             label="Dryer Brand"
                             placeholder="Brand"
                             variant="bordered"
-                            value={dryerBrand}
-                            onValueChange={setDryerBrand}
+                            value={appliances.dryerBrand}
+                            onValueChange={appliances.setDryerBrand}
                         />
                     )}
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <ThemeProvider theme={theme}>
                             <DatePicker
                                 label="Washer Date"
-                                value={washerDate}
-                                onChange={(newDate) => setWasherDate(newDate)}
+                                value={appliances.washerDate}
+                                onChange={(newDate) => appliances.setWasherDate(newDate)}
                                 // className='w-full'
                                 />
                         </ThemeProvider>
                     </LocalizationProvider>
-                    { combined ? (
+                    {appliances.combined ? (
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <ThemeProvider theme={theme}>
                                 <DatePicker
                                     label="Dryer Date"
-                                    value={washerDate}
+                                    value={appliances.washerDate}
                                     readOnly
                                 />
                             </ThemeProvider>
@@ -169,8 +150,8 @@ const WasherDryerSection: React.FC<WasherDryerSectionProps> = ({
                             <ThemeProvider theme={theme}>
                                 <DatePicker
                                     label="Dryer Date"
-                                    value={dryerDate}
-                                    onChange={(newDate) => setDryerDate(newDate)}
+                                    value={appliances.dryerDate}
+                                    onChange={(newDate) => appliances.setDryerDate(newDate)}
                                     // className='w-full'
                                 />
                             </ThemeProvider>

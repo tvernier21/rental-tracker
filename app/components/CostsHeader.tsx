@@ -15,7 +15,7 @@ const CostsHeader = () => {
             <AddButton
                 text="Add Cost/Renovation"
                 icon={FaFileInvoiceDollar}
-                onPressModal={onOpen}
+                onPress={onOpen}
             />
             <CostModal 
                 isOpen={isOpen}

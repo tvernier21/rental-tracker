@@ -23,7 +23,7 @@ const PropertiesHeader: React.FC<PropertiesHeaderProps> = ({
             <AddButton
                 text="Add Property"
                 icon={BsHouseAddFill}
-                onPressModal={onOpen}
+                onPress={onOpen}
             />
             <PropertyModal 
                 isOpen={isOpen}

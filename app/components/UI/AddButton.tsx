@@ -1,22 +1,28 @@
+'use client';
+
 import React from "react";
 import { Button } from "@nextui-org/react";
 
 interface AddButtonProps {
     text: string;
     icon: React.ElementType;
-    onPressModal: () => void;
+    onPress: () => void;
+    disabled?: boolean;
 }
 
 const AddButton: React.FC<AddButtonProps> = ({
     text,
     icon: Icon,
-    onPressModal 
+    onPress,
+    disabled
 }) => {
+    console.log("onPress INSIDE", onPress)
     return (
         <Button 
             color="success" 
             endContent={<Icon />}
-            onPress={onPressModal}
+            onPress={onPress}
+            isDisabled={disabled ? disabled : false}
         >
             {text}
         </Button>   
