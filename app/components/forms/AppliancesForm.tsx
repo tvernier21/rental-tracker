@@ -22,7 +22,7 @@ interface AppliancesFormProps {
 }
 
 const AppliancesForm: React.FC<AppliancesFormProps> = ({
-    propertyId 
+    propertyId
 }) => {
     // Heater and Cooling
     const [heaterType, setHeaterType] = useState<string>('');
