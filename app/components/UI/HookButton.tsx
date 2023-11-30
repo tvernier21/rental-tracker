@@ -132,9 +132,9 @@ const HookButton: React.FC<HookButtonProps> = ({
     return (
         <div>  
             <CostModal
-                isOpen={cost_isOpen}
-                onOpenChange={cost_onOpenChange}
-                onClose={cost_onClose}
+                cost_isOpen={cost_isOpen}
+                cost_onOpenChange={cost_onOpenChange}
+                cost_onClose={cost_onClose}
                 propertyId={propertyId}
             />
             <Button

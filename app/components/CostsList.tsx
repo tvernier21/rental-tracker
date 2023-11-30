@@ -22,7 +22,6 @@ const CostsList: React.FC<CostsListProps> = ({
         axios.get(endpoint)
             .then((res) => {
                 setCosts(res.data);
-                console.log(res.data);
             })
             .catch((error) => {
                 toast.error("Costs could not be loaded.",

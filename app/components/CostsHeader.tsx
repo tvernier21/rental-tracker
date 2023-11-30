@@ -18,9 +18,9 @@ const CostsHeader = () => {
                 onPress={onOpen}
             />
             <CostModal 
-                isOpen={isOpen}
-                onOpenChange={onOpenChange}
-                onClose={onClose}
+                cost_isOpen={isOpen}
+                cost_onOpenChange={onOpenChange}
+                cost_onClose={onClose}
             />
         </div>
     );

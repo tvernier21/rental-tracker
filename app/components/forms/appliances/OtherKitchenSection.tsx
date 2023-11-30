@@ -1,13 +1,13 @@
 "use client";
 
-import {
-    Radio,
-    RadioGroup,
-} from "@nextui-org/react";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import {
+    Radio,
+    RadioGroup,
+} from "@nextui-org/react";
 
 import useAppliances from "@/app/hooks/useAppliances";
 
@@ -47,6 +47,7 @@ const theme = createTheme({
 
 const OtherKitchenSection = () => {
     const appliances = useAppliances();
+    
     return(
         <div className="space-y-5 pb-5">
             <p className="font-small">Counter</p>

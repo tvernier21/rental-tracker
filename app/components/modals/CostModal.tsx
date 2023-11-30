@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { toast } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import axios from 'axios';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -27,7 +27,40 @@ import {
 import { FaFileInvoiceDollar } from 'react-icons/fa';
 
 import { isSelectionEmpty } from "@/app/components/UI/SelectHelper";
-import AddButton from '../UI/AddButton';
+import AddButton from "@/app/components/UI/AddButton";
+
+const color = "#D3D3D3";
+const theme = createTheme({
+    components: {
+        MuiIconButton: {
+            styleOverrides: {
+                sizeMedium: {
+                    color
+                }
+            }
+        },
+        MuiOutlinedInput: {
+            styleOverrides: {
+                root: {
+                    color
+                },
+                notchedOutline: {
+                    borderColor: color,
+                }
+            }
+        },
+        MuiInputLabel: {
+            styleOverrides: {
+                root: {
+                    color,
+                    "&.Mui-focused": {
+                        color
+                    }
+                }
+        }
+    }
+}
+});
 
 const costTypes = [
     {
@@ -42,52 +75,17 @@ const costTypes = [
     }
 ];
 
-const color = "#D3D3D3";
-
-const theme = createTheme({
-    components: {
-      MuiIconButton: {
-        styleOverrides: {
-          sizeMedium: {
-            color
-          }
-        }
-      },
-      MuiOutlinedInput: {
-        styleOverrides: {
-          root: {
-            color
-          },
-          notchedOutline: {
-            borderColor: color,
-          }
-        }
-      },
-      MuiInputLabel: {
-        styleOverrides: {
-          root: {
-            color,
-            "&.Mui-focused": {
-              color
-            }
-          }
-        }
-      }
-    }
-});
-
-
 interface CostModalProps {
-    isOpen: boolean;
-    onOpenChange: () => void;
-    onClose: () => void;
+    cost_isOpen: boolean;
+    cost_onOpenChange: () => void;
+    cost_onClose: () => void;
     propertyId?: string;
 }
-  
+
 const CostModal: React.FC<CostModalProps> = ({
-    isOpen,
-    onOpenChange,
-    onClose,
+    cost_isOpen,
+    cost_onOpenChange,
+    cost_onClose,
     propertyId
 }) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -95,6 +93,7 @@ const CostModal: React.FC<CostModalProps> = ({
         label: string;
         value: string;
     }[]>([{label: '', value: ''}]);
+    const [datePickerOpened, setDatePickerOpened] = useState(false);
 
     // Data sent to supabase
     const [costType, setCostType] = useState("costs");
@@ -250,18 +249,22 @@ const CostModal: React.FC<CostModalProps> = ({
                 setOther(false);
             });
     };
-   
+
     return (
         <>
         <Modal 
-            isOpen={isOpen} 
-            onOpenChange={onOpenChange}
+            isOpen={cost_isOpen} 
+            onOpenChange={(isOpen) => {
+                if (!datePickerOpened) {
+                    cost_onOpenChange();
+                }
+            }}
             placement="center"
             backdrop='blur'
             size='5xl'
         >
             <ModalContent>
-            {(onClose) => (
+            {(cost_onClose) => (
                 <>
                 <ModalHeader className="flex flex-col gap-1">
                     New Property
@@ -332,6 +335,8 @@ const CostModal: React.FC<CostModalProps> = ({
                                             label="Date"
                                             value={eventDate}
                                             onChange={(newDate) => setEventDate(newDate)}
+                                            onOpen={() => setDatePickerOpened(true)}
+                                            onClose={() => setDatePickerOpened(false)}
                                             className='w-full'
                                         />
                                     </ThemeProvider>
@@ -452,7 +457,7 @@ const CostModal: React.FC<CostModalProps> = ({
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                        <Button color="danger" variant="flat" onPress={onClose}>
+                        <Button color="danger" variant="flat" onPress={cost_onClose}>
                             Cancel
                         </Button>
                         <AddButton 
