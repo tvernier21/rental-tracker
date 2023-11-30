@@ -1,4 +1,4 @@
-import CostsHome from "../../../components/CostsHome"
+import CostsHome from "@/app/components/CostsHome"
 
 export default function Costs() {
   return (

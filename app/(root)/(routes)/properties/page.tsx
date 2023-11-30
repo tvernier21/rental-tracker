@@ -1,4 +1,4 @@
-import PropertiesHome from "../../../components/PropertiesHome";
+import PropertiesHome from "@/app/components/PropertiesHome";
 
 export default function Properties() {
   return (

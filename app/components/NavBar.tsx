@@ -63,7 +63,6 @@ const NavBar = () => {
                             color="foreground" 
                             href="/contracts"
                             as={NextLink}
-                            isDisabled
                     >
                         Contracts
                     </Link>
