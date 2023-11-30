@@ -32,11 +32,9 @@ const ContractsTable: React.FC<ContractsTableProps> = ({
         if (!isLoading) return;
 
         let endpoint = "/api/contracts";
-        console.log("PROPERTYID", propertyId);
         if (propertyId) {
             endpoint.concat(`/${propertyId}/`);
         }
-        console.log(endpoint);
         axios.get(endpoint)
             .then((res) => {
                 setContracts(res.data);

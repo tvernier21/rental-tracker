@@ -5,7 +5,6 @@ import { getAuth } from "@clerk/nextjs/server";
 import getSupabaseClient from "@/app/lib/supabaseClient"
 
 export async function GET(req: NextRequest) {
-    console.log('general contracts api');
     const { getToken, userId } = getAuth(req);
     if (!userId) {
         throw new Error("Unauthorized (401)");

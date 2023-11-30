@@ -12,7 +12,6 @@ export async function GET(
     req: NextRequest,
     { params }: { params: IParams }
 ) {
-    console.log('property api');
     const { getToken, userId } = getAuth(req);
     if (!userId) {
         throw new Error("Unauthorized (401)");
