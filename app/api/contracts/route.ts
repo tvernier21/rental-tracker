@@ -19,9 +19,9 @@ export async function GET(req: NextRequest) {
         .select(`
             id,
             properties:property_id (street_address),
-            type,
             rent,
-            active,
+            pet_deposit,
+            pet_refundable,
             start_date,
             end_date
         `)
@@ -31,11 +31,12 @@ export async function GET(req: NextRequest) {
         return {
             key: contract.id,
             address: contract.properties.street_address,
-            type: contract.type,
             rent: contract.rent,
-            active: contract.active,
+            pet_deposit: contract.pet_deposit,
+            pet_refundable: contract.pet_refundable,
             start_date: contract.start_date,
             end_date: contract.end_date,
+            edit: false,
         };
     });
     

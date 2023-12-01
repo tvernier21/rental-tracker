@@ -12,6 +12,7 @@ import {
     TableCell, 
     getKeyValue,
     Spinner,
+    Button,
 } from "@nextui-org/react";
 import { FcApproval } from "react-icons/fc";
 
@@ -63,10 +64,27 @@ const ContractsTable: React.FC<ContractsTableProps> = ({
                 return (
                     value === true ? <FcApproval /> : <></>
                 );
-            case "rent":
+            case "pet_refundable":
                 return (
-                    // Convert to string and add dollar sign at the beginnign
-                    "$" + value.toString()
+                    value === true ? <FcApproval /> : <></>
+                );
+            case "rent":
+                if (value === null) {
+                    return "N/A";
+                } else {
+                    return "$" + value.toString();
+                }
+            case "pet_deposit":
+                if (value === null) {
+                    return "N/A";
+                } else {
+                    return "$" + value.toString();
+                }
+            case "edit":
+                return (
+                    <Button color='primary'>
+                        Edit
+                    </Button>
                 );
             default:
                 return value;
@@ -75,14 +93,18 @@ const ContractsTable: React.FC<ContractsTableProps> = ({
 
     return (
         <div>
-            <Table aria-label="Properties Contracts">
+            <Table 
+                fullWidth={true}
+                aria-label="Properties Contracts"
+            >
                 <TableHeader>
                     <TableColumn key="address" align="center">Property</TableColumn>
-                    <TableColumn key="type" align="center">Type</TableColumn>
                     <TableColumn key="rent" align="center">Rent</TableColumn>
-                    <TableColumn key="active" align="center">Active</TableColumn>
+                    <TableColumn key="pet_deposit" align="center">Pet Deposit</TableColumn>
+                    <TableColumn key="pet_refundable" align="center">Refundable</TableColumn>
                     <TableColumn key="start_date" align="center">Start Date</TableColumn>
                     <TableColumn key="end_date" align="center">End Date</TableColumn>
+                    <TableColumn key="edit" align="center">Edit</TableColumn>
                 </TableHeader>
                 <TableBody 
                     items={contracts}
