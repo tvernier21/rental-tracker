@@ -41,10 +41,15 @@ export async function GET(
         .eq("user_id", userId)
         .eq("property_id", propertyId);
 
+    if (!contracts) {
+        // return empty array
+        return NextResponse.json([]);
+    }
+
     const formattedContracts = contracts.map((contract) => {
         return {
             key: contract.id,
-            address: contract.properties.street_address,
+            address: contract.properties[0].street_address,
             rent: contract.rent,
             pet_deposit: contract.pet_deposit,
             pet_refundable: contract.pet_refundable,
