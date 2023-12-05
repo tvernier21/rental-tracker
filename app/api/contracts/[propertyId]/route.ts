@@ -31,7 +31,9 @@ export async function GET(
         .from("contracts")
         .select(`
             id,
-            properties:property_id (street_address),
+            ...properties (
+                street_address
+            ),
             rent,
             pet_deposit,
             pet_refundable,
@@ -46,10 +48,19 @@ export async function GET(
         return NextResponse.json([]);
     }
 
-    const formattedContracts = contracts.map((contract) => {
+    const formattedContracts: {
+        key: string;
+        address: string;
+        rent: number;
+        pet_deposit: number;
+        pet_refundable: number;
+        start_date: string;
+        end_date: string;
+        edit: boolean;
+    }[] = contracts.map((contract: any) => {
         return {
             key: contract.id,
-            address: contract.properties[0].street_address,
+            address: contract.street_address,
             rent: contract.rent,
             pet_deposit: contract.pet_deposit,
             pet_refundable: contract.pet_refundable,
@@ -58,6 +69,6 @@ export async function GET(
             edit: false,
         };
     });
-
+    
     return NextResponse.json(formattedContracts);
 }

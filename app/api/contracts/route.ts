@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server'
 import { getAuth } from "@clerk/nextjs/server";
 
 import getSupabaseClient from "@/app/lib/supabaseClient"
+import { log } from 'console';
 
 export async function GET(req: NextRequest) {
     const { getToken, userId } = getAuth(req);
@@ -18,24 +19,35 @@ export async function GET(req: NextRequest) {
         .from("contracts")
         .select(`
             id,
-            properties:property_id (street_address),
+            ...properties (
+                street_address
+            ),
             rent,
             pet_deposit,
             pet_refundable,
             start_date,
             end_date
         `)
-        .eq("user_id", userId)
+        .eq("user_id", userId);
 
     if (!contracts) {
         // return empty array
         return NextResponse.json([]);
     }
 
-    const formattedContracts = contracts.map((contract) => {
+    const formattedContracts: {
+        key: string;
+        address: string;
+        rent: number;
+        pet_deposit: number;
+        pet_refundable: number;
+        start_date: string;
+        end_date: string;
+        edit: boolean;
+    }[] = contracts.map((contract: any) => {
         return {
             key: contract.id,
-            address: contract.properties[0].street_address,
+            address: contract.street_address,
             rent: contract.rent,
             pet_deposit: contract.pet_deposit,
             pet_refundable: contract.pet_refundable,
