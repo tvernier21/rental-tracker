@@ -14,9 +14,11 @@ import {
     Spinner,
     Button,
     User,
+    useDisclosure,
 } from "@nextui-org/react";
 import { FcApproval } from "react-icons/fc";
 
+import TenantModal from "@/app/components/modals/TenantModal";
 
 interface TenantsTableProps {
     propertyId?: string;
@@ -29,6 +31,20 @@ const TenantsTable: React.FC<TenantsTableProps> = ({
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [tenants, setTenants] = useState<any[]>([]);
+    const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
+
+    const [prevId, setPrevId] = useState<string>();
+    const [prevName, setPrevName] = useState<string>();
+    const [prevEmail, setPrevEmail] = useState<string>();
+    const [prevPhone, setPrevPhone] = useState<string>();
+
+    const handleEditClick = (item: any): void => {
+        setPrevId(getKeyValue(item, "id"));
+        setPrevName(getKeyValue(item, "name"));
+        setPrevEmail(getKeyValue(item, "email"));
+        setPrevPhone(getKeyValue(item, "phone"));
+        onOpen();
+    }
 
     useEffect(() => {
         if (!isLoading) return;
@@ -69,6 +85,17 @@ const TenantsTable: React.FC<TenantsTableProps> = ({
                         }}
                     />
                 );
+            case "edit":
+                return (
+                    <div>
+                        <Button 
+                            color='primary'
+                            onPress={() => handleEditClick(item)}
+                        >
+                            Edit
+                        </Button>
+                    </div>
+                );
             default:
                 return value;
         }
@@ -76,6 +103,15 @@ const TenantsTable: React.FC<TenantsTableProps> = ({
 
     return(
         <div>
+            <TenantModal
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}
+                onClose={onClose}
+                prevId={prevId}
+                prevName={prevName}
+                prevEmail={prevEmail}
+                prevPhone={prevPhone}
+            />
             <Table 
                 fullWidth={true}
                 aria-label="Properties Contracts"
@@ -84,6 +120,7 @@ const TenantsTable: React.FC<TenantsTableProps> = ({
                     <TableColumn key="name" align="center">Name</TableColumn>
                     <TableColumn key="email" align="center">Email</TableColumn>
                     <TableColumn key="phone" align="center">Phone</TableColumn>
+                    <TableColumn key="edit" align="center">Edit</TableColumn>
                 </TableHeader>
                 <TableBody 
                     items={tenants}

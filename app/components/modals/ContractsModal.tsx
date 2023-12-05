@@ -13,38 +13,43 @@ import {
 } from "@nextui-org/react";
 
 
-interface TenantModalProps {
+interface ContractsModalProps {
     isOpen: boolean;
     onOpenChange: () => void;
     onClose: () => void;
-    prevId?: string;
-    prevName?: string;
-    prevEmail?: string;
-    prevPhone?: string;
+    // prevId?: string;
+    // prevName?: string;
+    // prevEmail?: string;
+    // prevPhone?: string;
 }
   
-const TenantModal: React.FC<TenantModalProps> = ({
+const ContractsModal: React.FC<ContractsModalProps> = ({
     isOpen,
     onOpenChange,
     onClose,
-    prevId,
-    prevName,
-    prevEmail,
-    prevPhone,
+    // prevId,
+    // prevName,
+    // prevEmail,
+    // prevPhone,
 }) => {
-    const [name, setName] = useState(prevName || "");
-    const [email, setEmail] = useState(prevEmail || "");
-    const [phone, setPhone] = useState(prevPhone || "");
-    const isUpdate = prevId || prevName || prevEmail || prevPhone ? true : false;
+    const [rent, setRent] = useState<string>();
+    const [petDeposit, setPetDeposit] = useState<string>();
+    const [petRefundable, setPetRefundable] = useState<boolean>();
+    const [startDate, setStartDate] = useState<string>();
+    const [endDate, setEndDate] = useState<string>();
 
-    useEffect(() => {
-        setName(prevName || "");
-        setEmail(prevEmail || "");
-        setPhone(prevPhone || "");
-    }, [prevId, prevName, prevEmail, prevPhone]);
+    // useEffect(() => {
+    //     setName(prevName || "");
+    //     setEmail(prevEmail || "");
+    //     setPhone(prevPhone || "");
+    // }, [prevId, prevName, prevEmail, prevPhone]);
 
     const handleSubmit = async () => {
-        if (name === "" || (email === "" && phone === "")) {
+        if (startDate === undefined || 
+            endDate === undefined || 
+            rent === undefined ||
+            petDeposit === undefined ||
+            petRefundable === undefined) {
             toast.error("Please fill out all required fields.",
                 {
                     style: {
@@ -58,24 +63,26 @@ const TenantModal: React.FC<TenantModalProps> = ({
         }
         
         let postData = {
-            name: name,
-            email: email,
-            phone: phone,
+            start_date: startDate,
+            end_date: endDate,
+            rent: rent,
+            pet_deposit: petDeposit,
+            pet_refundable: petRefundable,
         };
-        if (isUpdate) {
-            postData = {
-                ...postData,
-                id: prevId,
-            } as typeof postData;
-        }
+        // if (isUpdate) {
+        //     postData = {
+        //         ...postData,
+        //         id: prevId,
+        //     } as typeof postData;
+        // }
 
         axios.post('/api/tenants', postData)
             .then((res) => {
                 // Check for the status code in the response
                 let message = "Tenant added successfully."
-                if (prevId) {
-                    message = "Tenant updated successfully."
-                }
+                // if (prevId) {
+                //     message = "Tenant updated successfully."
+                // }
                 toast.success(message,
                     {
                         style: {
@@ -101,9 +108,11 @@ const TenantModal: React.FC<TenantModalProps> = ({
             .finally(() => {
                 onClose();
                 // Reset the form
-                setName("");
-                setEmail("");
-                setPhone("");
+                setRent(undefined);
+                setPetDeposit(undefined);
+                setPetRefundable(undefined);
+                setStartDate(undefined);
+                setEndDate(undefined);
             });
     };
 
@@ -123,35 +132,29 @@ const TenantModal: React.FC<TenantModalProps> = ({
                 </ModalHeader>
                 <ModalBody>
                     <Input
-                        label="Name"
+                        label="Rent"
                         placeholder="full name"
                         variant="bordered"
                         isRequired
-                        value={name}
-                        onValueChange={setName}
+                        value={rent}
+                        onValueChange={setRent}
                     />
-                    <Divider />
                     <Input
-                        label="Email"
+                        label="Pet Deposit"
                         placeholder="email"
                         variant="bordered"
-                        value={email}
-                        onValueChange={setEmail}
-                    />
-                    <Input
-                        label="Phone Number"
-                        placeholder="phone"
-                        variant="bordered"
-                        value={phone}
-                        onValueChange={setPhone}
+                        isRequired
+                        value={petDeposit}
+                        onValueChange={setPetDeposit}
                     />
                 </ModalBody>
                 <ModalFooter>
                         <Button color="danger" variant="flat" onPress={onClose}>
                             Cancel
                         </Button>
-                        <Button color={prevId ? "success" : "primary"} onPress={handleSubmit}>
-                            {prevId ? "Update" : "Add"}
+                        <Button color="primary" onPress={handleSubmit}>
+                            {/* {prevId ? "Update" : "Add"} */}
+                            Add
                         </Button>
                 </ModalFooter>
                 </>
@@ -162,4 +165,4 @@ const TenantModal: React.FC<TenantModalProps> = ({
     );
 };
 
-export default TenantModal;
+export default ContractsModal;

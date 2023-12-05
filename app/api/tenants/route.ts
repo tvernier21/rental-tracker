@@ -28,6 +28,7 @@ export async function GET(req: NextRequest) {
     const formattedTenants = tenants.map((tenant) => {
         return {
             key: tenant.id,
+            id: tenant.id,
             name: tenant.name,
             email: tenant.email,
             phone: tenant.phone,
@@ -41,10 +42,11 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
     const { getToken, userId } = getAuth(req);
-    const { 
+    const {
         name,
         email,
         phone,
+        id,
     } = await req.json();
 
     if (!userId) {
@@ -58,6 +60,22 @@ export async function POST(req: NextRequest) {
         template: "supabase",
     });
     const supabase = getSupabaseClient(supabaseAccessToken);
+    if (id) {
+        const { error } = await supabase
+            .from("tenants")
+            .update({
+                name: name,
+                email: email,
+                phone: phone,
+            })
+            .eq("id", id);
+
+        if (error) {
+            throw new Error(error.message);
+        }
+
+        return NextResponse.json({ success: true });
+    }
     const { error } = await supabase
         .from("tenants")
         .insert({
