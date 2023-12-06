@@ -18,7 +18,7 @@ const CostCard: React.FC<CostCardProps> = ({
 }) => {    
     return (
         <Card 
-            className="w-[1200px] h-[100px] space-x-5 p-4 pl-6 pr-6 bg-default-100" 
+            className="w-[800px] h-[100px] space-x-5 p-4 pl-6 pr-6 bg-default-100" 
             radius="lg"
         >
             <div className="flex flex-row space-x-5">
@@ -56,7 +56,7 @@ const LoadingCostCard = () => {
 
     return (
         <Card 
-            className="w-[1200px] h-[100px] space-x-5 p-4 pl-6 pr-6 bg-default-100" 
+            className="w-[800px] h-[100px] space-x-5 p-4 pl-6 pr-6 bg-default-100" 
             radius="lg"
         >
             <div className="flex flex-row space-x-5">

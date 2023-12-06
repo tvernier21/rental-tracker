@@ -1,5 +1,6 @@
 import { HorizontalSeparator } from "@/app/components/UI/Separator";
 import HookButton from "@/app/components/UI/HookButton";
+import CostsList from "@/app/components/CostsList";
 
 const PropertyCostsPage = ({ params }: { params: { propertyId: string } }) => {
     return (
@@ -21,7 +22,9 @@ const PropertyCostsPage = ({ params }: { params: { propertyId: string } }) => {
                 </div>
             </div>
             <HorizontalSeparator />
-            {/* <AppliancesForm propertyId={params.proper tyId} /> */}
+            <CostsList 
+                propertyId={params.propertyId}
+            />
         </div>
     );
 };
