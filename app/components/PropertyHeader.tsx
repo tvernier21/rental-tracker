@@ -47,7 +47,7 @@ const PropertyHeader: React.FC<PropertyHeaderProps> = ({
             .finally(() => {
                 setIsLoading(false);
         });
-    }, [isLoading]);
+    }, [isLoading, propertyId]);
 
     return (
         <div className='space-y-6'>

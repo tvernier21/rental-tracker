@@ -138,7 +138,7 @@ const ContractsModal: React.FC<ContractsModalProps> = ({
 
     useEffect(() => {
         if (propertyId) setProperty(new Set([properties[0].value]));
-    }, [properties]);
+    }, [properties, propertyId]);
 
     // GET TENANTS
     useEffect(() => {
@@ -231,11 +231,15 @@ const ContractsModal: React.FC<ContractsModalProps> = ({
             .finally(() => {
                 onClose();
                 // Reset the form
+                setProperty(new Set([]));
+                setTenant(new Set([]));
                 setRent("");
                 setPetDeposit("");
                 setPetRefundable(false);
                 setStartDate(dayjs());
                 setEndDate(dayjs());
+                // Refresh the page
+                window.location.reload();
             });
     };
 

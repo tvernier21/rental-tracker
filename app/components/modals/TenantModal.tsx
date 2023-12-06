@@ -104,6 +104,8 @@ const TenantModal: React.FC<TenantModalProps> = ({
                 setName("");
                 setEmail("");
                 setPhone("");
+                // Refresh the page
+                window.location.reload();
             });
     };
 

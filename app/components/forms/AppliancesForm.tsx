@@ -93,7 +93,7 @@ const AppliancesForm: React.FC<AppliancesFormProps> = ({
                     appliances.setIsLoading(false);
                 });
         };
-    }, [appliances.isLoading, propertyId, appliances.setIsLoading]);
+    }, [appliances, propertyId]);
 
     return (
         <div className="space-y-8">

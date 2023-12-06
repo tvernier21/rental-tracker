@@ -37,7 +37,7 @@ const ContractsTable: React.FC<ContractsTableProps> = ({
 
     const [prevData, setPrevData] = useState<any>();
 
-    const handleEditClick = (item: any): void => {
+    const handleEditClick = useCallback((item: any): void => {
         setPrevData({
             id: getKeyValue(item, "id"),
             property_id: getKeyValue(item, "property_id"),
@@ -50,7 +50,7 @@ const ContractsTable: React.FC<ContractsTableProps> = ({
             tenants: getKeyValue(item, "tenants"),
         })
         onOpen();
-    }
+    }, [onOpen]);
 
     useEffect(() => {
         if (!isLoading) return;
@@ -78,7 +78,7 @@ const ContractsTable: React.FC<ContractsTableProps> = ({
             .finally(() => {
                 setIsLoading(false);
             });
-    }, [isLoading]);
+    }, [isLoading, propertyId]);
 
     const renderCell = useCallback((item: any, columnKey: any) => {
         const value = getKeyValue(item, columnKey);
@@ -113,8 +113,8 @@ const ContractsTable: React.FC<ContractsTableProps> = ({
             case "tenants_info":
                 return (
                     <AvatarGroup max={3}>
-                        {value.map((tenant: any) => (
-                            <Tooltip color="secondary" content={
+                        {value.map((tenant: any, i: number) => (
+                            <Tooltip key={i} color="secondary" content={
                                 <div className="px-1 py-2">
                                     <div className="text-small font-bold">{tenant.name}</div>
                                     <div className="text-tiny">{tenant.phone}</div>
@@ -141,7 +141,7 @@ const ContractsTable: React.FC<ContractsTableProps> = ({
             default:
                 return value;
         }
-    }, []);
+    }, [handleEditClick]);
 
     return (
         <div>

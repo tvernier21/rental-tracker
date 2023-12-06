@@ -37,7 +37,7 @@ const PropertiesList: React.FC<PropertiesListProps> = ({
             .finally(() => {
                 setIsLoading(false);
         });
-    }, [isLoading]);
+    }, [isLoading, setProperties]);
 
     return (
         <div>

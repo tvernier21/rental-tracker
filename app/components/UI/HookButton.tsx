@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { 
@@ -41,7 +41,7 @@ const HookButton: React.FC<HookButtonProps> = ({
         onClose: cost_onClose
     } = useDisclosure();
 
-    const handleSubmit = async () => {
+    const handleSubmit = useCallback(() => {
         if (appliancesRef.current.isLoading) return;
         const postData = {
             heat_type: appliancesRef.current.heaterType,
@@ -112,7 +112,7 @@ const HookButton: React.FC<HookButtonProps> = ({
                     }
                 );
             });
-    };
+    }, [propertyId]);
     
     useEffect(() => {
         setIsLoading(true);
@@ -127,7 +127,7 @@ const HookButton: React.FC<HookButtonProps> = ({
             setOnPress(() => handleSubmit);
             setIsLoading(false);
         }
-    }, [type]);
+    }, [type, cost_onOpen, handleSubmit]);
 
     return (
         <div>  

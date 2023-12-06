@@ -38,13 +38,13 @@ const TenantsTable: React.FC<TenantsTableProps> = ({
     const [prevEmail, setPrevEmail] = useState<string>();
     const [prevPhone, setPrevPhone] = useState<string>();
 
-    const handleEditClick = (item: any): void => {
+    const handleEditClick = useCallback((item: any): void => {
         setPrevId(getKeyValue(item, "id"));
         setPrevName(getKeyValue(item, "name"));
         setPrevEmail(getKeyValue(item, "email"));
         setPrevPhone(getKeyValue(item, "phone"));
         onOpen();
-    }
+    }, [onOpen]);
 
     useEffect(() => {
         if (!isLoading) return;
@@ -71,7 +71,7 @@ const TenantsTable: React.FC<TenantsTableProps> = ({
             .finally(() => {
                 setIsLoading(false);
             });
-    }, [isLoading]);
+    }, [isLoading, propertyId]);
 
     const renderCell = useCallback((item: any, columnKey: any) => {
         const value = getKeyValue(item, columnKey);
@@ -99,7 +99,7 @@ const TenantsTable: React.FC<TenantsTableProps> = ({
             default:
                 return value;
         }
-    }, []);
+    }, [handleEditClick]);
 
     return(
         <div>

@@ -152,7 +152,7 @@ const CostModal: React.FC<CostModalProps> = ({
 
     useEffect(() => {
         if (propertyId) setProperty(new Set([properties[0].value]));
-    }, [properties]);
+    }, [properties, propertyId]);
 
 
     const handleSubmit = async () => {
@@ -223,6 +223,7 @@ const CostModal: React.FC<CostModalProps> = ({
                 );
             })
             .finally(() => {
+                cost_onClose();
                 setProperty(new Set([]));
                 setEventDate(dayjs());
                 setPrice("");
@@ -247,6 +248,8 @@ const CostModal: React.FC<CostModalProps> = ({
                 setWater(false);
                 setGas(false);
                 setOther(false);
+                // Refresh the page
+                window.location.reload();
             });
     };
 
