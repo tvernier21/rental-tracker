@@ -16,7 +16,7 @@ const PropertyContractsPage = ({ params }: { params: { propertyId: string } }) =
                 </div>
                 <div className="pt-1">
                     <HookButton 
-                        type="costs" 
+                        type="contracts" 
                         propertyId={params.propertyId}
                     />
                 </div>

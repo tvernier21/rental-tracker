@@ -10,9 +10,13 @@ import {
 import { FaFileInvoiceDollar } from 'react-icons/fa';
 import { FiLoader } from 'react-icons/fi';
 import { BiFridge } from 'react-icons/bi';
+import { IoMdPersonAdd } from "react-icons/io";
+import { FaRegFileLines } from "react-icons/fa6";
 
 import CostModal from '@/app/components/modals/CostModal';
 import useAppliances from '@/app/hooks/useAppliances';
+import TenantModal from '@/app/components/modals/TenantModal';
+import ContractsModal from '@/app/components/modals/ContractsModal';
 
 interface HookButtonProps {
     type: string;
@@ -39,6 +43,20 @@ const HookButton: React.FC<HookButtonProps> = ({
         onOpen: cost_onOpen, 
         onOpenChange: cost_onOpenChange, 
         onClose: cost_onClose
+    } = useDisclosure();
+
+    const {
+        isOpen: tenant_isOpen,
+        onOpen: tenant_onOpen,
+        onOpenChange: tenant_onOpenChange,
+        onClose: tenant_onClose
+    } = useDisclosure();
+
+    const {
+        isOpen: contract_isOpen,
+        onOpen: contract_onOpen,
+        onOpenChange: contract_onOpenChange,
+        onClose: contract_onClose
     } = useDisclosure();
 
     const handleSubmit = useCallback(() => {
@@ -126,8 +144,18 @@ const HookButton: React.FC<HookButtonProps> = ({
             setIcon(<BiFridge />);
             setOnPress(() => handleSubmit);
             setIsLoading(false);
+        } else if (type === "tenants") {
+            setText("Add Tenant");
+            setIcon(<IoMdPersonAdd />);
+            setOnPress(() => tenant_onOpen);
+            setIsLoading(false);
+        } else if (type === "contracts") {
+            setText("Add Contract");
+            setIcon(<FaRegFileLines />);
+            setOnPress(() => contract_onOpen);
+            setIsLoading(false);
         }
-    }, [type, cost_onOpen, handleSubmit]);
+    }, [type, cost_onOpen, tenant_onOpen, contract_onOpen, handleSubmit]);
 
     return (
         <div>  
@@ -135,6 +163,17 @@ const HookButton: React.FC<HookButtonProps> = ({
                 cost_isOpen={cost_isOpen}
                 cost_onOpenChange={cost_onOpenChange}
                 cost_onClose={cost_onClose}
+                propertyId={propertyId}
+            />
+            <TenantModal
+                isOpen={tenant_isOpen}
+                onOpenChange={tenant_onOpenChange}
+                onClose={tenant_onClose}
+            />
+            <ContractsModal
+                isOpen={contract_isOpen}
+                onOpenChange={contract_onOpenChange}
+                onClose={contract_onClose}
                 propertyId={propertyId}
             />
             <Button
