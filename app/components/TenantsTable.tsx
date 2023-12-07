@@ -15,8 +15,11 @@ import {
     Button,
     User,
     useDisclosure,
+    Dropdown, 
+    DropdownTrigger, 
+    DropdownMenu, 
+    DropdownItem,
 } from "@nextui-org/react";
-import { FcApproval } from "react-icons/fc";
 
 import TenantModal from "@/app/components/modals/TenantModal";
 
@@ -38,12 +41,40 @@ const TenantsTable: React.FC<TenantsTableProps> = ({
     const [prevEmail, setPrevEmail] = useState<string>();
     const [prevPhone, setPrevPhone] = useState<string>();
 
-    const handleEditClick = useCallback((item: any): void => {
-        setPrevId(getKeyValue(item, "id"));
-        setPrevName(getKeyValue(item, "name"));
-        setPrevEmail(getKeyValue(item, "email"));
-        setPrevPhone(getKeyValue(item, "phone"));
-        onOpen();
+    const handleDropdownClick = useCallback((key: any, item: any): void => {
+        if (key === "edit") {
+            setPrevId(getKeyValue(item, "id"));
+            setPrevName(getKeyValue(item, "name"));
+            setPrevEmail(getKeyValue(item, "email"));
+            setPrevPhone(getKeyValue(item, "phone"));
+            onOpen();
+        } else if (key === "delete") {
+            // const contractId = getKeyValue(item, "id");
+            // axios.delete(`/api/contracts/${contractId}`)
+            //     .then((res) => {
+            //         toast.success("Contract deleted successfully.",
+            //             {
+            //                 style: {
+            //                     borderRadius: '10px',
+            //                     background: '#333',
+            //                     color: '#fff',
+            //                 },
+            //             }
+            //         );
+            //         setIsLoading(true);
+            //     })
+            //     .catch((error) => {
+            //         toast.error("Contract could not be deleted.",
+            //             {
+            //                 style: {
+            //                     borderRadius: '10px',
+            //                     background: '#333',
+            //                     color: '#fff',
+            //                 },
+            //             }
+            //         );
+            //     });
+        }
     }, [onOpen]);
 
     useEffect(() => {
@@ -87,19 +118,33 @@ const TenantsTable: React.FC<TenantsTableProps> = ({
                 );
             case "edit":
                 return (
-                    <div>
-                        <Button 
-                            color='primary'
-                            onPress={() => handleEditClick(item)}
+                    <Dropdown>
+                        <DropdownTrigger>
+                            <Button 
+                                color="default"
+                                variant="faded"
+                                className="capitalize"
+                            >
+                                Edit
+                            </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu 
+                            aria-label="Dropdown Variants"
+                            color="default"
+                            variant="faded"
+                            onAction={(key) => handleDropdownClick(key, item)}
                         >
-                            Edit
-                        </Button>
-                    </div>
+                            <DropdownItem key="edit">Edit tenant</DropdownItem>
+                            <DropdownItem key="delete" className="text-danger" color="danger">
+                                Delete tenant
+                            </DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
                 );
             default:
                 return value;
         }
-    }, [handleEditClick]);
+    }, [handleDropdownClick]);
 
     return(
         <div>

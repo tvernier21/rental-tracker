@@ -17,6 +17,10 @@ import {
     AvatarGroup,
     Avatar,
     Tooltip,
+    Dropdown, 
+    DropdownTrigger, 
+    DropdownMenu, 
+    DropdownItem,
 } from "@nextui-org/react";
 import { FcApproval } from "react-icons/fc";
 
@@ -37,19 +41,47 @@ const ContractsTable: React.FC<ContractsTableProps> = ({
 
     const [prevData, setPrevData] = useState<any>();
 
-    const handleEditClick = useCallback((item: any): void => {
-        setPrevData({
-            id: getKeyValue(item, "id"),
-            property_id: getKeyValue(item, "property_id"),
-            address: getKeyValue(item, "address"),
-            rent: getKeyValue(item, "rent"),
-            pet_deposit: getKeyValue(item, "pet_deposit"),
-            pet_refundable: getKeyValue(item, "pet_refundable"),
-            start_date: getKeyValue(item, "start_date"),
-            end_date: getKeyValue(item, "end_date"),
-            tenants: getKeyValue(item, "tenants"),
-        })
-        onOpen();
+    const handleDropdownClick = useCallback((key: any, item: any): void => {
+        if (key === "edit") {
+            setPrevData({
+                id: getKeyValue(item, "id"),
+                property_id: getKeyValue(item, "property_id"),
+                address: getKeyValue(item, "address"),
+                rent: getKeyValue(item, "rent"),
+                pet_deposit: getKeyValue(item, "pet_deposit"),
+                pet_refundable: getKeyValue(item, "pet_refundable"),
+                start_date: getKeyValue(item, "start_date"),
+                end_date: getKeyValue(item, "end_date"),
+                tenants: getKeyValue(item, "tenants"),
+            })
+            onOpen();
+        } else if (key === "delete") {
+            // const contractId = getKeyValue(item, "id");
+            // axios.delete(`/api/contracts/${contractId}`)
+            //     .then((res) => {
+            //         toast.success("Contract deleted successfully.",
+            //             {
+            //                 style: {
+            //                     borderRadius: '10px',
+            //                     background: '#333',
+            //                     color: '#fff',
+            //                 },
+            //             }
+            //         );
+            //         setIsLoading(true);
+            //     })
+            //     .catch((error) => {
+            //         toast.error("Contract could not be deleted.",
+            //             {
+            //                 style: {
+            //                     borderRadius: '10px',
+            //                     background: '#333',
+            //                     color: '#fff',
+            //                 },
+            //             }
+            //         );
+            //     });
+        }
     }, [onOpen]);
 
     useEffect(() => {
@@ -130,17 +162,33 @@ const ContractsTable: React.FC<ContractsTableProps> = ({
                 )
             case "edit":
                 return (
-                    <Button 
-                        color='primary'
-                        onPress={() => handleEditClick(item)}    
-                    >
-                        Edit
-                    </Button>
+                    <Dropdown>
+                        <DropdownTrigger>
+                            <Button 
+                                color="default"
+                                variant="faded"
+                                className="capitalize"
+                            >
+                                Edit
+                            </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu 
+                            aria-label="Dropdown Variants"
+                            color="default"
+                            variant="faded"
+                            onAction={(key) => handleDropdownClick(key, item)}
+                        >
+                            <DropdownItem key="edit">Edit contract</DropdownItem>
+                            <DropdownItem key="delete" className="text-danger" color="danger">
+                                Delete contract
+                            </DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
                 );
             default:
                 return value;
         }
-    }, [handleEditClick]);
+    }, [handleDropdownClick]);
 
     return (
         <div>
@@ -162,7 +210,7 @@ const ContractsTable: React.FC<ContractsTableProps> = ({
                     <TableColumn key="start_date" align="center">Start Date</TableColumn>
                     <TableColumn key="end_date" align="center">End Date</TableColumn>
                     <TableColumn key="tenants_info" align="center">Tenants</TableColumn>
-                    <TableColumn key="edit" align="center">Edit</TableColumn>
+                    <TableColumn key="edit" align="center"> </TableColumn>
                 </TableHeader>
                 <TableBody 
                     items={contracts}
