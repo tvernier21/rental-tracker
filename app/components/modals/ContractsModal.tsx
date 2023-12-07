@@ -22,7 +22,7 @@ import {
 } from "@nextui-org/react";
 
 import { isSelectionEmpty } from "@/app/components/UI/SelectHelper";
-import AddButton from "@/app/components/UI/AddButton";
+import { stringify } from "querystring";
 
 const color = "#D3D3D3";
 const theme = createTheme({
@@ -99,8 +99,9 @@ const ContractsModal: React.FC<ContractsModalProps> = ({
         if (isUpdate) {
             setProperty(new Set([prevData.property_id]));
             setTenant(new Set(prevData.tenants));
-            setRent(prevData.rent);
-            setPetDeposit(prevData.pet_deposit);
+            // if prevData.rent is undefined, set it to an empty string
+            setRent(prevData.rent ? prevData.rent.toString() : "");
+            setPetDeposit(prevData.pet_deposit ? prevData.pet_deposit.toString() : "");
             setPetRefundable(prevData.pet_refundable);
             setStartDate(dayjs(prevData.start_date));
             setEndDate(dayjs(prevData.end_date));
@@ -187,8 +188,9 @@ const ContractsModal: React.FC<ContractsModalProps> = ({
             tenants: Array.from(tenant),
             start_date: startDate,
             end_date: endDate,
-            rent: rent,
-            pet_deposit: petDeposit,
+            // if rent is an empty string, set it to undefined
+            rent: rent === "" ? undefined : parseFloat(rent),
+            pet_deposit: petDeposit === "" ? undefined : parseFloat(petDeposit),
             pet_refundable: petRefundable,
             type: "lease"
         };
@@ -260,7 +262,7 @@ const ContractsModal: React.FC<ContractsModalProps> = ({
             {(onClose) => (
                 <>
                 <ModalHeader className="flex flex-col gap-1">
-                    New Property
+                    New Contract
                 </ModalHeader>
                 <ModalBody>
                     <Select

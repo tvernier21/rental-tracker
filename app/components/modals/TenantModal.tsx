@@ -121,7 +121,7 @@ const TenantModal: React.FC<TenantModalProps> = ({
             {(onClose) => (
                 <>
                 <ModalHeader className="flex flex-col gap-1">
-                    New Property
+                    New Tenant
                 </ModalHeader>
                 <ModalBody>
                     <Input

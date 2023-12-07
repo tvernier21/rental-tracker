@@ -270,7 +270,7 @@ const CostModal: React.FC<CostModalProps> = ({
             {(cost_onClose) => (
                 <>
                 <ModalHeader className="flex flex-col gap-1">
-                    New Property
+                    New Cost/Renovation
                 </ModalHeader>
                 <ModalBody>
                     <div className="flex flex-col justify-center space-y-5">

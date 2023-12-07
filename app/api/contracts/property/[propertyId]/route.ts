@@ -40,7 +40,8 @@ export async function GET(
             tenants
         `)
         .eq("user_id", userId)
-        .eq("property_id", propertyId);
+        .eq("property_id", propertyId)
+        .order('end_date', { ascending: false });
 
     if (!contracts) {
         // return empty array
@@ -50,7 +51,7 @@ export async function GET(
     const { data: tenants } = await supabase
         .from("tenants")
         .select("id, name, email, phone, avatar_pathname")
-        .eq("user_id", userId);
+        .eq("user_id", userId)
 
     if (!tenants) {
         // return empty array

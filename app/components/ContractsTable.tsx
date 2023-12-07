@@ -61,7 +61,6 @@ const ContractsTable: React.FC<ContractsTableProps> = ({
         }
         axios.get(endpoint)
             .then((res) => {
-                console.log(res.data);
                 setContracts(res.data);
             })
             .catch((error) => {

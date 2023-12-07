@@ -3,7 +3,6 @@ import type { NextRequest } from 'next/server'
 import { getAuth } from "@clerk/nextjs/server";
 
 import getSupabaseClient from "@/app/lib/supabaseClient"
-import { log } from 'console';
 
 export async function GET(req: NextRequest) {
     const { getToken, userId } = getAuth(req);
@@ -28,7 +27,8 @@ export async function GET(req: NextRequest) {
             end_date,
             tenants
         `)
-        .eq("user_id", userId);
+        .eq("user_id", userId)
+        .order('end_date', { ascending: false });
 
     if (!contracts) {
         // return empty array
@@ -106,18 +106,6 @@ export async function POST(req: NextRequest) {
         throw new Error("Unauthorized (401)");
     }
 
-    console.log("All data", {
-        property_id,
-        tenants,
-        start_date,
-        end_date,
-        rent,
-        pet_deposit,
-        pet_refundable,
-        type,
-        id,
-    })
-    
     const supabaseAccessToken = await getToken({
         template: "supabase",
     });
@@ -128,13 +116,13 @@ export async function POST(req: NextRequest) {
             .from("contracts")
             .update({
                 property_id: property_id,
-                tenants: tenants,
-                start_date: start_date,
-                end_date: end_date,
-                rent: rent,
-                pet_deposit: pet_deposit,
-                pet_refundable: pet_refundable,
-                type: type,
+                tenants: tenants || [],
+                start_date: start_date || null,
+                end_date: end_date || null,
+                rent: rent || null,
+                pet_deposit: pet_deposit || null,
+                pet_refundable: pet_refundable || null,
+                type: type || null, 
             })
             .eq("id", id);
 
