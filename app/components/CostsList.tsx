@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
@@ -18,7 +18,7 @@ const CostsList: React.FC<CostsListProps> = ({
 
     useEffect(() => {
         if (!isLoading) return;
-        const endpoint = propertyId ? `/api/costs/${propertyId}` : '/api/costs';
+        const endpoint = propertyId ? `/api/costs/property/${propertyId}` : '/api/costs';
         axios.get(endpoint)
             .then((res) => {
                 setCosts(res.data);
@@ -55,10 +55,7 @@ const CostsList: React.FC<CostsListProps> = ({
                     {costs.map((cost, i) => (
                         <CostCard
                             key={i}
-                            type={cost.type}
-                            price={cost.price}
-                            date={cost.date}
-                            description={cost.description}
+                            data={cost}
                         />
                     ))}
                 </div>

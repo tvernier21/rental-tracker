@@ -24,10 +24,8 @@ import {
     Checkbox,
     Input
 } from "@nextui-org/react";
-import { FaFileInvoiceDollar } from 'react-icons/fa';
 
 import { isSelectionEmpty } from "@/app/components/UI/SelectHelper";
-import AddButton from "@/app/components/UI/AddButton";
 
 const color = "#D3D3D3";
 const theme = createTheme({
@@ -80,13 +78,15 @@ interface CostModalProps {
     cost_onOpenChange: () => void;
     cost_onClose: () => void;
     propertyId?: string;
+    prevData?: any;
 }
 
 const CostModal: React.FC<CostModalProps> = ({
     cost_isOpen,
     cost_onOpenChange,
     cost_onClose,
-    propertyId
+    propertyId,
+    prevData
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [properties, setProperties] = useState<{
@@ -121,6 +121,36 @@ const CostModal: React.FC<CostModalProps> = ({
     const [water, setWater] = useState(false);
     const [gas, setGas] = useState(false);
     const [other, setOther] = useState(false);
+    const isUpdate = prevData ? true : false;
+
+    useEffect(() => {
+        if (!isUpdate) return;
+        setCostType(prevData.cost_type);
+        setProperty(new Set([prevData.property_id]));
+        setEventDate(dayjs(prevData.date));
+        setDescription(prevData.description);
+        setPrice(prevData.price);
+        setWasherDryer(prevData.washerdryer);
+        setDishwasher(prevData.dishwasher);
+        setAC(prevData.ac);
+        setHeater(prevData.heater);
+        setFridge(prevData.fridge);
+        setOven(prevData.oven);
+        setMicrowave(prevData.microwave);
+        setHardwoodFloors(prevData.hardwood);
+        setCarpet(prevData.carpet);
+        setTile(prevData.tile);
+        setKitchen(prevData.kitchen);
+        setBathroom(prevData.bathroom);
+        setBedroom(prevData.bedroom);
+        setPaint(prevData.paint);
+        setWindows(prevData.windows);
+        setCleaning(prevData.cleaning);
+        setElectricity(prevData.electricity);
+        setWater(prevData.water);
+        setGas(prevData.gas);
+        setOther(prevData.other);
+    }, [isUpdate, prevData]);
 
     useEffect(() => {
         if (!isLoading) return;
@@ -171,7 +201,7 @@ const CostModal: React.FC<CostModalProps> = ({
             return;
         }
         
-        const postData = {
+        let postData = {
             cost_type: costType,
             property_id: Array.from(property)[0],
             date: eventDate.toISOString().split('T')[0],
@@ -198,9 +228,19 @@ const CostModal: React.FC<CostModalProps> = ({
             gas: gas,
             other: other
         };
-        axios.post('/api/costs', postData)
+        if (isUpdate) {
+            postData = {
+                ...postData,
+                id: prevData.id
+            } as typeof postData;
+        }
+        axios.post('/api/costs/', postData)
             .then(() => {
-                toast.success(`${costType} added to property successfully!`,
+                let message = `${costType} added to property successfully!`;
+                if (isUpdate) {
+                    message = `${costType} updated successfully!`;
+                }
+                toast.success(message,
                     {
                         style: {
                             borderRadius: '10px',
@@ -463,11 +503,9 @@ const CostModal: React.FC<CostModalProps> = ({
                         <Button color="danger" variant="flat" onPress={cost_onClose}>
                             Cancel
                         </Button>
-                        <AddButton 
-                            text="Add" 
-                            icon={FaFileInvoiceDollar} 
-                            onPress={handleSubmit}
-                        />
+                        <Button color={isUpdate ? "success" : "primary"} onPress={handleSubmit}>
+                            {isUpdate ? "Update" : "Add"}
+                        </Button>
                 </ModalFooter>
                 </>
             )}

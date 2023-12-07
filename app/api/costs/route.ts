@@ -14,12 +14,19 @@ export async function GET(req: NextRequest) {
         template: "supabase",
     });
     const supabase = getSupabaseClient(supabaseAccessToken);
-    const { data: costs } = await supabase
+    const { error, data: costs } = await supabase
         .from("costs")
-        .select("*")
-        .eq("user_id", userId);
-    
-    return NextResponse.json(costs);
+        .select(`
+            *,
+            ...properties ( street_address )  
+        `)
+        .eq("user_id", userId)
+        .order('date', { ascending: false });
+
+    if (error) {
+        throw new Error("Database Query Failed");
+    }
+    return NextResponse.json(costs || []);
 }
 
 export async function POST(req: NextRequest) { 
@@ -49,7 +56,8 @@ export async function POST(req: NextRequest) {
         electricity, 
         water, 
         gas, 
-        other
+        other,
+        id
     } = await req.json();
 
     if (!userId) {
@@ -61,6 +69,45 @@ export async function POST(req: NextRequest) {
     });
     const supabase = getSupabaseClient(supabaseAccessToken);
 
+    if (id) {
+        const { error } = await supabase
+            .from("costs")
+            .update({
+                cost_type: cost_type,
+                property_id: property_id,
+                date: date,
+                price: price,
+                description: description,
+                washerdryer: washerdryer,
+                dishwasher: dishwasher,
+                ac: ac,
+                heater: heater,
+                fridge: fridge,
+                oven: oven,
+                microwave: microwave,
+                hardwood: hardwood,
+                carpet: carpet,
+                tile: tile,
+                kitchen: kitchen,
+                bathroom: bathroom,
+                bedroom: bedroom,
+                paint: paint,
+                windows: windows,
+                cleaning: cleaning,
+                electricity: electricity,
+                water: water,
+                gas: gas,
+                other: other,
+            })
+            .eq('user_id', userId)
+            .eq("id", id);
+
+        if (error) {
+            throw new Error(error.message);
+        }
+        
+        return NextResponse.json({ success: true });
+    }
     // Check if property_id exists in properties table for the given userId
     const { data: properties } = await supabase
         .from("properties")

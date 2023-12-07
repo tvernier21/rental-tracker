@@ -5,32 +5,36 @@ import { getAuth } from "@clerk/nextjs/server";
 import getSupabaseClient from "@/app/lib/supabaseClient"
 
 interface IParams{
-    propertyId?: string;
+    costId?: string;
 }
 
-export async function GET(
+export async function DELETE(
     req: NextRequest,
-    { params }: { params: IParams }
+    { params }: { params: IParams }    
 ) {
     const { getToken, userId } = getAuth(req);
     if (!userId) {
         throw new Error("Unauthorized (401)");
-    };
+    }
 
-    const { propertyId } = params;
-    if (!propertyId) {
-        throw new Error("Property ID is required");
+    const { costId } = params;
+    if (!costId) {
+        throw new Error("Contract ID is required");
     }
 
     const supabaseAccessToken = await getToken({
         template: "supabase",
     });
     const supabase = getSupabaseClient(supabaseAccessToken);
-    const { data: costs } = await supabase
+    const { error } = await supabase
         .from("costs")
-        .select("*")
+        .delete()
         .eq("user_id", userId)
-        .eq("property_id", propertyId);
-    
-    return NextResponse.json(costs);
+        .eq("id", costId);
+
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    return NextResponse.json({ success: true });
 }
