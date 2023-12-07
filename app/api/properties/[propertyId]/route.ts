@@ -27,11 +27,42 @@ export async function GET(
     });
     const supabase = getSupabaseClient(supabaseAccessToken);
 
-    const { data: properties } = await supabase
+    const { data: property } = await supabase
         .from("properties")
         .select("*")
         .eq("user_id", userId)
         .eq("id", propertyId);
+    
+    return NextResponse.json(property);
+}
 
-    return NextResponse.json(properties);
+export async function DELETE(
+    req: NextRequest,
+    { params }: { params: IParams }    
+) {
+    const { getToken, userId } = getAuth(req);
+    if (!userId) {
+        throw new Error("Unauthorized (401)");
+    }
+
+    const { propertyId } = params;
+    if (!propertyId) {
+        throw new Error("Contract ID is required");
+    }
+
+    const supabaseAccessToken = await getToken({
+        template: "supabase",
+    });
+    const supabase = getSupabaseClient(supabaseAccessToken);
+    const { error } = await supabase
+        .from("properties")
+        .delete()
+        .eq("user_id", userId)
+        .eq("id", propertyId);
+
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    return NextResponse.json({ success: true });
 }

@@ -61,7 +61,7 @@ const CostCard: React.FC<CostCardProps> = ({
             const costId = data.id;
             axios.delete(`/api/costs/${costId}/`)
                 .then((res) => {
-                    toast.success("Contract deleted successfully.",
+                    toast.success("Cost deleted successfully.",
                         {
                             style: {
                                 borderRadius: '10px',
@@ -72,7 +72,7 @@ const CostCard: React.FC<CostCardProps> = ({
                     );
                 })
                 .catch((error) => {
-                    toast.error("Contract could not be deleted.",
+                    toast.error("Cost could not be deleted.",
                         {
                             style: {
                                 borderRadius: '10px',

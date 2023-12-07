@@ -3,7 +3,6 @@ import type { NextRequest } from 'next/server'
 import { getAuth } from "@clerk/nextjs/server";
 
 import getSupabaseClient from "@/app/lib/supabaseClient"
-import { error } from 'console';
 
 interface IParams{
     propertyId?: string;
@@ -31,14 +30,15 @@ export async function GET(
         .from("costs")
         .select(`
             *,
-            properties ( street_address )
+            ...properties ( street_address )
         `)
         .eq("user_id", userId)
-        .eq("property_id", propertyId);
+        .eq("property_id", propertyId)
+        .order('date', { ascending: false });
 
     if (error) {
         throw new Error("Database Query Failed");
     }
             
-    return NextResponse.json(costs);
+    return NextResponse.json(costs || []);
 }

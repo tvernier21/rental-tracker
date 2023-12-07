@@ -36,7 +36,8 @@ export async function POST(req: NextRequest) {
         squarefootage, 
         backyard, 
         basement, 
-        img
+        img,
+        id
     } = await req.json();
 
     if (!userId) {
@@ -47,6 +48,32 @@ export async function POST(req: NextRequest) {
         template: "supabase",
     });
     const supabase = getSupabaseClient(supabaseAccessToken);
+    if (id) {
+        const { error: updateError } = await supabase
+            .from("properties")
+            .update({
+                street_address: street,
+                city_address: city,
+                state_address: state,
+                zipcode_address: zipcode,
+                country_address: country,
+                prop_type: propertyType,
+                bedrooms: bedrooms,
+                bathrooms: bathrooms, 
+                sqr_feet: squarefootage,
+                backyard: backyard,
+                basement: basement,
+                img: img,  // If you have an image to insert, replace null with the image data or URL.\
+                user_id: userId
+            })
+            .eq("id", id);
+        
+        if (updateError) {
+            throw new Error("Property Update Failed");
+        }
+        return NextResponse.json({ message: "Property Updated" });
+    }
+
     const { error: propertyError, data } = await supabase
             .from("properties")
             .insert({

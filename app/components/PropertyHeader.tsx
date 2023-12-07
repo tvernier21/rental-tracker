@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { usePathname } from 'next/navigation';
+import { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation'
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import {
@@ -10,8 +10,11 @@ import {
     DropdownMenu, 
     DropdownItem, 
     Button,
-    Divider
+    Divider,
+    useDisclosure
 } from "@nextui-org/react";
+import next from 'next';
+import PropertyModal from './modals/PropertyModal';
 
 interface PropertyHeaderProps {
     propertyId: string;
@@ -20,18 +23,23 @@ interface PropertyHeaderProps {
 const PropertyHeader: React.FC<PropertyHeaderProps> = ({
     propertyId
 }) => {
+    const router = useRouter();
+    const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+
     const [streetAddress, setStreetAddress] = useState("");
     const [cityAddress, setCityAddress] = useState("");
     const [stateAndZip, setStateAndZip] = useState("");
+    const [property, setProperty] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         if (!isLoading) return;
-        axios.get(`/api/properties/${propertyId}`)
+        axios.get(`/api/properties/${propertyId}/`)
             .then((res) => {
                 setStreetAddress(res.data[0].street_address);
                 setCityAddress(res.data[0].city_address);
                 setStateAndZip(`${res.data[0].state_address} ${res.data[0].zipcode_address}`);
+                setProperty(res.data[0]);
             })
             .catch((error) => {
                 toast.error("Property could not be loaded.",
@@ -49,8 +57,47 @@ const PropertyHeader: React.FC<PropertyHeaderProps> = ({
         });
     }, [isLoading, propertyId]);
 
+    const handleDropdownClick = useCallback((key: any): void => {
+        if (key === "edit") {
+            onOpen();
+        } else if (key === "delete") {
+            axios.delete(`/api/properties/${propertyId}/`)
+                .then((res) => {
+                    toast.success("Property deleted successfully.",
+                        {
+                            style: {
+                                borderRadius: '10px',
+                                background: '#333',
+                                color: '#fff',
+                            },
+                        }
+                    );
+                })
+                .catch((error) => {
+                    toast.error("Property could not be deleted.",
+                        {
+                            style: {
+                                borderRadius: '10px',
+                                background: '#333',
+                                color: '#fff',
+                            },
+                        }
+                    );
+                })
+                .finally(() => {
+                    router.push('/properties');
+                });
+        }
+    }, [propertyId, router]);
+
     return (
         <div className='space-y-6'>
+            <PropertyModal
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}
+                onClose={onClose}
+                prevData={property}
+            />
             <div className="flex items-center justify-between space-y-2">
                 <div className='space-y-0.5'>
                     <h2 className="text-2xl font-bold tracking-tight">
@@ -63,23 +110,22 @@ const PropertyHeader: React.FC<PropertyHeaderProps> = ({
                 <Dropdown>
                     <DropdownTrigger>
                         <Button 
-                            variant="bordered" 
+                            color="default"
+                            variant="faded"
+                            className="capitalize"
                         >
                             Options
                         </Button>
                     </DropdownTrigger>
-                    <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem 
-                            key="edit"
-                            style={{
-                                color: '#FFF',  // Default text color (choose a color that contrasts well with the button background)
-                                transition: 'color 0.3s ease'  // Smooth transition for hover effect
-                            }}
-                        >
-                            Edit
-                        </DropdownItem>
+                    <DropdownMenu 
+                        aria-label="Dropdown Variants"
+                        color="default"
+                        variant="faded"
+                        onAction={(key) => handleDropdownClick(key)}
+                    >
+                        <DropdownItem key="edit">Edit</DropdownItem>
                         <DropdownItem key="delete" className="text-danger" color="danger">
-                            Delete
+                            Delete property
                         </DropdownItem>
                     </DropdownMenu>
                 </Dropdown>

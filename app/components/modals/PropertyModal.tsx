@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from 'react-hot-toast';
 import axios from "axios";
 import {
@@ -52,8 +52,9 @@ interface PropertyModalProps {
     isOpen: boolean;
     onOpenChange: () => void;
     onClose: () => void;
-    properties: any[];
-    setProperties: (props: any[]) => void;
+    properties?: any[];
+    setProperties?: (props: any[]) => void;
+    prevData?: any;
 }
   
 const PropertyModal: React.FC<PropertyModalProps> = ({
@@ -61,7 +62,8 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
     onOpenChange,
     onClose,
     properties,
-    setProperties
+    setProperties,
+    prevData
 }) => {
     const [street, setStreet] = useState("");
     const [city, setCity] = useState("");
@@ -74,6 +76,25 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
     const [squarefootage, setSquarefootage] = useState("");
     const [backyard, setBackyard] = useState(false);
     const [basement, setBasement] = useState(false);
+
+    const isUpdate = prevData ? true : false;
+    useEffect(() => {
+        if (!isUpdate) return;
+        setStreet(prevData.street_address);
+        setCity(prevData.city_address);
+        setState(prevData.state_address);
+        setZipcode(prevData.zipcode_address);
+        setCountry(prevData.country_address);
+        setPropertyType(new Set([prevData.prop_type]));
+        // convert to string
+        setBedrooms(new Set([(prevData.bedrooms).toString()]));
+        setBathrooms(new Set([(prevData.bathrooms).toString()]));
+        setSquarefootage((prevData.sqr_feet).toString());
+        setBackyard(prevData.backyard);
+        setBasement(prevData.basement);
+    }, [isUpdate, prevData]);
+    console.log(prevData);
+    console.log(isUpdate);
 
 
     const handleSubmit = async () => {
@@ -97,8 +118,7 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
             );
             return;
         }
-
-        const postData = {
+        let postData = {
             street: street,
             city: city,
             state: state,
@@ -112,9 +132,17 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
             basement: basement,
             img: null,
         };
-        axios.post('/api/properties', postData)
+        if (isUpdate) {
+            postData = {
+                ...postData,
+                id: prevData.id,
+            } as typeof postData;
+        }
+        axios.post('/api/properties/', postData)
             .then((res) => {
-                setProperties([...properties, res.data[0]]);
+                if (!isUpdate && properties && setProperties) {
+                    setProperties([...properties, res.data[0]]);
+                }
             })
             .catch((error) => {
                 // Check for the status code in the error response
@@ -142,6 +170,8 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
                 setSquarefootage("");
                 setBackyard(false);
                 setBasement(false);
+                // refresh the page
+                window.location.reload();
             });
     };
 
@@ -289,8 +319,8 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
                         <Button color="danger" variant="flat" onPress={onClose}>
                             Cancel
                         </Button>
-                        <Button color="primary" onPress={handleSubmit}>
-                            Add
+                        <Button color={isUpdate ? "success" : "primary"} onPress={handleSubmit}>
+                            {isUpdate ? "Update" : "Add"}
                         </Button>
                 </ModalFooter>
                 </>

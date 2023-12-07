@@ -1,8 +1,11 @@
+import PropertyOverview from '@/app/components/PropertyOverview'
 
 const PropertyOverviewPage = ({ params }: { params: { propertyId: string } }) => {
     return (
         <div>
-            Overview
+            <PropertyOverview
+                propertyId={params.propertyId}
+            />
         </div>
     );
 };

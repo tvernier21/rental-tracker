@@ -52,7 +52,7 @@ const TenantsTable: React.FC<TenantsTableProps> = ({
             const tenantId = getKeyValue(item, "id");
             axios.delete(`/api/tenants/${tenantId}/`)
                 .then((res) => {
-                    toast.success("Contract deleted successfully.",
+                    toast.success("Tenant deleted successfully.",
                         {
                             style: {
                                 borderRadius: '10px',
@@ -63,7 +63,7 @@ const TenantsTable: React.FC<TenantsTableProps> = ({
                     );
                 })
                 .catch((error) => {
-                    toast.error("Contract could not be deleted.",
+                    toast.error("Tenant could not be deleted.",
                         {
                             style: {
                                 borderRadius: '10px',
