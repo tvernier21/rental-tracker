@@ -69,7 +69,7 @@ const TenantModal: React.FC<TenantModalProps> = ({
             } as typeof postData;
         }
 
-        axios.post('/api/tenants', postData)
+        axios.post('/api/tenants/', postData)
             .then((res) => {
                 // Check for the status code in the response
                 let message = "Tenant added successfully."

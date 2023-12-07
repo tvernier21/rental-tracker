@@ -144,7 +144,7 @@ const ContractsModal: React.FC<ContractsModalProps> = ({
     // GET TENANTS
     useEffect(() => {
         if (!isLoadingTenants) return;
-        axios.get('/api/tenants')
+        axios.get('/api/tenants/')
             .then((res) => {
                 setTenants(Array.from(res.data || []).map((tenant: any) => {
                     return {

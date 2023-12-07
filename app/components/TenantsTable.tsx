@@ -49,31 +49,33 @@ const TenantsTable: React.FC<TenantsTableProps> = ({
             setPrevPhone(getKeyValue(item, "phone"));
             onOpen();
         } else if (key === "delete") {
-            // const contractId = getKeyValue(item, "id");
-            // axios.delete(`/api/contracts/${contractId}`)
-            //     .then((res) => {
-            //         toast.success("Contract deleted successfully.",
-            //             {
-            //                 style: {
-            //                     borderRadius: '10px',
-            //                     background: '#333',
-            //                     color: '#fff',
-            //                 },
-            //             }
-            //         );
-            //         setIsLoading(true);
-            //     })
-            //     .catch((error) => {
-            //         toast.error("Contract could not be deleted.",
-            //             {
-            //                 style: {
-            //                     borderRadius: '10px',
-            //                     background: '#333',
-            //                     color: '#fff',
-            //                 },
-            //             }
-            //         );
-            //     });
+            const tenantId = getKeyValue(item, "id");
+            axios.delete(`/api/tenants/${tenantId}/`)
+                .then((res) => {
+                    toast.success("Contract deleted successfully.",
+                        {
+                            style: {
+                                borderRadius: '10px',
+                                background: '#333',
+                                color: '#fff',
+                            },
+                        }
+                    );
+                })
+                .catch((error) => {
+                    toast.error("Contract could not be deleted.",
+                        {
+                            style: {
+                                borderRadius: '10px',
+                                background: '#333',
+                                color: '#fff',
+                            },
+                        }
+                    );
+                })
+                .finally(() => {
+                    window.location.reload();
+                });
         }
     }, [onOpen]);
 
@@ -89,7 +91,7 @@ const TenantsTable: React.FC<TenantsTableProps> = ({
                 setTenants(res.data);
             })
             .catch((error) => {
-                toast.error("Contracts could not be loaded.",
+                toast.error("Tenants could not be loaded.",
                     {
                         style: {
                             borderRadius: '10px',
@@ -159,7 +161,7 @@ const TenantsTable: React.FC<TenantsTableProps> = ({
             />
             <Table 
                 fullWidth={true}
-                aria-label="Properties Contracts"
+                aria-label="Tenants table"
             >
                 <TableHeader>
                     <TableColumn key="name" align="center">Name</TableColumn>
@@ -169,9 +171,9 @@ const TenantsTable: React.FC<TenantsTableProps> = ({
                 </TableHeader>
                 <TableBody 
                     items={tenants}
-                    emptyContent={isLoading ? " " : "No contracts found."}
+                    emptyContent={isLoading ? " " : "No tenants found."}
                     isLoading={isLoading}
-                    loadingContent={<Spinner label="Loading contracts..." />}
+                    loadingContent={<Spinner label="Loading tenants..." />}
                 >
                     {(item) => (
                         <TableRow key={item.key}>
