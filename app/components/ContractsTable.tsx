@@ -56,31 +56,34 @@ const ContractsTable: React.FC<ContractsTableProps> = ({
             })
             onOpen();
         } else if (key === "delete") {
-            // const contractId = getKeyValue(item, "id");
-            // axios.delete(`/api/contracts/${contractId}`)
-            //     .then((res) => {
-            //         toast.success("Contract deleted successfully.",
-            //             {
-            //                 style: {
-            //                     borderRadius: '10px',
-            //                     background: '#333',
-            //                     color: '#fff',
-            //                 },
-            //             }
-            //         );
-            //         setIsLoading(true);
-            //     })
-            //     .catch((error) => {
-            //         toast.error("Contract could not be deleted.",
-            //             {
-            //                 style: {
-            //                     borderRadius: '10px',
-            //                     background: '#333',
-            //                     color: '#fff',
-            //                 },
-            //             }
-            //         );
-            //     });
+            const contractId = getKeyValue(item, "id");
+            axios.delete(`/api/contracts/${contractId}/`)
+                .then((res) => {
+                    toast.success("Contract deleted successfully.",
+                        {
+                            style: {
+                                borderRadius: '10px',
+                                background: '#333',
+                                color: '#fff',
+                            },
+                        }
+                    );
+                })
+                .catch((error) => {
+                    toast.error("Contract could not be deleted.",
+                        {
+                            style: {
+                                borderRadius: '10px',
+                                background: '#333',
+                                color: '#fff',
+                            },
+                        }
+                    );
+                })
+                .finally(() => {
+                    //refresh table
+                    window.location.reload();
+                });
         }
     }, [onOpen]);
 
