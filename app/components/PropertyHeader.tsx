@@ -88,7 +88,7 @@ const PropertyHeader: React.FC<PropertyHeaderProps> = ({
                     router.push('/properties');
                 });
         }
-    }, [propertyId, router]);
+    }, [propertyId, router, onOpen]);
 
     return (
         <div className='space-y-6'>

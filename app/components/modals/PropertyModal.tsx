@@ -93,9 +93,6 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
         setBackyard(prevData.backyard);
         setBasement(prevData.basement);
     }, [isUpdate, prevData]);
-    console.log(prevData);
-    console.log(isUpdate);
-
 
     const handleSubmit = async () => {
         if (street === "" ||
