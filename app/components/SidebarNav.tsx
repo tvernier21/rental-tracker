@@ -79,6 +79,8 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
                                 <ListboxItem
                                     key={item.key}
                                     onPress={() => router.push(item.href)}
+                                    // Deprecated Change soon
+                                    isDisabled={item.title === "Mortgage" || item.title === "Gas"}
                                 >
                                     {item.title}
                                 </ListboxItem>

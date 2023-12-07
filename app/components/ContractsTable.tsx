@@ -57,7 +57,7 @@ const ContractsTable: React.FC<ContractsTableProps> = ({
 
         let endpoint = "/api/contracts";
         if (propertyId) {
-            endpoint.concat(`/${propertyId}/`);
+            endpoint = `/api/contracts/property/${propertyId}/`;
         }
         axios.get(endpoint)
             .then((res) => {

@@ -51,8 +51,9 @@ const TenantsTable: React.FC<TenantsTableProps> = ({
 
         let endpoint = "/api/tenants/";
         if (propertyId) {
-            endpoint.concat(`/${propertyId}/`);
+            endpoint = `/api/tenants/property/${propertyId}/`;
         }
+        console.log(endpoint);
         axios.get(endpoint)
             .then((res) => {
                 setTenants(res.data);
