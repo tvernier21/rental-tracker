@@ -57,6 +57,7 @@ const KitchenSection = () => {
                 <div className="grid grid-cols-2">
                     <div className="col-span-1">
                         <Input
+                            className="text-white"
                             label="Brand"
                             placeholder="Brand"
                             variant="bordered"
@@ -92,6 +93,7 @@ const KitchenSection = () => {
                 <div className="grid grid-cols-2">
                     <div className="col-span-1">
                         <Input
+                            className="text-white"
                             label="Brand"
                             placeholder="Brand"
                             variant="bordered"
@@ -127,6 +129,7 @@ const KitchenSection = () => {
                 <div className="grid grid-cols-2 gap-5">
                     <div className="col-span-1">
                         <Input
+                            className="text-white"
                             label="Stove Brand"
                             placeholder="Brand"
                             variant="bordered"
@@ -173,6 +176,7 @@ const KitchenSection = () => {
                 <div className="grid grid-cols-2 gap-5">
                     <div className="col-span-1">
                         <Input
+                            className="text-white"
                             label="Microwave Brand"
                             placeholder="Brand"
                             variant="bordered"

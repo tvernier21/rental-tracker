@@ -188,6 +188,7 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
                 </ModalHeader>
                 <ModalBody>
                     <Input
+                        className="text-white"
                         label="Street Address"
                         placeholder="Street"
                         variant="bordered"
@@ -198,6 +199,7 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
                     <div className="flex flex-row justify-between space-x-2">
                         <div className="basis-3/5">
                             <Input
+                                className="text-white"
                                 label="City"
                                 placeholder="City"
                                 variant="bordered"
@@ -208,6 +210,7 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
                         </div>
                         <div className="basis-2/5">
                             <Input
+                                className="text-white"
                                 label="State"
                                 placeholder="State"
                                 variant="bordered"
@@ -219,6 +222,7 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
                     </div>
                     <div className="flex justify-between space-x-2">
                         <Input
+                            className="text-white"
                             label="Zip Code"
                             placeholder="Zip Code"
                             variant="bordered"
@@ -227,6 +231,7 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
                             onValueChange={setZipcode}
                         />
                         <Input
+                            className="text-white"
                             label="Country"
                             placeholder="Country"
                             variant="bordered"
@@ -237,6 +242,7 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
                     </div>
                     <Divider className="my-4" />
                     <Select
+                        className="text-white"
                         isRequired
                         label="Property Type"
                         placeholder="Select a property type"
@@ -246,12 +252,13 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
                         onSelectionChange={setPropertyType}
                     >
                         {propertyTypes.map((propType) => (
-                            <SelectItem key={propType.value} value={propType.value}>
+                            <SelectItem className="text-white" key={propType.value} value={propType.value}>
                                 {propType.label}
                             </SelectItem>
                         ))}
                     </Select>
                     <Select
+                        className="text-white"
                         isRequired
                         label="Bedrooms"
                         placeholder="Select the number of bedrooms"
@@ -261,12 +268,13 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
                         onSelectionChange={setBedrooms}
                     >
                         {bedroomsTypes.map((numBeds) => (
-                            <SelectItem key={numBeds.value} value={numBeds.value}>
+                            <SelectItem className="text-white" key={numBeds.value} value={numBeds.value}>
                                 {numBeds.label}
                             </SelectItem>
                         ))}
                     </Select>
                     <Select
+                        className="text-white"
                         isRequired
                         label="Bathrooms"
                         placeholder="Select the number of bathrooms"
@@ -276,12 +284,13 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
                         onSelectionChange={setBathrooms}
                     >
                         {bathroomsTypes.map((numBaths) => (
-                            <SelectItem key={numBaths.value} value={numBaths.value}>
+                            <SelectItem className="text-white" key={numBaths.value} value={numBaths.value}>
                                 {numBaths.label}
                             </SelectItem>
                         ))}
                     </Select>
                     <Input
+                        className="text-white"
                         type="number"
                         label="Square Footage"
                         placeholder="0.0"

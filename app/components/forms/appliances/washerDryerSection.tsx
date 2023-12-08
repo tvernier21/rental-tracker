@@ -97,6 +97,7 @@ const WasherDryerSection = () => {
                         </RadioGroup>
                     )}
                     <Input
+                        className="text-white"
                         label="Washer Brand"
                         placeholder="Brand"
                         variant="bordered"
@@ -105,6 +106,7 @@ const WasherDryerSection = () => {
                     />
                     {appliances.combined ? (
                         <Input
+                            className="text-white"
                             label="Dryer Brand"
                             placeholder="Brand"
                             variant="bordered"
@@ -113,6 +115,7 @@ const WasherDryerSection = () => {
                         />
                     ) : (
                         <Input
+                            className="text-white"
                             label="Dryer Brand"
                             placeholder="Brand"
                             variant="bordered"

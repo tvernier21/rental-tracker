@@ -125,6 +125,7 @@ const TenantModal: React.FC<TenantModalProps> = ({
                 </ModalHeader>
                 <ModalBody>
                     <Input
+                        className="text-white"
                         label="Name"
                         placeholder="full name"
                         variant="bordered"
@@ -134,6 +135,7 @@ const TenantModal: React.FC<TenantModalProps> = ({
                     />
                     <Divider />
                     <Input
+                        className="text-white"
                         label="Email"
                         placeholder="email"
                         variant="bordered"
@@ -141,6 +143,7 @@ const TenantModal: React.FC<TenantModalProps> = ({
                         onValueChange={setEmail}
                     />
                     <Input
+                        className="text-white"
                         label="Phone Number"
                         placeholder="phone"
                         variant="bordered"

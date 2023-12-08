@@ -72,6 +72,7 @@ const HeatingCoolingSection = () => {
                             <p className="font-small text-md text-gray-400">Filter Size</p>
                             <div className="flex flex-row gap-2 pt-2">
                                 <Input
+                                    className="text-white"
                                     type="number"
                                     label="W"
                                     labelPlacement="outside-left"
@@ -82,6 +83,7 @@ const HeatingCoolingSection = () => {
                                     onValueChange={appliances.setHeaterFilterWSize}
                                     />
                                 <Input
+                                    className="text-white"
                                     type="number"
                                     label="L"
                                     labelPlacement="outside-left"
@@ -92,6 +94,7 @@ const HeatingCoolingSection = () => {
                                     onValueChange={appliances.setHeaterFilterLSize}
                                 />
                                 <Input
+                                    className="text-white"
                                     type="number"
                                     label="D"
                                     labelPlacement="outside-left"
@@ -165,6 +168,7 @@ const HeatingCoolingSection = () => {
                                 </LocalizationProvider>
                                 <div className="max-w-[450px]">
                                     <Input
+                                        className="text-white"
                                         type="number"
                                         label="Window Amount"
                                         placeholder="0"

@@ -266,6 +266,7 @@ const ContractsModal: React.FC<ContractsModalProps> = ({
                 </ModalHeader>
                 <ModalBody>
                     <Select
+                        className="text-white"
                         isRequired
                         label="Property"
                         placeholder={`Select property to add contract to`}
@@ -275,16 +276,15 @@ const ContractsModal: React.FC<ContractsModalProps> = ({
                         selectedKeys={property}
                         onSelectionChange={setProperty}
                         style={{
-                            color: '#FFF',  // Default text color (choose a color that contrasts well with the button background)
                             transition: 'color 0.3s ease'  // Smooth transition for hover effect
                         }}
                     >
                         {properties.map((property) => (
-                            <SelectItem 
+                            <SelectItem
+                                className="text-white"
                                 key={property.value} 
                                 value={property.value}
                                 style={{
-                                    color: '#FFF',  // Default text color (choose a color that contrasts well with the button background)
                                     transition: 'color 0.3s ease'  // Smooth transition for hover effect
                                 }}
                             >
@@ -293,6 +293,7 @@ const ContractsModal: React.FC<ContractsModalProps> = ({
                         ))}
                     </Select>
                     <Select
+                        className="text-white"
                         label="Tenants"
                         placeholder={`Select Tenants on the Contract`}
                         selectionMode="multiple"
@@ -302,16 +303,15 @@ const ContractsModal: React.FC<ContractsModalProps> = ({
                         selectedKeys={tenant}
                         onSelectionChange={setTenant}
                         style={{
-                            color: '#FFF',  // Default text color (choose a color that contrasts well with the button background)
                             transition: 'color 0.3s ease'  // Smooth transition for hover effect
                         }}
                     >
                         {tenants.map((tenant) => (
-                            <SelectItem 
+                            <SelectItem
+                                className="text-white"
                                 key={tenant.value} 
                                 value={tenant.value}
                                 style={{
-                                    color: '#FFF',  // Default text color (choose a color that contrasts well with the button background)
                                     transition: 'color 0.3s ease'  // Smooth transition for hover effect
                                 }}
                             >
@@ -321,6 +321,7 @@ const ContractsModal: React.FC<ContractsModalProps> = ({
                     </Select>
                     <Divider />
                     <Input
+                        className="text-white"
                         type="number"
                         label="Rent"
                         placeholder="0.00"
@@ -335,6 +336,7 @@ const ContractsModal: React.FC<ContractsModalProps> = ({
                     />
                     <div className="grid grid-cols-2 gap-4">
                         <Input
+                            className="text-white"
                             type="number"
                             label="Pet Deposit"
                             placeholder="0.00"

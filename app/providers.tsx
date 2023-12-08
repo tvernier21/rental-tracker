@@ -7,7 +7,7 @@ import ToasterProvider from './ToasterProvider'
 export function Providers({children}: { children: React.ReactNode }) {
   return (
     <NextUIProvider>
-      <main className="dark text-foreground bg-background" style={{color: '#ffffff'}}>
+      <main className="dark text-foreground bg-background">
         <ToasterProvider />
         {children}
       </main>

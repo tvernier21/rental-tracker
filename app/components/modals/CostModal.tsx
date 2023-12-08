@@ -329,6 +329,7 @@ const CostModal: React.FC<CostModalProps> = ({
                             )}
                         </Tabs>
                         <Select
+                            className="text-white"
                             isRequired
                             label="Property"
                             placeholder={`Select property to add ${costType} to`}
@@ -338,16 +339,15 @@ const CostModal: React.FC<CostModalProps> = ({
                             selectedKeys={property}
                             onSelectionChange={setProperty}
                             style={{
-                                color: '#FFF',  // Default text color (choose a color that contrasts well with the button background)
                                 transition: 'color 0.3s ease'  // Smooth transition for hover effect
                             }}
                         >
                             {properties.map((property) => (
-                                <SelectItem 
+                                <SelectItem
+                                    className="text-white"
                                     key={property.value} 
                                     value={property.value}
                                     style={{
-                                        color: '#FFF',  // Default text color (choose a color that contrasts well with the button background)
                                         transition: 'color 0.3s ease'  // Smooth transition for hover effect
                                     }}
                                 >
@@ -358,6 +358,7 @@ const CostModal: React.FC<CostModalProps> = ({
                         <div className='flex justify-between space-x-2'>
                             <div className='basis-1/2'>
                                 <Input
+                                    className="text-white"
                                     type="number"
                                     label="Price"
                                     placeholder="0.00"
@@ -387,6 +388,7 @@ const CostModal: React.FC<CostModalProps> = ({
                             </div>
                         </div>
                         <Input
+                            className="text-white"
                             type="text"
                             label="Description"
                             placeholder="Description"
