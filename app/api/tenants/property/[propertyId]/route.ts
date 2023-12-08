@@ -26,16 +26,34 @@ export async function GET(
         template: "supabase",
     });
     const supabase = getSupabaseClient(supabaseAccessToken);
-    const { data: tenants } = await supabase
+    const { error: tenants_error, data: tenants } = await supabase
         .from("tenants")
         .select("*")
         .eq("user_id", userId);
 
-    const { data: contracts } = await supabase
+    if (tenants_error) {
+        throw new Error(tenants_error.message);
+    }
+
+    if (!tenants) {
+        // return empty array
+        return NextResponse.json([]);
+    }
+
+    const { error: contracts_error, data: contracts } = await supabase
         .from("contracts")
         .select("*")
         .eq("user_id", userId)
         .eq("property_id", propertyId);
+
+    if (contracts_error) {
+        throw new Error(contracts_error.message);
+    }
+
+    if (!contracts) {
+        // return empty array
+        return NextResponse.json([]);
+    }
 
     // Add null check for contracts
     const tenantIds = contracts?.map((contract) => {
@@ -57,5 +75,5 @@ export async function GET(
         };
     });
 
-    return NextResponse.json(formattedTenants);
+    return NextResponse.json(formattedTenants || []);
 }

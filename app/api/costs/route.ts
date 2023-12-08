@@ -26,7 +26,13 @@ export async function GET(req: NextRequest) {
     if (error) {
         throw new Error("Database Query Failed");
     }
-    return NextResponse.json(costs || []);
+
+    if (!costs) {
+        // return empty array
+        return NextResponse.json([]);
+    }
+
+    return NextResponse.json(costs);
 }
 
 export async function POST(req: NextRequest) { 
@@ -155,5 +161,5 @@ export async function POST(req: NextRequest) {
         throw new Error("Database Insertion Failed");
     }
     
-    return NextResponse.json({});
+    return NextResponse.json({ success: true });
 };

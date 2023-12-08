@@ -27,7 +27,7 @@ export async function GET(
     });
     const supabase = getSupabaseClient(supabaseAccessToken);
 
-    const { data: contracts } = await supabase
+    const { error: contracts_error, data: contracts } = await supabase
         .from("contracts")
         .select(`
             id,
@@ -43,15 +43,23 @@ export async function GET(
         .eq("property_id", propertyId)
         .order('end_date', { ascending: false });
 
+    if (contracts_error) {
+        throw new Error(contracts_error.message);
+    }
+
     if (!contracts) {
         // return empty array
         return NextResponse.json([]);
     }
 
-    const { data: tenants } = await supabase
+    const { error: tenants_error, data: tenants } = await supabase
         .from("tenants")
         .select("id, name, email, phone, avatar_pathname")
-        .eq("user_id", userId)
+        .eq("user_id", userId);
+
+    if (tenants_error) {
+        throw new Error(tenants_error.message);
+    }
 
     if (!tenants) {
         // return empty array

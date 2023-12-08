@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
     });
     const supabase = getSupabaseClient(supabaseAccessToken);
     // return id as property_id and street_address from properties table
-    const { data: contracts } = await supabase
+    const { error: contracts_error, data: contracts } = await supabase
         .from("contracts")
         .select(`
             id,
@@ -30,15 +30,23 @@ export async function GET(req: NextRequest) {
         .eq("user_id", userId)
         .order('end_date', { ascending: false });
 
+    if (contracts_error) {
+        throw new Error(contracts_error.message);
+    }
+
     if (!contracts) {
         // return empty array
         return NextResponse.json([]);
     }
 
-    const { data: tenants } = await supabase
+    const { error: tenant_error, data: tenants } = await supabase
         .from("tenants")
         .select("id, name, email, phone, avatar_pathname")
         .eq("user_id", userId);
+
+    if (tenant_error) {
+        throw new Error(tenant_error.message);
+    }
 
     if (!tenants) {
         // return empty array
@@ -85,7 +93,7 @@ export async function GET(req: NextRequest) {
             edit: false,
         };
     });
-    return NextResponse.json(formattedContracts);
+    return NextResponse.json(formattedContracts || []);
 }
 
 export async function POST(req: NextRequest) { 

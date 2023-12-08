@@ -27,11 +27,20 @@ export async function GET(
     });
     const supabase = getSupabaseClient(supabaseAccessToken);
 
-    const { data: property } = await supabase
+    const { error, data: property } = await supabase
         .from("properties")
         .select("*")
         .eq("user_id", userId)
         .eq("id", propertyId);
+
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    if (!property) {
+        // return empty array
+        return NextResponse.json([]);
+    }
     
     return NextResponse.json(property);
 }

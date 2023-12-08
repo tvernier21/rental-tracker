@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server'
 import { getAuth } from "@clerk/nextjs/server";
 
 import getSupabaseClient from "@/app/lib/supabaseClient"
+import { error } from 'console';
 
 export async function GET(req: NextRequest) {
     const { getToken, userId } = getAuth(req);
@@ -14,10 +15,19 @@ export async function GET(req: NextRequest) {
         template: "supabase",
     });
     const supabase = getSupabaseClient(supabaseAccessToken);
-    const { data: properties } = await supabase
+    const { error, data: properties } = await supabase
         .from("properties")
         .select("*")
         .eq("user_id", userId);
+
+    if (error) {
+        throw new Error(error.message);
+    }
+    
+    if (!properties) {
+        // return empty array
+        return NextResponse.json([]);
+    }
     
     return NextResponse.json(properties);
 };
@@ -108,5 +118,5 @@ export async function POST(req: NextRequest) {
         throw new Error("Appliance Insertion Failed");
     }
     
-    return NextResponse.json(data || []);
+    return NextResponse.json({ success: true});
 };

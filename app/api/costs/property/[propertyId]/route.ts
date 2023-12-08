@@ -39,6 +39,11 @@ export async function GET(
     if (error) {
         throw new Error("Database Query Failed");
     }
+
+    if (!costs) {
+        // return empty array
+        return NextResponse.json([]);
+    }
             
-    return NextResponse.json(costs || []);
+    return NextResponse.json(costs);
 }

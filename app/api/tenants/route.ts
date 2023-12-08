@@ -24,6 +24,11 @@ export async function GET(req: NextRequest) {
         throw new Error(error.message);
     }
 
+    if (!tenants) {
+        // return empty array
+        return NextResponse.json([]);
+    }
+
     // format data
     const formattedTenants = tenants.map((tenant) => {
         return {
@@ -37,7 +42,7 @@ export async function GET(req: NextRequest) {
         };
     });
 
-    return NextResponse.json(formattedTenants);
+    return NextResponse.json(formattedTenants || []);
 };
 
 export async function POST(req: NextRequest) {
