@@ -11,7 +11,8 @@ const getSupabaseClient = (supabaseAccessToken: any) => {
       {
         global: { 
           headers: { Authorization: `Bearer ${supabaseAccessToken}` }
-        }
+        },
+        auth: {persistSession: false }
       }
     );
   }
