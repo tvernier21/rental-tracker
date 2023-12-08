@@ -261,7 +261,7 @@ const ContractsModal: React.FC<ContractsModalProps> = ({
             <ModalContent>
             {(onClose) => (
                 <>
-                <ModalHeader className="flex flex-col gap-1">
+                <ModalHeader className="flex flex-col gap-1 text-white">
                     New Contract
                 </ModalHeader>
                 <ModalBody>
