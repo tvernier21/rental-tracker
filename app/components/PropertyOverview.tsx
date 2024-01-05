@@ -58,7 +58,7 @@ const PropertyOverview: React.FC<PropertyOverviewProps> = ({
             {isLoading ? (
                 <p>Loading...</p>
             ) : property ? (
-                <div>
+                <div className="flex flex-row gap-x-10">
                     <div className="mb-8">
                         <h2 className="text-xl font-bold mb-2">Address:</h2>
                         <p className="mb-1">Street: {property.street_address}</p>
@@ -67,7 +67,6 @@ const PropertyOverview: React.FC<PropertyOverviewProps> = ({
                         <p className="mb-1">State: {property.state_address}</p>
                         <p className="mb-1">Country: {property.country_address}</p>
                     </div>
-
                     <div className="mb-8">
                         <h2 className="text-xl font-bold mb-2">Property Details:</h2>
                         <p className="mb-1">Type: {property.prop_type}</p>

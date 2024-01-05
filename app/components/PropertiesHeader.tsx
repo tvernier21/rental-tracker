@@ -6,15 +6,7 @@ import { useDisclosure } from "@nextui-org/react";
 import AddButton from "./UI/AddButton";
 import PropertyModal from "./modals/PropertyModal";
 
-interface PropertiesHeaderProps {
-    props: any[];
-    setProps: (props: any[]) => void;
-}
-
-const PropertiesHeader: React.FC<PropertiesHeaderProps> = ({
-    props,
-    setProps
-}) => {
+const PropertiesHeader: React.FC = () => {
     const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
 
     return (
@@ -29,8 +21,6 @@ const PropertiesHeader: React.FC<PropertiesHeaderProps> = ({
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
                 onClose={onClose}
-                properties={props}
-                setProperties={setProps}
             />
         </div>
     );

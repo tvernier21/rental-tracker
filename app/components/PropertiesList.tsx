@@ -6,16 +6,9 @@ import toast from "react-hot-toast";
 
 import { PropertyCard, LoadingPropertyCard } from "./cards/PropertyCard";
 
-interface PropertiesListProps {
-    properties: any[];
-    setProperties: (props: any[]) => void;
-}
-
-const PropertiesList: React.FC<PropertiesListProps> = ({
-    properties,
-    setProperties
-}) => {
+const PropertiesList: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
+    const [properties, setProperties] = useState<any[]>([]);
 
     useEffect(() => {
         if (!isLoading) return;
